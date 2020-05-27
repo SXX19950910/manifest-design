@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+</body>
+<script type="text/javascript">
+  /**
+   * @param {number[]} fronts
+   * @param {number[]} backs
+   * @return {number}
+   */
+  const fronts = [1,2,4,4,7]
+  const backs = [1,3,4,1,3]
+  const flipgame = function(fronts, backs) {
+    let result = 0
+    const random = Math.random() * fronts.length + 1
+    const currentIndex = Math.floor(random) - 1
+    const currentFront = fronts[currentIndex]
+    fronts[currentIndex] = backs[currentIndex]
+    backs[currentIndex] = currentFront
+    let hasRepeat = false
+    fronts.map(item => {
+      if (item === backs[currentIndex]) hasRepeat = true
+    })
+    if (!hasRepeat) {
+      result = backs[currentIndex]
+    }
+    console.log(result)
+    return result
+  };
+  flipgame(fronts, backs)
+</script>
+</html>
