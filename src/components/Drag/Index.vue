@@ -88,7 +88,7 @@
         return result;
       },
       isLine() {
-        return this.componentObject.type === 'XLineUi' || this.componentObject.type === 'YLineUi';
+        return this.componentObject.type === 'XLineUi' || this.componentObject.type === 'YLineUi' || this.componentObject.type === 'RectangleUi';
       },
       resizeDisabledY() {
         return this.componentObject.type === 'XLineUi';
