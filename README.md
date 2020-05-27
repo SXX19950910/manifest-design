@@ -1,36 +1,22 @@
 # manifest-design
-商品标签设计系统
-## Project setup
-```
-npm i
-or
-cnpm i
-```
+A label template design system based on vue
 
-### Compiles and hot-reloads for development
-```
+### preview
+https://sxx19950910.github.io/manifest-design
+
+### benefit
+1.Componentization<br/>
+2.Drag and drop design<br/>
+3.Scalable<br/>
+4.Dynamic preview<br/>
+## one stop
+git clone https://github.com/SXX19950910/manifest-design.git <br/>
+
+cd manifest-design<br/>
+
+npm i<br/>
+
 npm run dev
-```
 
-### Compiles and minifies for production
-```
+## build
 npm run build
-```
-
-### Run your unit tests
-```
-npm run test:unit
-```
-
-### Run your end-to-end tests
-```
-npm run test:e2e
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
