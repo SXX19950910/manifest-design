@@ -33,7 +33,7 @@
       iconStyle() {
         const { isLine } = this;
         return {
-          cursor: isLine ? this.cursorType : 'se-resize'
+          cursor: isLine ? this.cursorType : 'se-resize',
         };
       },
       barStyle() {
@@ -44,12 +44,12 @@
           height: this.resizeDisabledY ? '100%' : '16px',
         };
         if (this.resizeDisabledX) {
-          style.bottom = 0
-          style.left = 0
+          style.bottom = 0;
+          style.left = 0;
         }
         if (this.resizeDisabledY) {
-          style.top = 0
-          style.right = 0
+          style.top = 0;
+          style.right = 0;
         }
         return style;
       },
@@ -60,13 +60,13 @@
         return this.componentObject.type === 'YLineUi';
       },
       resizeClass() {
-        return this.isLine ? '' : 'resize-btn'
-      }
+        return this.isLine ? '' : 'resize-btn';
+      },
     },
     methods: {
       handleResizeDown(e) {
         this.$emit('resize-down', e);
-      }
+      },
     },
   };
 </script>

@@ -2,7 +2,7 @@
 A label template design system based on vue
 
 ### preview
-https://sxx19950910.github.io/manifest-design
+https://sxx19950910.github.io/manifest-design/
 
 ### benefit
 1.Componentization<br/>
