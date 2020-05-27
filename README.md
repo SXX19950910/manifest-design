@@ -1,6 +1,8 @@
 # manifest-design
 A label template design system based on vue
 
+<div align="center">English | <a href="./README-zh_CN.md">简体中文</a></div>
+
 ### preview
 https://sxx19950910.github.io/manifest-design/
 
