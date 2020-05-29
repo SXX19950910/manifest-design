@@ -62,7 +62,7 @@ const components = {
         updateId: '',
         props: {
           width: 100,
-          height: 2,
+          height: 1,
         },
       },
       yLine: {
@@ -73,7 +73,7 @@ const components = {
         updateId: '',
         props: {
           height: 60,
-          width: 2,
+          width: 1,
         },
       },
       rectangle: {
@@ -83,6 +83,7 @@ const components = {
         title: '矩形',
         updateId: '',
         props: {
+          borderWidth: 1,
         },
       },
       qrCode: {

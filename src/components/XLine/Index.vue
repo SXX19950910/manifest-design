@@ -11,7 +11,7 @@
       },
       height: {
         type: [String, Number],
-        default: 2,
+        default: 1,
       },
       width: {
         type: [String, Number],

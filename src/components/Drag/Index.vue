@@ -256,6 +256,9 @@
     transition: background-color ease .36s;
     &.is-active {
       border: 1px solid $skyBlue;
+      .rectangle-warp {
+        border-color: $skyBlue !important;
+      }
     }
     .resize-btn {
       position: absolute;

@@ -5,21 +5,29 @@
 
 <script>
   export default {
+    props: {
+      elementId: {
+        type: String,
+        default: '',
+      },
+      borderWidth: {
+        type: Number,
+        default: 1,
+      },
+    },
     data() {
       return {
-        elementId: {
-          type: String,
-          default: '',
-        },
       };
     },
     computed: {
       getStyle() {
+        const { borderWidth } = this;
         return {
           minWidth: '20px',
           minHeight: '20px',
           height: '100%',
           border: '1px solid #000',
+          borderWidth: `${borderWidth}px`,
         };
       },
     },
