@@ -79,7 +79,7 @@ const components = {
       rectangle: {
         name: 'rectangle',
         type: 'RectangleUi',
-        classify: 'LineMenu',
+        classify: 'RectangleMenu',
         title: '矩形',
         updateId: '',
         props: {

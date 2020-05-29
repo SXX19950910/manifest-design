@@ -1,4 +1,4 @@
-import { Drag, TextUi, BarcodeUi, TextMenu, BarcodeMenu, QrCodeUi, QrCodeMenu, XLineUi, YLineUi, DragResize, LineMenu, RectangleUi } from './index';
+import { Drag, TextUi, BarcodeUi, TextMenu, BarcodeMenu, QrCodeUi, QrCodeMenu, XLineUi, YLineUi, DragResize, LineMenu, RectangleUi, RectangleMenu } from './index';
 
 export default [
   {
@@ -48,5 +48,9 @@ export default [
   {
     id: 'RectangleUi',
     component: RectangleUi,
+  },
+  {
+    id: 'RectangleMenu',
+    component: RectangleMenu,
   },
 ]

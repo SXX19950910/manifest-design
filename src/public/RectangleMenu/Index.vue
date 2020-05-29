@@ -2,9 +2,8 @@
   <el-form :mode="form" class="line-menu-warp" label-position="top">
     <el-tabs v-model="tab" type="border-card">
       <el-tab-pane label="样式" name="style">
-        <el-form-item  label="线条宽度">
-          <el-input-number v-if="isXLine" v-model="currentComponent.props.height" class="w-100" :min="1" size="small" :max="10" label="描述文字"></el-input-number>
-          <el-input-number v-if="isYLine" v-model="currentComponent.props.width" class="w-100" :min="1" size="small" :max="10" label="描述文字"></el-input-number>
+        <el-form-item label="线条宽度">
+          <el-input-number v-model="currentComponent.props.borderWidth" class="w-100" :min="1" size="small" :max="10" label="描述文字"></el-input-number>
         </el-form-item>
       </el-tab-pane>
     </el-tabs>
@@ -23,12 +22,6 @@
       };
     },
     computed: {
-      isXLine() {
-        return this.currentComponent.type === 'XLineUi';
-      },
-      isYLine() {
-        return this.currentComponent.type === 'YLineUi';
-      },
       ...mapGetters(['activeComponent', 'storeList']),
       currentComponent() {
         return this.storeList.find((item) => item.id === this.activeComponent);

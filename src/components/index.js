@@ -10,4 +10,5 @@ export { default as TextMenu } from '@/public/TextMenu/Index.vue';
 export { default as BarcodeMenu } from '@/public/BarcodeMenu/Index.vue';
 export { default as QrCodeMenu } from '@/public/QrCodeMenu/Index.vue';
 export { default as LineMenu } from '@/public/LineMenu/Index.vue';
+export { default as RectangleMenu } from '@/public/RectangleMenu/Index.vue';
 

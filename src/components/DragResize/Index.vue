@@ -1,11 +1,12 @@
 <template>
-  <div :class="resizeClass" class="resize-area">
+  <div :class="resizeClass" class="resize-area" :style="resizeStyle">
     <i v-if="!isLine" class="iconfont icontuozhuaidaxiao" :style="iconStyle" @click.stop @mousedown="handleResizeDown" />
     <div v-else class="resize-bar" :style="barStyle" @click.stop @mousedown="handleResizeDown" />
   </div>
 </template>
 
 <script>
+  import { mapGetters } from 'vuex';
   export default {
     props: {
       componentObject: {
@@ -20,6 +21,17 @@
       };
     },
     computed: {
+      resizeStyle() {
+        const style = {};
+        const { isYLine, currentComponent } = this;
+        if (isYLine) {
+          style.width = `${currentComponent.props.height}px`;
+        }
+      },
+      ...mapGetters(['activeComponent', 'storeList']),
+      currentComponent() {
+        return this.storeList.find((item) => item.id === this.activeComponent);
+      },
       cursorType() {
         const type = {
           'XLineUi': 'col-resize',
@@ -30,6 +42,9 @@
       isLine() {
         return this.componentObject.type === 'XLineUi' || this.componentObject.type === 'YLineUi';
       },
+      isYLine() {
+        return this.componentObject.type === 'YLineUi';
+      },
       iconStyle() {
         const { isLine } = this;
         return {
@@ -37,7 +52,7 @@
         };
       },
       barStyle() {
-        const { isLine } = this;
+        const { isLine, isYLine, currentComponent } = this;
         const style = {
           cursor: isLine ? this.cursorType : 'se-resize',
           width: this.resizeDisabledX ? '100%' : '16px',
@@ -50,6 +65,9 @@
         if (this.resizeDisabledY) {
           style.top = 0;
           style.right = 0;
+        }
+        if (isYLine) {
+          style.width = `${currentComponent.props.width}px`;
         }
         return style;
       },
