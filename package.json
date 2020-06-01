@@ -12,6 +12,7 @@
   "dependencies": {
     "core-js": "^3.6.4",
     "element-ui": "^2.13.1",
+    "html2canvas": "^1.0.0-rc.5",
     "jsbarcode": "^3.11.0",
     "qrcode": "^1.4.4",
     "throttle-debounce": "^2.1.0",

@@ -1,7 +1,8 @@
 <template>
   <div class="board-warp">
-    <drag-canvas class="board-canvas" />
-<!--    <tools-drawer />-->
+    <div class="canvas-wrapper">
+      <drag-canvas class="board-canvas" />
+    </div>
   </div>
 </template>
 
@@ -23,7 +24,7 @@
 <style lang="scss">
   .board-warp {
     position: relative;
-    .board-canvas {
+    .canvas-wrapper {
       width: 460px;
       height: 460px;
       background-color: white;
@@ -33,6 +34,14 @@
       left: 50%;
       transform: translate(-50%, -50%);
       box-shadow: 0 0 10px rgba(0, 21, 41, 0.08);;
+    }
+    .board-canvas {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
     }
   }
 </style>

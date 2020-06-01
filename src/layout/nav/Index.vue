@@ -4,6 +4,10 @@
       Design UI
     </div>
     <div class="handle-area">
+      <div class="preview-btn" @click="handleSaveTemplateToImg">
+        <i class="el-icon-picture-outline"></i>
+        <span>保存图片</span>
+      </div>
       <div class="preview-btn" @click="handleViewTemplate">
         <i class="el-icon-reading"></i>
         <span>打印预览</span>
@@ -17,11 +21,45 @@
 </template>
 
 <script>
+  import html2canvas from 'html2canvas';
   export default {
     data() {
-      return {};
+      return {
+        imgSrc: '',
+      };
+    },
+    mounted() {
+      //
     },
     methods: {
+      convertBase64UrlToBlob(urlData) {
+        const bytes = window.atob(urlData.split(',')[1]);
+        const ab = new ArrayBuffer(bytes.length);
+        const ia = new Uint8Array(ab);
+        for (let i = 0; i < bytes.length; i++) {
+          ia[i] = bytes.charCodeAt(i);
+        }
+        return new Blob( [ab] , {type : 'image/png'});
+      },
+      async handleSaveTemplateToImg() {
+        const $el = document.querySelector('.drag-canvas-warp.board-canvas');
+        const canvas = await html2canvas($el, {
+          allowTaint: true,
+          useCORS: true,
+          backgroundColor: '#fff',
+          width: $el.offsetWidth,
+          height: $el.offsetHeight,
+          dpi: window.devicePixelRatio * 2,
+        });
+        const data = canvas.toDataURL('image/png');
+        const blob = this.convertBase64UrlToBlob(data);
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `商品标签模板_${new Date().getTime()}`;
+        a.click();
+        window.URL.revokeObjectURL(url);
+      },
       handleViewTemplate() {
         const $template = document.querySelector('.drag-canvas-warp.board-canvas').innerHTML;
         const html = `
