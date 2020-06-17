@@ -1,17 +1,22 @@
 # manifest-design
-A label template design system based on vue
+基于vue开发的商品标签设计系统
 
-<div align="center">English | <a href="./README-zh_CN.md">简体中文</a></div>
+<div align="center"><a href="./README-en.md">English</a> | 简体中文</div>
 
-### preview
+### 预览
 https://sxx19950910.github.io/manifest-design/
 
-### benefit
-1.Componentization<br/>
-2.Drag and drop design<br/>
-3.Scalable<br/>
-4.Dynamic preview<br/>
-## one stop
+![avatar](demo.gif)
+
+
+### 特性
+1.组件化<br/>
+2.拖拽式设计<br/>
+3.可扩展<br/>
+4.动态预览<br/>
+4.另存为图片<br/>
+5.模板保存<br/>
+## 一条龙
 git clone https://github.com/SXX19950910/manifest-design.git <br/>
 
 cd manifest-design<br/>
@@ -20,5 +25,5 @@ npm i<br/>
 
 npm run dev
 
-## build
+## 部署
 npm run build
