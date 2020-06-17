@@ -1,0 +1,118 @@
+@mixin clearfix {
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+
+@mixin scrollBar {
+  &::-webkit-scrollbar-track-piece {
+    background: #efefef;
+  }
+
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #999;
+    border-radius: 5px;
+  }
+}
+
+@mixin relative {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+@mixin ellipsis-one {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin yl-table {
+  .el-table {
+    th {
+      background-color: #60658B;
+      color: white;
+      font-weight: normal;
+      border-color: #5A6082;
+    }
+  }
+}
+
+@mixin pct($pct) {
+  width: #{$pct};
+  position: relative;
+  margin: 0 auto;
+}
+@mixin hover-color($color, $hoverColor) {
+  color: $color;
+  cursor: pointer;
+  &:hover {
+    color: $hoverColor !important;
+  }
+}
+
+@mixin triangle($width, $height, $color, $direction) {
+  $width: $width/2;
+  $color-border-style: $height solid $color;
+  $transparent-border-style: $width solid transparent;
+  height: 0;
+  width: 0;
+
+  @if $direction==up {
+    border-bottom: $color-border-style;
+    border-left: $transparent-border-style;
+    border-right: $transparent-border-style;
+  }
+
+  @else if $direction==right {
+    border-left: $color-border-style;
+    border-top: $transparent-border-style;
+    border-bottom: $transparent-border-style;
+  }
+
+  @else if $direction==down {
+    border-top: $color-border-style;
+    border-left: $transparent-border-style;
+    border-right: $transparent-border-style;
+  }
+
+  @else if $direction==left {
+    border-right: $color-border-style;
+    border-top: $transparent-border-style;
+    border-bottom: $transparent-border-style;
+  }
+}
+
+// 小于或等于1366
+@mixin screen-1366 {
+  @media screen and (max-width: 1366px) {
+    @content;
+  }
+}
+
+// 小于或等于1440
+@mixin screen-1440 {
+  @media screen and (max-width: 1440px) {
+    @content;
+  }
+}
+// 小于或等于768
+@mixin screen-768 {
+  @media screen and (max-width: 768px) {
+    @content;
+  }
+}

@@ -10,6 +10,9 @@
   import DragCanvas from '@/components/DragCanvas/Index.vue';
   import { ToolsDrawer } from '@/public';
   export default {
+    props: {
+      //
+    },
     components: {
       DragCanvas,
       ToolsDrawer,

@@ -1,7 +1,7 @@
 <template>
-  <div v-if="currentComponent" class="props-menu-warp" @click.stop>
-    <div class="title-area">{{ currentComponent.title }}</div>
-    <component ref="menu" :is="currentComponent.classify" :component="currentComponent" />
+  <div v-if="activeComponent" class="props-menu-warp" @click.stop>
+    <div class="title-area">{{ activeComponent.title }}</div>
+    <component ref="menu" :is="activeComponent.classify" :component="activeComponent" />
   </div>
 </template>
 

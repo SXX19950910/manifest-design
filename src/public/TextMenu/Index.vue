@@ -157,7 +157,8 @@
     computed: {
       ...mapGetters(['activeComponent', 'storeList']),
       currentComponent() {
-        return this.storeList.find((item) => item.id === this.activeComponent);
+        const { id = '' } = this.activeComponent;
+        return this.storeList.find((item) => item.id === id);
       },
     },
     mounted() {

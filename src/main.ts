@@ -7,7 +7,7 @@ import directive from './directive';
 // @ts-ignore
 import components from '@/components/map.js';
 import 'element-ui/lib/theme-chalk/index.css';
-import './style/index.scss';
+import './style/global.scss';
 Vue.use(ElementUI);
 directive.map((item: any) => Vue.use(item));
 components.map((item: any) => Vue.component(item.id, item.component));

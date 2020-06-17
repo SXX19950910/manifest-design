@@ -1,5 +1,5 @@
 <template>
-  <el-form :mode="form" class="line-menu-warp" label-position="top">
+  <el-form :mode="form" class="rectangle-menu-warp" label-position="top">
     <el-tabs v-model="tab" type="border-card">
       <el-tab-pane label="样式" name="style">
         <el-form-item label="线条宽度">
@@ -24,7 +24,8 @@
     computed: {
       ...mapGetters(['activeComponent', 'storeList']),
       currentComponent() {
-        return this.storeList.find((item) => item.id === this.activeComponent);
+        const { id = '' } = this.activeComponent;
+        return this.storeList.find((item) => item.id === id);
       },
     },
     methods: {
@@ -36,7 +37,7 @@
 </script>
 
 <style lang="scss">
-  .line-menu-warp {
+  .rectangle-menu-warp {
     width: 300px;
     height: calc(100% - 53px);
     display: flex;

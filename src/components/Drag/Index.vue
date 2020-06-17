@@ -18,6 +18,10 @@
           return {};
         },
       },
+      isInstance: {
+        type: Boolean,
+        default: false,
+      },
       aimId: {
         type: String,
         default: '',
@@ -33,6 +37,12 @@
       updateId: {
         type: String,
         default: '',
+      },
+      default: {
+        type: Object,
+        default() {
+          return {};
+        },
       },
     },
     data() {
@@ -55,7 +65,7 @@
         defaultHeight: '',
         width: '',
         height: '',
-        debounceSetPosition: Function,
+        debounceUpdateComponent: Function,
       };
     },
     destroyed() {
@@ -76,7 +86,8 @@
       },
       activeClass() {
         const result = [];
-        if (this.activeComponent === this.componentObject.id) {
+        const {id = ''} = this.activeComponent;
+        if (id === this.componentObject.id) {
           result.push('is-active');
         }
         if (this.componentObject.type === 'BarcodeUi') {
@@ -101,12 +112,17 @@
       },
     },
     mounted() {
-      this.debounceSetPosition = debounce(200, this.updateDefaultPosition);
+      this.debounceUpdateComponent = debounce(200, this.moveEnd);
     },
     methods: {
       init() {
+        this.initLayoutScheme();
+      },
+      initLayoutScheme() {
         const $drag = this.$refs.drag;
+        const isInstance = this.isInstance;
         const element = $drag.firstElementChild;
+        const defaultData = this.default;
         const canvas = document.querySelector('.drag-canvas-warp.board-canvas');
         const { width, height } = $drag.getBoundingClientRect();
         const { defaultX, defaultY } = this;
@@ -117,22 +133,18 @@
         this.defaultHeight = height;
         this.defaultWidth = width;
         this.width = width;
-        this.x = defaultX - left;
-        this.y = defaultY - top;
-      },
-      updateDefaultPosition(e) {
-        const { clientX, clientY } = e;
-        const payload = {
-          id: this.componentObject.id,
-          update: {
-            updateId: '',
-            position: {
-              defaultX: clientX,
-              defaultY: clientY,
-            },
-          },
-        };
-        this.$store.dispatch('components/updateComponent', payload);
+        if (isInstance) {
+          this.x = defaultData.x;
+          this.y = defaultData.y;
+          this.width = defaultData.width;
+          this.height = defaultData.height || '';
+        } else {
+          this.x = defaultX - left;
+          this.y = defaultY - top;
+        }
+        this.$nextTick(() => {
+          this.debounceUpdateComponent();
+        });
       },
       clearAllListener() {
         off(document, 'mousemove', this.handleResizeMove);
@@ -141,20 +153,20 @@
         off(document, 'mouseup', this.handleMouseUp);
       },
       handleMouseDown(e) {
-        const { top, left } = e.target.getBoundingClientRect();
+        const $drag = e.path.find((item) => item.className.includes('drag-warp'));
+        const { top, left } = $drag.getBoundingClientRect();
         this.downX = e.clientX - left;
         this.downY = e.clientY - top;
         on(document, 'mousemove', this.handleMouseMove);
         on(document, 'mouseup', this.handleMouseUp);
+        this.handleSetCurrent();
       },
       handleContextMenu() {
         this.clearAllListener();
       },
       handleSetCurrent() {
-        const payload = {
-          id: this.componentObject.id,
-        };
-        this.$store.dispatch('components/setActive', payload);
+        const { id = '' } = this.componentObject;
+        this.$store.dispatch('components/setActive', id);
       },
       handleMouseMove(e) {
         const aim = this.aimId;
@@ -180,11 +192,29 @@
         } else {
           this.y = y;
         }
-        this.debounceSetPosition(e);
+        this.debounceUpdateComponent();
       },
       handleMouseUp() {
         off(document, 'mousemove', this.handleMouseMove);
         off(document, 'mouseup', this.handleMouseUp);
+      },
+      moveEnd() {
+        setTimeout(() => {
+          const { x, y } = this;
+          const dragData = {
+            id: this.aimId,
+            x,
+            y,
+            instance: true,
+            width: this.width || 0,
+            height: this.height || 0,
+            position: {
+              clientX: x,
+              clientY: y,
+            },
+          };
+          this.$emit('move-end', dragData);
+        });
       },
       handleResizeUp() {
         off(document, 'mousemove', this.handleResizeMove);
@@ -224,6 +254,7 @@
             this.height = height;
           }
         }
+        this.debounceUpdateComponent();
       },
       handleResizeDown(e) {
         const $drag = this.$refs.drag;

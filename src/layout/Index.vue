@@ -28,10 +28,7 @@
     },
     methods: {
       handleCancelCurrent() {
-        const payload = {
-          id: '',
-        };
-        this.$store.dispatch('components/setActive', payload);
+        this.$store.dispatch('components/setActive', '');
       },
     },
   };
@@ -41,7 +38,7 @@
   @import "./src/style/variable";
   .app-warp {
     .body-area {
-      height: calc(100vh - 48px);
+      height: calc(100vh - 32px);
       display: flex;
       flex-wrap: nowrap;
       position: relative;

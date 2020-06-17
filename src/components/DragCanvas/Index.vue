@@ -1,7 +1,7 @@
 <template>
   <draggable ref="drag-board" class="drag-canvas-warp" :list="storeList" v-bind="getOptions" @add="onAdd">
     <template v-for="item in storeList">
-      <drag :default-x="item.position.clientX" :default-y="item.position.clientY" :aim-id="item.id" :update-id="item.updateId" :component-object="item" :key="item.id" />
+      <drag :default-x="item.position.clientX" :default-y="item.position.clientY" :aim-id="item.id" :update-id="item.updateId" :component-object="item" :key="item.id" :is-instance="item.instance" :default="item.default" @resize-end="onResizeEnd" @move-end="onMoveEnd" />
     </template>
   </draggable>
 </template>
@@ -10,6 +10,9 @@
   import draggable from 'vuedraggable';
   import { mapGetters } from 'vuex';
   export default {
+    props: {
+      //
+    },
     components: {
       draggable,
     },
@@ -23,7 +26,7 @@
       };
     },
     computed: {
-      ...mapGetters(['storeList']),
+      ...mapGetters(['storeList', 'activeComponent', 'templateList']),
       getOptions() {
         return {
           group: {
@@ -39,6 +42,9 @@
     },
     mounted() {
       this.init();
+    },
+    created() {
+      //
     },
     methods: {
       onAdd(el) {
@@ -57,12 +63,35 @@
         }
       },
       init() {
+        this.setLayoutData();
+      },
+      setLayoutData() {
         const $board = this.$refs['drag-board'].$el;
         const { left, right, bottom, top } = $board.getBoundingClientRect();
         this.left = left;
         this.right = right;
         this.top = top;
         this.bottom = bottom;
+      },
+      onMoveEnd(data) {
+        const { height, width, x, y, position, instance, id } = data;
+        const update = {
+          id,
+          update: {
+            default: {
+              height,
+              width,
+              x,
+              y,
+            },
+            instance,
+            position,
+          },
+        };
+        if (update.id) this.$store.dispatch('components/updateComponent', update);
+      },
+      onResizeEnd() {
+      //
       },
     },
   };

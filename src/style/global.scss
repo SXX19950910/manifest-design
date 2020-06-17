@@ -1,0 +1,186 @@
+@import "./variable";
+@import "./mixin";
+
+label {
+  font-weight: normal;
+}
+
+html {
+  height: 100%;
+  box-sizing: border-box;
+}
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+a:focus,
+a:active {
+  outline: none;
+}
+
+a,
+a:focus,
+a:hover {
+  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
+}
+ul {
+  margin: 0;
+  padding: 0;
+}
+li {
+  list-style: none;
+}
+div,span,ul,li,body {
+  margin: 0;
+  padding: 0;
+}
+div:focus {
+  outline: none;
+}
+
+.el-input__inner,.el-textarea__inner {
+  border-radius: 2px;
+}
+.fr {
+  float: right;
+}
+
+.fl {
+  float: left;
+}
+.w-100 {
+  width: 100% !important;
+}
+.w-50 {
+  width: 50%;
+}
+.w-30 {
+  width: 30%;
+}
+.w-100p {
+  width: 100px !important;
+}
+.w-200p {
+  width: 200px !important;
+}
+.w-300p {
+  width: 300px !important;
+}
+.h-36 {
+  height: 36px;
+}
+.pr-5 {
+  padding-right: 5px;
+}
+.pr-30 {
+  padding-right: 30px;
+}
+.info-color {
+  color: #909399;
+}
+.pl-5 {
+  padding-left: 5px;
+}
+.pl-15 {
+  padding-left: 15px !important;
+}
+.mr-5 {
+  margin-right: 5px !important;
+}
+.ml-5 {
+  margin-left: 5px;
+}
+.mr-15 {
+  margin-right: 15px !important;
+}
+.mr-20 {
+  margin-right: 20px !important;
+}
+.mr-10 {
+  margin-right: 10px !important;
+}
+.ml-20 {
+  margin-left: 20px !important;
+}
+.mb-20 {
+  margin-bottom: 20px !important;
+}
+.ml-15 {
+  margin-left: 15px !important;
+}
+.mt-10 {
+  margin-top: 10px !important;
+}
+.mt-15 {
+  margin-top: 15px !important;
+}
+.mt-30 {
+  margin-top: 30px;
+}
+.mb-0 {
+  margin-bottom: 0 !important;
+}
+.mt-0 {
+  margin-top: 0 !important;
+}
+.mb-10 {
+  margin-bottom: 10px !important;
+}
+.bb-0 {
+  border-bottom: 0 !important;
+}
+.fs-14 {
+  font-size: 14px !important;
+}
+.fs-12 {
+  font-size: 12px !important;
+}
+.fs-16 {
+  font-size: 16px !important;
+}
+.fs-20 {
+  font-size: 20px !important;
+}
+.block {
+  display: block;
+}
+.bold {
+  font-weight: bold !important;
+}
+.pointer {
+  cursor: pointer;
+}
+.font-weight {
+  font-weight: bold !important;
+}
+
+.el-table {
+  th {
+    padding: 0 !important;
+    //background-color: $lightBackground !important;
+    color: $mainFontColor;
+    font-weight: bold;
+    height: 40px;
+    @include ellipsis-one;
+    box-sizing: border-box;
+    font-size: 13px;
+    .cell {
+      display: flex;
+      align-items: center;
+      &>div {
+        padding: 0;
+      }
+    }
+  }
+  .el-table__empty-block {
+    .el-table__empty-text {
+      line-height: 24px;
+    }
+    .nodata {
+      font-size: 80px;
+    }
+  }
+}
