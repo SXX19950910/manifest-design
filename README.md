@@ -6,7 +6,7 @@
 ### 预览
 https://sxx19950910.github.io/manifest-design/
 
-![avatar](demo.gif)
+![image](https://github.com/SXX19950910/manifest-design/blob/master/demo.gif)
 
 
 ### 特性
