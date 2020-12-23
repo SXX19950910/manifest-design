@@ -12,25 +12,26 @@ const externals = {
   vue: 'Vue',
   vuex: 'Vuex',
   'vue-router': 'VueRouter',
-  'element-ui': 'ELEMENT'
+  'element-ui': 'ELEMENT',
+  'view-design': 'iView'
 }
 const cdn = {
   externals,
   css: [
-    'https://unpkg.com/element-ui/lib/theme-chalk/index.css'
+    'https://unpkg.com/element-ui/lib/theme-chalk/index.css',
+    'https://unpkg.com/view-design/dist/styles/iview.css'
   ],
   js: [
     'https://cdn.staticfile.org/vue/2.6.12/vue.min.js',
     'https://cdn.staticfile.org/vuex/3.5.1/vuex.min.js',
     'https://cdn.staticfile.org/vue-router/3.0.3/vue-router.min.js',
-    'https://unpkg.com/element-ui/lib/index.js'
+    'https://unpkg.com/element-ui/lib/index.js',
+    'https://unpkg.com/view-design/dist/iview.min.js'
   ]
 }
 module.exports = {
   publicPath,
   indexPath,
-  // outputDir: 'dist',
-  // assetsDir: 'dist'
   configureWebpack: config => {
     const com = new CompressionWebpackPlugin({
       algorithm: 'gzip',

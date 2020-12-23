@@ -23,5 +23,12 @@ npm i<br/>
 
 npm run dev
 
+### Log
+2020-12-23<br/>
+1.Fix bugs caused by window size changes<br/>
+2.New component bar width setting function<br/>
+3.Support lodop preview and print<br/>
+4.Optimize packaging<br/>
+
 ## build
 npm run build
