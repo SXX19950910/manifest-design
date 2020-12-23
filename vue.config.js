@@ -32,6 +32,11 @@ const cdn = {
 module.exports = {
   publicPath,
   indexPath,
+  productionSourceMap: false,
+  css: {
+    extract: true,
+    sourceMap: false
+  },
   configureWebpack: config => {
     const com = new CompressionWebpackPlugin({
       algorithm: 'gzip',
