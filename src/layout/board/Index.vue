@@ -1,7 +1,9 @@
 <template>
   <div class="board-warp">
-    <div class="canvas-wrapper">
-      <drag-canvas class="board-canvas" />
+    <div class="view-wrapper" :style="view">
+      <div class="canvas-wrapper">
+        <drag-canvas ref="canvas" class="board-canvas" />
+      </div>
     </div>
   </div>
 </template>
@@ -19,17 +21,37 @@
     },
     data() {
       return {
+        view: {
+          width: '',
+          height: ''
+        }
       };
     },
+    mounted() {
+      this.init()
+    },
+    methods: {
+      init() {
+        this.setViewStyle()
+      },
+      initDragBasic() {
+        this.$refs.canvas.onWindowResize()
+      },
+      setViewStyle() {
+        this.view.width = `${window.screen.width}px`
+        this.view.height = `${window.screen.height}px`
+      }
+    }
   };
 </script>
 
 <style lang="scss">
   .board-warp {
     position: relative;
+    overflow: auto;
     .canvas-wrapper {
-      width: 460px;
-      height: 460px;
+      width: 500px;
+      height: 500px;
       background-color: white;
       border-radius: 2px;
       position: absolute;

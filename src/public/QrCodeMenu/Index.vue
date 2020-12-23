@@ -19,6 +19,5 @@
 
 <style lang="scss">
   .qr-code-menu-warp {
-    width: 300px;
   }
 </style>

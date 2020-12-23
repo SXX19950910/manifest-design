@@ -47,7 +47,6 @@
 
 <style lang="scss">
   .line-menu-warp {
-    width: 300px;
     height: calc(100% - 53px);
     display: flex;
     flex-direction: column;

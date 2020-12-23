@@ -4,7 +4,6 @@
       Design UI
     </div>
     <div class="handle-area">
-<!--      <div class="preview-btn" @click="handleTest">Test</div>-->
       <div class="preview-btn" @click="handleSaveTemplateToImg">
         <i class="el-icon-picture-outline"></i>
         <span>保存为图片</span>
@@ -16,6 +15,10 @@
       <div class="preview-btn" @click="handleViewTemplate">
         <i class="el-icon-reading"></i>
         <span>打印预览</span>
+      </div>
+      <div class="preview-btn" @click="handlePrint">
+        <i class="el-icon-printer"></i>
+        <span>快速打印</span>
       </div>
       <div class="preview-btn" @click="handleClearCanvas">
         <i class="el-icon-magic-stick"></i>
@@ -29,6 +32,7 @@
 <script>
   import html2canvas from 'html2canvas';
   import saveDialog from './tools/SaveDialog/Index.vue';
+  import PrintHtml from '@/public/PrintHtml';
   export default {
     components: {
       saveDialog,
@@ -53,6 +57,17 @@
       },
       handleShowSaveDialog() {
         this.$refs.save.init();
+      },
+      handlePrint() {
+        this.$nextTick(() => {
+          const data = {
+            receiver: '动态收件人',
+            sender: '动态寄件人',
+            receiverAddress: '中国检验认证大厦',
+          }
+          const printHtml = new PrintHtml('测试模板2', data)
+          printHtml.painting()
+        });
       },
       async handleSaveTemplateToImg() {
         const $el = document.querySelector('.drag-canvas-warp.board-canvas');

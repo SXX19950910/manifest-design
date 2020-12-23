@@ -45,6 +45,7 @@
     },
     computed: {
       ...mapGetters(['activeComponent', 'storeList']),
+      // 获取到当前组件的实例
       currentComponent() {
         return this.storeList.find((item) => item.id === this.activeComponent);
       },

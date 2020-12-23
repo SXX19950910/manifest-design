@@ -2,6 +2,7 @@ import barcode from 'jsbarcode';
 // @ts-ignore
 import _ from 'lodash';
 import { Notification } from 'element-ui';
+const localTemplate: any = localStorage.getItem('templateList') || '[]'
 const generateId = () => {
   return Number(Math.random().toString().substr(3, length) + Date.now()).toString(36);
 };
@@ -17,6 +18,7 @@ const components = {
         title: '寄件人地址',
         updateId: '',
         instance: false,
+        tag: 'span',
         position: {
           clientX: '',
           clientY: '',
@@ -43,6 +45,7 @@ const components = {
         classify: 'TextMenu',
         title: '收件人地址',
         instance: false,
+        tag: 'span',
         updateId: '',
         position: {
           clientX: '',
@@ -70,6 +73,7 @@ const components = {
         classify: 'BarcodeMenu',
         instance: false,
         title: '条形码',
+        tag: 'img',
         updateId: '',
         position: {
           clientX: '',
@@ -96,6 +100,7 @@ const components = {
         classify: 'LineMenu',
         instance: false,
         title: '横线',
+        tag: 'div',
         updateId: '',
         position: {
           clientX: '',
@@ -118,6 +123,7 @@ const components = {
         classify: 'LineMenu',
         title: '竖线',
         updateId: '',
+        tag: 'div',
         instance: false,
         position: {
           clientX: '',
@@ -139,6 +145,7 @@ const components = {
         type: 'RectangleUi',
         classify: 'RectangleMenu',
         title: '矩形',
+        tag: 'div',
         instance: false,
         updateId: '',
         position: {
@@ -161,6 +168,7 @@ const components = {
         classify: 'QrCodeMenu',
         title: '二维码',
         updateId: '',
+        tag: 'img',
         instance: false,
         position: {
           clientX: '',
@@ -181,6 +189,7 @@ const components = {
         classify: 'TextMenu',
         title: '自定义文本',
         instance: false,
+        tag: 'span',
         updateId: '',
         position: {
           clientX: '',
@@ -285,12 +294,7 @@ const components = {
       },
     ],
     storeList: [],
-    templateList: [
-      {
-        name: '快递标签',
-        data: '[{"name":"customText","type":"TextUi","classify":"TextMenu","title":"自定义文本","instance":true,"updateId":"1592382184756","position":{"clientX":32.5,"clientY":53.5},"default":{"height":36,"width":290,"x":32.5,"y":53.5},"props":{"text":"寄件人：某某某\\n","align":"left","fontFamily":"","fontSize":"","lineHeight":"","isBold":false,"hasBorder":false},"id":"kbj362cl"},{"name":"customText","type":"TextUi","classify":"TextMenu","title":"自定义文本","instance":true,"updateId":"1592382157202","position":{"clientX":31.5,"clientY":92.5},"default":{"height":33,"width":257,"x":31.5,"y":92.5},"props":{"text":"寄件地址：深圳市南山区","align":"left","fontFamily":"","fontSize":"","lineHeight":"","isBold":false,"hasBorder":false},"id":"kbj379pq"},{"name":"customText","type":"TextUi","classify":"TextMenu","title":"自定义文本","instance":true,"updateId":"1592382160363","position":{"clientX":31.5,"clientY":131.5},"default":{"height":38,"width":299,"x":31.5,"y":131.5},"props":{"text":"寄件号码：12321321312","align":"left","fontFamily":"","fontSize":"","lineHeight":"","isBold":false,"hasBorder":false},"id":"kbj37omm"},{"name":"customText","type":"TextUi","classify":"TextMenu","title":"自定义文本","instance":true,"updateId":"1592382231197","position":{"clientX":32.5,"clientY":168.5},"default":{"height":33,"width":255,"x":32.5,"y":168.5},"props":{"text":"收件人：笑笑笑","align":"left","fontFamily":"","fontSize":"","lineHeight":"","isBold":false,"hasBorder":false},"id":"kbj38ta0"},{"name":"customText","type":"TextUi","classify":"TextMenu","title":"自定义文本","instance":true,"updateId":"1592382228541","position":{"clientX":32.5,"clientY":207.5},"default":{"height":42,"width":282,"x":32.5,"y":207.5},"props":{"text":"收件电话：232323232323","align":"left","fontFamily":"","fontSize":"","lineHeight":"","isBold":false,"hasBorder":false},"id":"kbj397g8"},{"name":"customText","type":"TextUi","classify":"TextMenu","title":"自定义文本","instance":true,"updateId":"1592382253162","position":{"clientX":33.5,"clientY":243.5},"default":{"height":47,"width":339,"x":33.5,"y":243.5},"props":{"text":"收件地址：深圳市龙华区","align":"left","fontFamily":"","fontSize":"","lineHeight":"","isBold":false,"hasBorder":false},"id":"kbj39ppc"},{"name":"barCode","type":"BarcodeUi","classify":"BarcodeMenu","instance":true,"title":"条形码","updateId":"1592382290924","position":{"clientX":14.5,"clientY":282.609375},"default":{"height":177.390625,"width":432,"x":14.5,"y":282.609375},"props":{"format":"CODE128","lineWidth":4,"bodyHeight":100,"fontSize":14,"displayValue":"1","data":"123456789"},"id":"kbj3a509"},{"name":"qrCode","type":"QrCodeUi","classify":"QrCodeMenu","title":"二维码","updateId":"1592382311955","instance":true,"position":{"clientX":345.5,"clientY":9.25},"default":{"height":89.09375,"width":99.09375,"x":345.5,"y":9.25},"props":{},"id":"kbj3azfm"},{"name":"customText","type":"TextUi","classify":"TextMenu","title":"自定义文本","instance":true,"updateId":"1592382330557","position":{"clientX":345.5,"clientY":95.5},"default":{"height":0,"width":94,"x":345.5,"y":95.5},"props":{"text":"扫一扫","align":"center","fontFamily":"","fontSize":"","lineHeight":"","isBold":false,"hasBorder":false},"id":"kbj3b4yy"}]',
-      },
-    ],
+    templateList: JSON.parse(localTemplate),
   },
   actions: {
     updateStoreList({ commit }: any, payload: any) {
@@ -311,11 +315,13 @@ const components = {
       commit('SET_ACTIVE', id || '');
     },
     saveTemplate({ commit, state }: any, payload: any) {
+      const list: any = localStorage.getItem('templateList') || []
       const template = {
         name: payload.name,
         data: _.cloneDeep(state.storeList),
       };
-      // console.log(JSON.stringify(template.data))
+      list.push(template)
+      localStorage.setItem('templateList', JSON.stringify(list))
       commit('SAVE_TEMPLATE', template);
     },
     updateBarcode({ commit, state }: any) {

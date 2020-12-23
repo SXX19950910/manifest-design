@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import VueRouter, { RouteConfig } from 'vue-router';
-import Create from '../views/create/Index.vue';
 import Edit from '../views/edit/Index.vue';
 import List from '../views/list/Index.vue';
 
@@ -10,11 +9,6 @@ const routes: RouteConfig[] = [
   {
     path: '/',
     redirect: 'List',
-  },
-  {
-    path: '/create',
-    name: 'Create',
-    component: Create,
   },
   {
     path: '/edit',

@@ -174,6 +174,5 @@
 
 <style lang="scss">
   .text-menu-warp {
-    width: 300px;
   }
 </style>

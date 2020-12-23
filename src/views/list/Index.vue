@@ -16,7 +16,7 @@
           <el-table-column label="操作">
             <template slot-scope="props">
               <el-link type="primary" @click="handleGoDetail(props.row)">
-                <i class="el-icon-edit-outline fs-20" />
+                <i class="el-icon-edit-outline fs-16" /> 修改
               </el-link>
             </template>
           </el-table-column>
@@ -25,12 +25,17 @@
       <el-tab-pane name="custom" label="自定义模板">
       </el-tab-pane>
     </el-tabs>
+    <board v-show="false" />
   </div>
 </template>
 
 <script>
   import { mapGetters } from 'vuex';
+  import { Board } from '@/layout/index.js';
   export default {
+    components: {
+      Board,
+    },
     data() {
       return {
         tab: 'usually',
@@ -52,7 +57,7 @@
         this.$router.push({ name: 'Edit', query: { id: item.name } });
       },
       handleGoCreate() {
-        this.$router.push({ name: 'Create' });
+        this.$router.push({ name: 'Edit' });
       },
     },
   };

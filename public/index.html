@@ -1,18 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <link rel="stylesheet" href="//at.alicdn.com/t/font_1825094_pv3e9978tu.css" />
-    <title><%= htmlWebpackPlugin.options.title %></title>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width,initial-scale=1.0">
+      <title><%= htmlWebpackPlugin.options.title %></title>
+      <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+      <link rel="stylesheet" href="//at.alicdn.com/t/font_1825094_pv3e9978tu.css">
+      <% for (var i in htmlWebpackPlugin.options.cdn &&
+      htmlWebpackPlugin.options.cdn.css) { %>
+      <link href="<%= htmlWebpackPlugin.options.cdn.css[i] %>" rel="stylesheet">
+      <% } %>
   </head>
   <body>
-    <noscript>
-      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
-    </noscript>
-    <div id="app"></div>
-    <!-- built files will be auto injected -->
+      <noscript>
+          <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+      </noscript>
+      <object  id="LODOP_OB" style="display: none" classid="clsid:2105C259-1E0C-4534-8141-A753534CB4CA" width=0 height=0>
+          <embed id="LODOP_EM" type="application/x-print-lodop" width=0 height=0></embed>
+      </object>
+      <div id="app"></div>
+      <!-- built files will be auto injected -->
+      <% for (var i in htmlWebpackPlugin.options.cdn &&
+      htmlWebpackPlugin.options.cdn.js) { %>
+      <script src="<%= htmlWebpackPlugin.options.cdn.js[i] %>"></script>
+      <% } %>
   </body>
 </html>

@@ -157,6 +157,12 @@ div:focus {
   font-weight: bold !important;
 }
 
+.link {
+  color: $skyBlue;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .el-table {
   th {
     padding: 0 !important;
@@ -183,4 +189,16 @@ div:focus {
       font-size: 80px;
     }
   }
+}
+
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background-color:  #DDDDDD;
+}
+::-webkit-scrollbar-thumb:hover{
+  background: #ccc;
 }

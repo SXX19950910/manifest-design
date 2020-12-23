@@ -1,7 +1,7 @@
 <template>
-  <draggable ref="drag-board" class="drag-canvas-warp" :list="storeList" v-bind="getOptions" @add="onAdd">
+  <draggable ref="board" class="drag-canvas-warp" :list="storeList" v-bind="getOptions" @add="onAdd">
     <template v-for="item in storeList">
-      <drag :default-x="item.position.clientX" :default-y="item.position.clientY" :aim-id="item.id" :update-id="item.updateId" :component-object="item" :key="item.id" :is-instance="item.instance" :default="item.default" @resize-end="onResizeEnd" @move-end="onMoveEnd" />
+      <drag ref="drag" :default-x="item.position.clientX" :default-y="item.position.clientY" :aim-id="item.id" :update-id="item.updateId" :component-object="item" :key="item.id" :is-instance="item.instance" :default="item.default" @resize-end="onResizeEnd" @move-end="onMoveEnd" />
     </template>
   </draggable>
 </template>
@@ -9,6 +9,8 @@
 <script>
   import draggable from 'vuedraggable';
   import { mapGetters } from 'vuex';
+  import { on, off } from '@/utils/dom'
+  import { debounce } from 'throttle-debounce'
   export default {
     props: {
       //
@@ -23,6 +25,7 @@
         right: '',
         top: '',
         bottom: '',
+        visible: true,
       };
     },
     computed: {
@@ -37,11 +40,15 @@
           handle: '.handle',
           disabled: false,
           sort: false,
+          debounceResizeChange: Function,
         };
       },
     },
     mounted() {
       this.init();
+    },
+    destroyed() {
+      this.removeListener()
     },
     created() {
       //
@@ -64,9 +71,26 @@
       },
       init() {
         this.setLayoutData();
+        this.addListener()
+      },
+      addListener() {
+        this.debounceResizeChange = debounce(300, this.onWindowResize)
+        on(window, 'resize', this.debounceResizeChange)
+      },
+      removeListener() {
+        off(window, 'resize', this.debounceResizeChange)
+      },
+      onWindowResize() {
+        this.setLayoutData()
+        const $dragList = this.$refs.drag
+        if ($dragList && $dragList.length > 0) {
+          $dragList.forEach((item) => {
+            item.init()
+          })
+        }
       },
       setLayoutData() {
-        const $board = this.$refs['drag-board'].$el;
+        const $board = this.$refs.board.$el
         const { left, right, bottom, top } = $board.getBoundingClientRect();
         this.left = left;
         this.right = right;
@@ -88,6 +112,7 @@
             position,
           },
         };
+        // console.log(x, y)
         if (update.id) this.$store.dispatch('components/updateComponent', update);
       },
       onResizeEnd() {

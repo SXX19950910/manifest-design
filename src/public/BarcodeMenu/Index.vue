@@ -128,11 +128,9 @@
 <style lang="scss">
   @import "./src/style/variable";
   .barcode-menu-warp {
-    width: 300px;
     height: calc(100% - 53px);
     display: flex;
     flex-direction: column;
-    /*justify-content: space-between;*/
     .bottom-handle {
       display: flex;
       align-items: center;

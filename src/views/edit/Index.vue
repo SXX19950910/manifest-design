@@ -2,8 +2,10 @@
   <div class="app-warp">
     <header-nav />
     <div class="body-area">
-      <left-menu class="left-menu" />
-      <board class="view-box" />
+      <v-split v-model="split" min="200px" @on-move-end="onSplitEnd">
+        <left-menu slot="left" class="left-menu" />
+        <board ref="board" slot="right" class="view-box" />
+      </v-split>
       <right-menu class="right-menu" />
     </div>
   </div>
@@ -22,6 +24,7 @@
     },
     data() {
       return {
+        split: '200px',
       };
     },
     computed: {
@@ -43,12 +46,16 @@
         const { id = '' } = this.$route.query;
         if (id) {
           const template = this.templateList.find((item) => item.name === id);
-          if (template) this.$store.dispatch('components/updateStoreList', JSON.parse(template.data));
+          if (template) this.$store.dispatch('components/updateStoreList', template.data);
         }
       },
       handleCancelCurrent() {
         this.$store.dispatch('components/setActive', '');
       },
+      onSplitEnd() {
+        const $board = this.$refs.board
+        $board.initDragBasic()
+      }
     },
   };
 </script>
@@ -56,17 +63,17 @@
 <style lang="scss">
   @import "./src/style/variable";
   .app-warp {
+    width: 100%;
     .body-area {
       height: calc(100vh - 32px);
       display: flex;
       flex-wrap: nowrap;
       position: relative;
       color: #333;
+      width: 100%;
       .left-menu {
-        width: 300px;
         flex-shrink: 0;
         background-color: white;
-        box-shadow: 2px 0 6px rgba(0, 21, 41, 0.08);
         position: relative;
         z-index: 90;
       }
@@ -75,9 +82,7 @@
         background-color: #e9eef3;
         color: #333;
         height: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
+        position: relative;
         background-image: linear-gradient(45deg,#f5f5f5 25%,rgba(0,0,0,0) 0,rgba(0,0,0,0) 75%,#f5f5f5 0),linear-gradient(45deg,#f5f5f5 25%,rgba(0,0,0,0) 0,rgba(0,0,0,0) 75%,#f5f5f5 0);
         background-size: 20px 20px;
         background-position: 0 0,10px 10px;
@@ -85,10 +90,9 @@
       .right-menu {
         flex-shrink: 0;
         background-color: white;
-        box-shadow: -2px 0 6px rgba(0, 21, 41, 0.08);
-        position: absolute;
+        width: 250px;
+        position: relative;
         height: 100%;
-        right: 0;
         z-index: 90;
         .el-tabs--border-card {
           box-shadow: none;

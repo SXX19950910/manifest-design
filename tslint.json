@@ -17,6 +17,15 @@
     "ordered-imports": false,
     "quotemark": [true, "single"],
     "curly": false,
-    "object-literal-key-quotes": false
+    "object-literal-key-quotes": false,
+    "no-console": false,
+    "trailing-comma": [
+      true,
+      "never"
+    ],
+    "semicolon": [
+      false,
+      "always"
+    ]
   }
 }

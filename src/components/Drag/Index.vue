@@ -47,6 +47,7 @@
     },
     data() {
       return {
+        visible: false,
         x: '',
         y: '',
         downX: '',
@@ -128,14 +129,15 @@
         const { defaultX, defaultY } = this;
         const { top, left } = element.getBoundingClientRect();
         this.board = canvas.getBoundingClientRect();
-        this.offsetLeft = left;
-        this.offsetTop = top;
-        this.defaultHeight = height;
-        this.defaultWidth = width;
-        this.width = width;
+        this.offsetLeft = this.board.left;
+        this.offsetTop = this.board.top;
+        this.defaultHeight = defaultData.height || 10;
+        this.defaultWidth = defaultData.width || width;
+        this.width = width
+        this.height = height
         if (isInstance) {
-          this.x = defaultData.x;
-          this.y = defaultData.y;
+          this.x = defaultData.x
+          this.y = defaultData.y
           this.width = defaultData.width;
           this.height = defaultData.height || '';
         } else {
@@ -155,7 +157,7 @@
       handleMouseDown(e) {
         const $drag = e.path.find((item) => item.className.includes('drag-warp'));
         const { top, left } = $drag.getBoundingClientRect();
-        this.downX = e.clientX - left;
+        this.downX = e.clientX - left
         this.downY = e.clientY - top;
         on(document, 'mousemove', this.handleMouseMove);
         on(document, 'mouseup', this.handleMouseUp);
@@ -174,7 +176,7 @@
         const clientY = e.clientY;
         const boardHeight = this.board.height;
         const boardWidth = this.board.width;
-        const x = clientX - this.offsetLeft - this.downX;
+        const x = clientX - this.offsetLeft - this.downX
         const y = clientY - this.offsetTop - this.downY;
         const $element = document.getElementById(aim);
         const { width, height } = $element.getBoundingClientRect();

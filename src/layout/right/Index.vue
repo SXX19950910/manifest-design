@@ -1,7 +1,9 @@
 <template>
-  <div v-if="activeComponent" class="props-menu-warp" @click.stop>
-    <div class="title-area">{{ activeComponent.title }}</div>
-    <component ref="menu" :is="activeComponent.classify" :component="activeComponent" />
+  <div class="props-menu-warp" @click.stop>
+    <template>
+      <div class="title-area">{{ activeComponent.title }}</div>
+      <component ref="menu" :is="activeComponent.classify" :component="activeComponent" />
+    </template>
   </div>
 </template>
 
@@ -36,7 +38,6 @@
 <style lang="scss">
   @import "./src/style/variable";
   .props-menu-warp {
-    max-width: 300px;
     .title-area {
       padding: 15px;
       background-color: $lightBackground;
