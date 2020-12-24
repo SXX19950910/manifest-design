@@ -16,6 +16,8 @@ https://sxx19950910.github.io/manifest-design/
 4.动态预览<br/>
 4.另存为图片<br/>
 5.模板保存<br/>
+6.支持lodop快速预览与打印<br/>
+
 ## 一条龙
 git clone https://github.com/SXX19950910/manifest-design.git <br/>
 

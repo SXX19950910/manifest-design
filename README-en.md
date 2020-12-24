@@ -29,6 +29,7 @@ npm run dev
 2.New component bar width setting function<br/>
 3.Support lodop preview and print<br/>
 4.Optimize packaging<br/>
+6.Support lodop fast preview and print<br/>
 
 2020-12-24<br/>
 1.Fix the bug of template saving<br/>
