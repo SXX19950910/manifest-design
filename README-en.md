@@ -30,5 +30,10 @@ npm run dev
 3.Support lodop preview and print<br/>
 4.Optimize packaging<br/>
 
+2020-12-24<br/>
+1.Fix the bug of template saving<br/>
+2.Fix the bug of fast printing<br/>
+3.Fix the display problem of print preview<br/>
+
 ## build
 npm run build

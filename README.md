@@ -32,5 +32,10 @@ npm run dev
 3.支持lodop预览与打印<br/>
 4.优化打包<br/>
 
+2020-12-24<br/>
+1.修复模板保存的BUG<br/>
+1.修复快速打印的BUG<br/>
+1.修复打印预览的显示问题<br/>
+
 ## 部署
 npm run build
