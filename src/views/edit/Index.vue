@@ -25,7 +25,7 @@
     data() {
       return {
         split: '200px',
-      };
+      }
     },
     computed: {
       ...mapGetters(['templateList']),

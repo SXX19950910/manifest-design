@@ -117,7 +117,9 @@
     },
     methods: {
       init() {
-        this.initLayoutScheme();
+        setTimeout(() => {
+          this.initLayoutScheme();
+        })
       },
       initLayoutScheme() {
         const $drag = this.$refs.drag;
