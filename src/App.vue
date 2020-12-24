@@ -10,7 +10,7 @@ export default {
     //
   },
   mounted() {
-    console.log(JSON.parse(localStorage.getItem('templateList')))
+    //
   },
 }
 </script>

@@ -28,7 +28,7 @@
       }
     },
     computed: {
-      ...mapGetters(['templateList']),
+      ...mapGetters(['templateList', 'activeComponent']),
     },
     mounted() {
       this.init();

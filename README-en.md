@@ -35,6 +35,7 @@ npm run dev
 1.Fix the bug of template saving<br/>
 2.Fix the bug of fast printing<br/>
 3.Fix the display problem of print preview<br/>
+4.Added backspace key delete function<br/>
 
 ## build
 npm run build

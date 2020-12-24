@@ -300,6 +300,9 @@ const components = {
     updateStoreList({ commit }: any, payload: any) {
       commit('UPDATE_STORE_LIST', payload);
     },
+    removeActiveComponent({ commit }: any) {
+      commit('REMOVE_ACTIVE_COMPONENT')
+    },
     addComponent({ commit, state }: any, payload: any) {
       const id = generateId();
       const entity = state.componentMap[payload.componentId];
@@ -390,6 +393,14 @@ const components = {
     ADD_COMPONENT(state: any, payload: any) {
       state.storeList.push(payload);
     },
+    REMOVE_ACTIVE_COMPONENT(state: any) {
+      const id = state.activeComponent.id
+      state.storeList.map((item: any, index: number) => {
+        if (item.id === id) {
+          state.storeList.splice(index, 1)
+        }
+      })
+    }
   },
 };
 

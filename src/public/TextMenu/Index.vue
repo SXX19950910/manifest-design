@@ -1,5 +1,5 @@
 <template>
-  <div class="text-menu-warp">
+  <div v-if="currentComponent" class="text-menu-warp">
     <el-tabs v-model="tab" type="border-card">
       <el-tab-pane label="内容" name="content">
         <el-form ref="content-form">

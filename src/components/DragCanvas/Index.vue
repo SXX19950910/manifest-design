@@ -1,7 +1,7 @@
 <template>
   <draggable ref="board" class="drag-canvas-warp" :list="storeList" v-bind="getOptions" @add="onAdd">
     <template v-for="item in storeList">
-      <drag ref="drag" :default-x="item.position.clientX" :default-y="item.position.clientY" :aim-id="item.id" :update-id="item.updateId" :component-object="item" :key="item.id" :is-instance="item.instance" :default="item.default" @resize-end="onResizeEnd" @move-end="onMoveEnd" />
+      <drag ref="drag" :default-x="item.position.clientX" :default-y="item.position.clientY" :aim-id="item.id" :update-id="item.updateId" :component-object="item" :key="item.id" :is-instance="item.instance" :default="item.default" @resize-end="onResizeEnd" @move-end="onMoveEnd"/>
     </template>
   </draggable>
 </template>
@@ -26,6 +26,7 @@
         top: '',
         bottom: '',
         visible: true,
+        test: ''
       };
     },
     computed: {
@@ -41,6 +42,7 @@
           disabled: false,
           sort: false,
           debounceResizeChange: Function,
+          debounceKeyUp: Function
         };
       },
     },
@@ -76,6 +78,12 @@
       addListener() {
         this.debounceResizeChange = debounce(300, this.onWindowResize)
         on(window, 'resize', this.debounceResizeChange)
+        on(window, 'keyup', this.onDeleteKeyUp)
+      },
+      onDeleteKeyUp(e) {
+        if (e.keyCode === 8 && this.activeComponent) {
+          this.$store.dispatch('components/removeActiveComponent')
+        }
       },
       removeListener() {
         off(window, 'resize', this.debounceResizeChange)
