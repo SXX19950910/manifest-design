@@ -16,6 +16,10 @@ const style = `
 .item {
     display: none;
 }
+.view-wrapper {
+    width: 100% !important;
+    height: 100% !important;
+}
 .border-canvas {
     width: 100%;
     height: 100%;
@@ -52,23 +56,23 @@ class PrintHtml {
         this.lodop = this.initLodop()
     }
     async generateHtml() {
-        this.scheme.map(item => {
-            PrintHtml.parseElement(item)
-        })
-        const setValue = (variable, value) => {
-            this.scheme.map(item => {
-                const text = item.props.text
-                const isHit = text && text.includes(variable)
-                if (isHit) {
-                    item.props.text = text.replace(variable, value)
-                }
-            })
-        }
-        for (const key in this.data) {
-            const variable = '${' + key + '}'
-            const value = this.data[key]
-            setValue(variable, value)
-        }
+        // this.scheme.map(item => {
+        //     PrintHtml.parseElement(item)
+        // })
+        // const setValue = (variable, value) => {
+        //     this.scheme.map(item => {
+        //         const text = item.props.text
+        //         const isHit = text && text.includes(variable)
+        //         if (isHit) {
+        //             item.props.text = text.replace(variable, value)
+        //         }
+        //     })
+        // }
+        // for (const key in this.data) {
+        //     const variable = '${' + key + '}'
+        //     const value = this.data[key]
+        //     setValue(variable, value)
+        // }
         store.dispatch('components/updateStoreList', this.scheme)
         await Vue.nextTick()
         this.html = document.querySelector('.board-warp').innerHTML
@@ -106,7 +110,6 @@ class PrintHtml {
     static parseWrapper() {
         const div = document.createElement('div')
         div.style.cssText = PrintHtml.setStyle()
-        console.log(div)
         return `<div class="drag-warp" style="${PrintHtml.setStyle()}"></div>`
     }
     static parseElement(element) {
@@ -123,7 +126,7 @@ class PrintHtml {
         if (this.lodop) {
             this.lodop.PRINT_INIT("打印预览")
             this.lodop.SET_PRINT_PAGESIZE()
-            this.lodop.ADD_PRINT_HTM(0, 0, "100%","100%", await this.generateHtml())
+            this.lodop.ADD_PRINT_HTM(0, 0, '100%', '100%', await this.generateHtml())
             this.lodop.PREVIEW()
         }
     }
