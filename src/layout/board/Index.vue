@@ -1,7 +1,7 @@
 <template>
   <div class="board-warp">
     <div class="view-wrapper" :style="view">
-      <div class="canvas-wrapper">
+      <div class="canvas-wrapper" :style="viewStyle">
         <drag-canvas ref="canvas" class="board-canvas" />
       </div>
     </div>
@@ -26,6 +26,14 @@
           height: ''
         }
       };
+    },
+    computed: {
+      viewStyle() {
+        return {
+          width: `${this.$store.state.components.page.width}px`,
+          height: `${this.$store.state.components.page.height}px`
+        }
+      }
     },
     mounted() {
       this.init()

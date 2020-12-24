@@ -89,6 +89,7 @@
         off(window, 'resize', this.debounceResizeChange)
       },
       onWindowResize() {
+        console.log('进入')
         this.setLayoutData()
         const $dragList = this.$refs.drag
         if ($dragList && $dragList.length > 0) {

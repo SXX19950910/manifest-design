@@ -6,7 +6,7 @@
         <left-menu slot="left" class="left-menu" />
         <board ref="board" slot="right" class="view-box" />
       </v-split>
-      <right-menu class="right-menu" />
+      <right-menu class="right-menu" @page-size-change="onPageSizeChange" />
     </div>
   </div>
 </template>
@@ -55,6 +55,9 @@
       onSplitEnd() {
         const $board = this.$refs.board
         $board.initDragBasic()
+      },
+      onPageSizeChange() {
+        this.onSplitEnd()
       }
     },
   };

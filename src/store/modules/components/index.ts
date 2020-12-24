@@ -295,8 +295,15 @@ const components = {
     ],
     storeList: [],
     templateList: JSON.parse(localTemplate),
+    page: {
+      width: 500,
+      height: 500
+    }
   },
   actions: {
+    setPageSize({ commit }: any, payload: any) {
+      commit('SET_PAGE_SIZE', payload);
+    },
     updateStoreList({ commit }: any, payload: any) {
       commit('UPDATE_STORE_LIST', payload);
     },
@@ -362,6 +369,10 @@ const components = {
     },
   },
   mutations: {
+    SET_PAGE_SIZE(state: any, size: any) {
+      state.page.width = size[0]
+      state.page.height = size[1]
+    },
     SET_ACTIVE(state: any, id: string) {
       state.activeComponent = state.storeList.find((item: any) => item.id === id) || '';
     },

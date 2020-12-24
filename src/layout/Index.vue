@@ -3,8 +3,8 @@
     <header-nav />
     <div class="body-area">
       <left-menu class="left-menu" />
-      <board class="view-box" />
-      <right-menu class="right-menu" />
+      <board ref="board" class="view-box" />
+      <right-menu class="right-menu" @page-size-change="onPageSizeChange" />
     </div>
   </div>
 </template>
@@ -30,6 +30,9 @@
       handleCancelCurrent() {
         this.$store.dispatch('components/setActive', '');
       },
+      onPageSizeChange() {
+        this.$refs.board.initDragBasic()
+      }
     },
   };
 </script>
