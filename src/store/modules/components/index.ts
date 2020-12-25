@@ -1,4 +1,5 @@
 import barcode from 'jsbarcode';
+import Vue from 'vue'
 // @ts-ignore
 import _ from 'lodash';
 import { Notification } from 'element-ui';
@@ -298,7 +299,8 @@ const components = {
     page: {
       width: 500,
       height: 500
-    }
+    },
+    storeLoading: true
   },
   actions: {
     setPageSize({ commit }: any, payload: any) {
@@ -380,9 +382,15 @@ const components = {
       state.templateList.push(template);
     },
     UPDATE_STORE_LIST(state: any, template: any) {
+      state.storeLoading = true
       state.storeList = template.map((item: any) => {
         return {...item};
       });
+      Vue.nextTick(() => {
+        setTimeout(() => {
+          state.storeLoading = false
+        }, 500)
+      })
     },
     CLEAR_STORE_LIST(state: any) {
       state.storeList = [];

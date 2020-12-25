@@ -133,6 +133,7 @@
         this.board = canvas.getBoundingClientRect();
         this.offsetLeft = this.board.left;
         this.offsetTop = this.board.top;
+        console.log(this.offsetLeft, this.offsetTop)
         this.defaultHeight = defaultData.height || 10;
         this.defaultWidth = defaultData.width || width;
         this.width = width

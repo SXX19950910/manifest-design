@@ -1,7 +1,7 @@
 <template>
-  <div class="board-warp">
+  <div ref="view" class="board-warp" @scroll="debounceViewScroll">
     <div class="view-wrapper" :style="view">
-      <div class="canvas-wrapper" :style="viewStyle">
+      <div v-loading="$store.state.components.storeLoading" class="canvas-wrapper" :style="viewStyle">
         <drag-canvas ref="canvas" class="board-canvas" />
       </div>
     </div>
@@ -11,6 +11,7 @@
 <script>
   import DragCanvas from '@/components/DragCanvas/Index.vue';
   import { ToolsDrawer } from '@/public';
+  import { debounce } from 'throttle-debounce'
   export default {
     props: {
       //
@@ -24,7 +25,8 @@
         view: {
           width: '',
           height: ''
-        }
+        },
+        debounceViewScroll: Function
       };
     },
     computed: {
@@ -41,6 +43,13 @@
     methods: {
       init() {
         this.setViewStyle()
+        this.addListener()
+      },
+      addListener() {
+        this.debounceViewScroll = debounce(300, this.onViewScroll)
+      },
+      onViewScroll() {
+        this.initDragBasic()
       },
       initDragBasic() {
         this.$refs.canvas.onWindowResize()

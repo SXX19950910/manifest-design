@@ -1,7 +1,7 @@
 <template>
   <draggable ref="board" class="drag-canvas-warp" :list="storeList" v-bind="getOptions" @add="onAdd">
     <template v-for="item in storeList">
-      <drag ref="drag" :default-x="item.position.clientX" :default-y="item.position.clientY" :aim-id="item.id" :update-id="item.updateId" :component-object="item" :key="item.id" :is-instance="item.instance" :default="item.default" @resize-end="onResizeEnd" @move-end="onMoveEnd"/>
+      <drag v-show="!$store.state.components.storeLoading" ref="drag" :default-x="item.position.clientX" :default-y="item.position.clientY" :aim-id="item.id" :update-id="item.updateId" :component-object="item" :key="item.id" :is-instance="item.instance" :default="item.default" @resize-end="onResizeEnd" @move-end="onMoveEnd"/>
     </template>
   </draggable>
 </template>
