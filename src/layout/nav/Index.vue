@@ -60,12 +60,7 @@
       },
       handlePrint() {
         this.$nextTick(() => {
-          const data = {
-            receiver: '动态收件人',
-            sender: '动态寄件人',
-            receiverAddress: '中国检验认证大厦',
-          }
-          const printHtml = new PrintHtml('测试模板2', data)
+          const printHtml = new PrintHtml()
           printHtml.painting()
         });
       },

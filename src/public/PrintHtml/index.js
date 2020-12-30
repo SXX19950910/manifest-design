@@ -1,5 +1,5 @@
 import { Notification } from 'element-ui'
-import Vue from 'vue'
+// import Vue from 'vue'
 import store from '@/store'
 const style = `
 .canvas-wrapper {
@@ -8,9 +8,7 @@ const style = `
   background-color: white;
   border-radius: 2px;
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  margin: 0 auto;
   box-shadow: 0 0 10px rgba(0, 21, 41, 0.08);
 }
 .item {
@@ -73,8 +71,8 @@ class PrintHtml {
         //     const value = this.data[key]
         //     setValue(variable, value)
         // }
-        store.dispatch('components/updateStoreList', this.scheme)
-        await Vue.nextTick()
+        // store.dispatch('components/updateStoreList', this.scheme)
+        // await Vue.nextTick()
         this.html = document.querySelector('.board-warp').innerHTML
         return `
                 <html lang="en">

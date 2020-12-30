@@ -25,17 +25,24 @@ npm run dev
 
 ### Log
 2020-12-23<br/>
-1.Fix bugs caused by window size changes<br/>
-2.New component bar width setting function<br/>
-3.Support lodop preview and print<br/>
-4.Optimize packaging<br/>
-6.Support lodop fast preview and print<br/>
+1.修复窗口尺寸变更而导致的bug<br/>
+2.新增组件栏宽度设置功能<br/>
+3.支持lodop预览与打印<br/>
+4.优化打包<br/>
 
 2020-12-24<br/>
-1.Fix the bug of template saving<br/>
-2.Fix the bug of fast printing<br/>
-3.Fix the display problem of print preview<br/>
-4.Added backspace key delete function<br/>
+1.修复模板保存的BUG<br/>
+2.修复快速打印的BUG<br/>
+3.修复打印预览的显示问题<br/>
+4.新增退格键删除功能<br/>
+5.新增纸张尺寸设置功能<br/>
+
+2020-12-25<br/>
+1.优化加载过程<br/>
+2.修复滚动后产生的BUG<br/>
+
+2020-12-30<br/>
+1.修复快速打印预览的BUG
 
 ## build
 npm run build

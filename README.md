@@ -45,5 +45,8 @@ npm run dev
 1.优化加载过程<br/>
 2.修复滚动后产生的BUG<br/>
 
+2020-12-30<br/>
+1.修复快速打印预览的BUG
+
 ## 部署
 npm run build
