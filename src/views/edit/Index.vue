@@ -2,7 +2,7 @@
   <div class="app-warp">
     <header-nav />
     <div class="body-area">
-      <v-split v-model="split" min="200px" @on-move-end="onSplitEnd">
+      <v-split v-model="split" min="200px" max="800px" @on-move-end="onSplitEnd">
         <left-menu slot="left" class="left-menu" />
         <board ref="board" slot="right" class="view-box" />
       </v-split>
@@ -79,6 +79,7 @@
         background-color: white;
         position: relative;
         z-index: 90;
+        user-select: none;
       }
       .view-box {
         width: 100%;

@@ -1,5 +1,5 @@
 <template>
-  <div ref="drag" :id="aimId" class="drag-warp" :class="activeClass" :style="dragStyle" @click.stop="handleSetCurrent" @mousedown="handleMouseDown" @contextmenu="handleContextMenu">
+  <div ref="drag" :id="aimId" class="drag-warp" :class="activeClass" :style="dragStyle" @click.stop="handleSetCurrent" @mousedown.stop="handleMouseDown" @contextmenu="handleContextMenu">
     <component :is="componentObject.type" v-bind="componentObject.props" :element-id="componentObject.id" :update-id="componentObject.updateId" @complete="init" />
     <drag-resize v-if="resizeVisible" :component-object="componentObject" @resize-down="handleResizeDown"/>
   </div>
@@ -73,7 +73,7 @@
       this.clearAllListener();
     },
     computed: {
-      ...mapGetters(['activeComponent']),
+      ...mapGetters(['activeComponent', 'selected']),
       dragStyle() {
         const { width, height, y, x, isLine } = this;
         return {
@@ -89,6 +89,8 @@
         const result = [];
         const {id = ''} = this.activeComponent;
         if (id === this.componentObject.id) {
+          result.push('is-active');
+        } else if (this.selected.ids.includes(this.aimId)) {
           result.push('is-active');
         }
         if (this.componentObject.type === 'BarcodeUi') {
@@ -133,7 +135,6 @@
         this.board = canvas.getBoundingClientRect();
         this.offsetLeft = this.board.left;
         this.offsetTop = this.board.top;
-        console.log(this.offsetLeft, this.offsetTop)
         this.defaultHeight = defaultData.height || 10;
         this.defaultWidth = defaultData.width || width;
         this.width = width
@@ -158,6 +159,7 @@
         off(document, 'mouseup', this.handleMouseUp);
       },
       handleMouseDown(e) {
+        this.$store.dispatch('components/clearSelection')
         const $drag = e.path.find((item) => item.className.includes('drag-warp'));
         const { top, left } = $drag.getBoundingClientRect();
         this.downX = e.clientX - left
@@ -206,6 +208,7 @@
       moveEnd() {
         setTimeout(() => {
           const { x, y } = this;
+          const rect = this.$refs.drag.getBoundingClientRect()
           const dragData = {
             id: this.aimId,
             x,
@@ -217,9 +220,10 @@
               clientX: x,
               clientY: y,
             },
+            rect
           };
           this.$emit('move-end', dragData);
-        });
+        }, 300);
       },
       handleResizeUp() {
         off(document, 'mousemove', this.handleResizeMove);

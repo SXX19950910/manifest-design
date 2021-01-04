@@ -16,6 +16,7 @@
     "html-webpack-plugin": "^4.5.0",
     "html2canvas": "^1.0.0-rc.5",
     "jsbarcode": "^3.11.0",
+    "loadsh": "^0.0.4",
     "lodash": "^4.17.15",
     "qrcode": "^1.4.4",
     "react": "^17.0.1",

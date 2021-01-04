@@ -81,7 +81,7 @@
         on(window, 'keyup', this.onDeleteKeyUp)
       },
       onDeleteKeyUp(e) {
-        if (e.keyCode === 8 && this.activeComponent) {
+        if (e.keyCode === 8) {
           this.$store.dispatch('components/removeActiveComponent')
         }
       },
@@ -89,7 +89,6 @@
         off(window, 'resize', this.debounceResizeChange)
       },
       onWindowResize() {
-        console.log('进入')
         this.setLayoutData()
         const $dragList = this.$refs.drag
         if ($dragList && $dragList.length > 0) {
@@ -107,7 +106,7 @@
         this.bottom = bottom;
       },
       onMoveEnd(data) {
-        const { height, width, x, y, position, instance, id } = data;
+        const { height, width, x, y, position, instance, id, rect } = data;
         const update = {
           id,
           update: {
@@ -119,6 +118,7 @@
             },
             instance,
             position,
+            rect
           },
         };
         // console.log(x, y)

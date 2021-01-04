@@ -1,9 +1,6 @@
-const path = require('path')
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
 const productionGzipExtensions = ['js', 'css']
-function resolve(dir) {
-  return path.join(__dirname, dir)
-}
+
 const env = process.env
 const isDev = env.NODE_ENV === 'development'
 const publicPath = isDev ? '' : './dist'
@@ -35,7 +32,13 @@ module.exports = {
   productionSourceMap: false,
   css: {
     extract: true,
-    sourceMap: false
+    sourceMap: false,
+    requireModuleExtension: true,
+    loaderOptions: {
+      scss: {
+        prependData: `@import "@/style/variable.scss";@import "@/style/mixin.scss";`
+      }
+    }
   },
   configureWebpack: config => {
     const com = new CompressionWebpackPlugin({

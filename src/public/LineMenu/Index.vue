@@ -1,5 +1,5 @@
 <template>
-  <el-form v-if="currentComponent" :mode="form" class="line-menu-warp" label-position="top">
+  <el-form v-if="currentComponent" :mode="form" class="line-menu-warp" label-position="top" @click.native.stop>
     <el-tabs v-model="tab" type="border-card">
       <el-tab-pane label="样式" name="style">
         <el-form-item  label="线条宽度">

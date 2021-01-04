@@ -112,19 +112,14 @@ class PrintHtml {
     }
     static parseElement(element) {
         const warp = PrintHtml.parseWrapper()
-        // console.log(warp)
-        let result = `
-        <${element.tag}></${element.tag}>
-       `
-        // console.log(warp)
+        let result = `<${element.tag}>${warp}</${element.tag}>`
         return result
     }
     async painting() {
-        // await this.generateHtml()
         if (this.lodop) {
             this.lodop.PRINT_INIT("打印预览")
             this.lodop.SET_PRINT_PAGESIZE()
-            this.lodop.ADD_PRINT_HTM(0, 0, '100%', '100%', await this.generateHtml())
+            this.lodop.ADD_PRINT_HTM('0', '0', '100%', '100%', await this.generateHtml())
             this.lodop.PREVIEW()
         }
     }

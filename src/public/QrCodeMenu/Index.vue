@@ -1,5 +1,5 @@
 <template>
-  <div class="qr-code-menu-warp">
+  <div class="qr-code-menu-warp" @click.stop>
   </div>
 </template>
 
