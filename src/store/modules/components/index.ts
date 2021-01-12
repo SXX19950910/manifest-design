@@ -321,6 +321,9 @@ const components = {
     setPageSize({ commit }: any, payload: any) {
       commit('SET_PAGE_SIZE', payload);
     },
+    setLine({ commit }: any, payload = { left: 0, top: 0 }) {
+      commit('SET_LINE', payload)
+    },
     updateStoreList({ commit }: any, payload: any) {
       commit('UPDATE_STORE_LIST', payload);
     },
@@ -391,6 +394,11 @@ const components = {
     }
   },
   mutations: {
+    SET_LINE(state: any, payload: any) {
+      const { top = 0, left = 0 } = payload
+      state.line.top = top
+      state.line.left = left
+    },
     SET_SELECTION(state: any, payload: any) {
       state.selected = payload.reduce((total: any, current: any) => {
         total.ids.push(current.id)

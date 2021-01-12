@@ -213,16 +213,14 @@
       left: 0;
       touch-action: none;
       .y-help-line {
-        width: 1px;
+        border-left: 1px dashed $skyBlue;
         height: 100%;
-        background-color: $skyBlue;
         position: absolute;
         z-index: 100;
       }
       .x-help-line {
         width: 100%;
-        height: 1px;
-        background-color: $skyBlue;
+        border-bottom: 1px dashed $skyBlue;
         position: absolute;
         z-index: 100;
       }

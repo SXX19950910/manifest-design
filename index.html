@@ -1,1 +1,70 @@
-<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><title>manifest-design</title><link rel=icon href=dist/favicon.ico><link rel=stylesheet href=//at.alicdn.com/t/font_1825094_pv3e9978tu.css><link href=https://unpkg.com/element-ui/lib/theme-chalk/index.css rel=stylesheet><link href=https://unpkg.com/view-design/dist/styles/iview.css rel=stylesheet><link href=dist/css/app.db7b4e48.css rel=preload as=style><link href=dist/css/chunk-vendors.b9c6a05f.css rel=preload as=style><link href=dist/js/app.fcd9c82a.js rel=preload as=script><link href=dist/js/chunk-vendors.b7ca943b.js rel=preload as=script><link href=dist/css/chunk-vendors.b9c6a05f.css rel=stylesheet><link href=dist/css/app.db7b4e48.css rel=stylesheet></head><body><noscript><strong>We're sorry but manifest-design doesn't work properly without JavaScript enabled. Please enable it to continue.</strong></noscript><object id=LODOP_OB style="display: none" classid=clsid:2105C259-1E0C-4534-8141-A753534CB4CA width=0 height=0><embed id=LODOP_EM type=application/x-print-lodop width=0 height=0></object><div id=app></div><script src=https://cdn.staticfile.org/vue/2.6.12/vue.min.js></script><script src=https://cdn.staticfile.org/vuex/3.5.1/vuex.min.js></script><script src=https://cdn.staticfile.org/vue-router/3.0.3/vue-router.min.js></script><script src=https://unpkg.com/element-ui/lib/index.js></script><script src=https://unpkg.com/view-design/dist/iview.min.js></script><script src=dist/js/chunk-vendors.b7ca943b.js></script><script src=dist/js/app.fcd9c82a.js></script></body></html>
+<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><title>manifest-design</title><link rel=icon href=dist/favicon.ico><link rel=stylesheet href=//at.alicdn.com/t/font_1825094_pv3e9978tu.css><link href=https://unpkg.com/element-ui/lib/theme-chalk/index.css rel=stylesheet><link href=https://unpkg.com/view-design/dist/styles/iview.css rel=stylesheet><link href=dist/css/app.e3842de1.css rel=preload as=style><link href=dist/css/chunk-vendors.b9c6a05f.css rel=preload as=style><link href=dist/js/app.bef7a3b5.js rel=preload as=script><link href=dist/js/chunk-vendors.b7ca943b.js rel=preload as=script><link href=dist/css/chunk-vendors.b9c6a05f.css rel=stylesheet><link href=dist/css/app.e3842de1.css rel=stylesheet></head><body><noscript><strong>We're sorry but manifest-design doesn't work properly without JavaScript enabled. Please enable it to continue.</strong></noscript><object id=LODOP_OB style="display: none" classid=clsid:2105C259-1E0C-4534-8141-A753534CB4CA width=0 height=0><embed id=LODOP_EM type=application/x-print-lodop width=0 height=0></object><div id=app></div><script src=https://cdn.staticfile.org/vue/2.6.12/vue.min.js></script><script src=https://cdn.staticfile.org/vuex/3.5.1/vuex.min.js></script><script src=https://cdn.staticfile.org/vue-router/3.0.3/vue-router.min.js></script><script src=https://unpkg.com/element-ui/lib/index.js></script><script src=https://unpkg.com/view-design/dist/iview.min.js></script><script>// 性能监控
+      let time = ()=>{
+          let timing = performance.timing
+          let data = {
+              prevPage: timing.fetchStart  - timing.navigationStart , // 上一个页面卸载到新页面的时间
+              redirect: timing.redirectEnd  - timing.redirectStart , // 重定向时长
+              dns: timing.domainLookupEnd - timing.domainLookupStart, // dns 解析时长
+              tcp: timing.connectEnd - timing.connectStart ,// tcp 链接时长
+              respone: timing.responseEnd - timing.requestStart, // 响应时长
+              ttfb: timing.responseStart - timing.navigationStart, // 首字节接收到 的时长
+              domReady:timing.domInteractive - timing.domLoading, // dom 准备时长
+              whiteScreen:timing.domLoading - timing.navigationStart, // 白屏时间
+              dom:timing.domComplete - timing.domLoading, // dom解析时间
+              load:timing.loadEventEnd - timing.loadEventStart,
+              total:timing.loadEventEnd - timing.navigationStart
+          }
+          return data
+      }
+
+      //  因为检测代码在load里执行   所以此时load事件未完成  检测不到load的时间  所以我们需要设置一个定时器来监听load完成
+
+      let timeout = (cb)=>{
+          let timer;
+          let check = ()=>{
+              // 加载完毕后才有performance.timing.loadEventEnd
+              if(performance.timing.loadEventEnd){
+                  timer = null
+                  cb()
+              }else{
+                  timer = setTimeout(check,100)
+              }
+          }
+          window.addEventListener('load',check,false)
+      }
+
+      let domReady = (cb)=>{
+          let timer;
+          let check = ()=>{
+              // performance.timing.domInteractive
+              if(performance.timing.domInteractive){
+                  timer = null
+                  cb()
+              }else{
+                  timer = setTimeout(check,100)
+              }
+          }
+          window.addEventListener('DOMContentLoaded',check,false)
+      }
+
+
+      let _performance = {
+          init(cb){
+              //有可能domloaded 并未加载好 用户就关闭网页了  这种情况也希望监听到
+              domReady(()=>{
+                  let data = time()
+                  data.type = 'domReady'
+                  cb(data)
+              })
+              // dom完全加载完毕
+              timeout(()=>{
+                  let data = time()
+                  data.type = 'loaded'
+                  cb(data)
+              })
+          }
+      }
+
+      // 通过_performance.init(cb)  获取到监控数据
+
+      _performance.init((data)=>{console.log(data)})</script><script src=dist/js/chunk-vendors.b7ca943b.js></script><script src=dist/js/app.bef7a3b5.js></script></body></html>

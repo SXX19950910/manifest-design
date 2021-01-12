@@ -50,6 +50,7 @@
         visible: false,
         x: '',
         y: '',
+        isMove: false,
         downX: '',
         downY: '',
         resizeDownX: '',
@@ -99,6 +100,9 @@
         if (this.isLine) {
           result.push('line-ui');
         }
+        if (this.isMove) {
+          result.push('is-move')
+        }
         return result;
       },
       isLine() {
@@ -115,7 +119,7 @@
       },
     },
     mounted() {
-      this.debounceUpdateComponent = debounce(200, this.moveEnd);
+      this.debounceUpdateComponent = debounce(200, this.update);
     },
     methods: {
       init() {
@@ -175,7 +179,16 @@
         const { id = '' } = this.componentObject;
         this.$store.dispatch('components/setActive', id);
       },
+      emitMoving() {
+        this.isMove = true
+        this.$emit('move')
+      },
+      emitMoveEnd() {
+        this.isMove = false
+        this.$emit('move-end')
+      },
       handleMouseMove(e) {
+        this.isMove = true
         const aim = this.aimId;
         const clientX = e.clientX;
         const clientY = e.clientY;
@@ -199,43 +212,41 @@
         } else {
           this.y = y;
         }
+        this.emitMoving()
+        this.lineChecker()
+        this.debounceUpdateComponent();
+      },
+      lineChecker() {
         const liner = () => {
           const roundX = Math.round(this.x)
           const roundY = Math.round(this.y)
           const result = {
-            x: 0,
-            y: 0
+            left: 0,
+            top: 0
           }
           this.$store.state.components.storeList.map((item) => {
             const left = Math.round(item.position.clientX)
             const top = Math.round(item.position.clientY)
             if (this.aimId !== item.id) {
               if (roundX === left) {
-                result.x = left
+                result.left = left
               }
               if (roundY === top) {
-                result.y = top
+                result.top = top
               }
             }
           })
           return result
         }
         const line = liner()
-        if (line.x) {
-          this.$store.state.components.line.left = line.x
-        } else if (line.y) {
-          this.$store.state.components.line.top = line.y
-        } else {
-          this.$store.state.components.line.top = 0
-          this.$store.state.components.line.left = 0
-        }
-        this.debounceUpdateComponent();
+        this.$store.dispatch('components/setLine', line)
       },
       handleMouseUp() {
+        this.emitMoveEnd()
         off(document, 'mousemove', this.handleMouseMove);
         off(document, 'mouseup', this.handleMouseUp);
       },
-      moveEnd() {
+      update() {
         setTimeout(() => {
           const { x, y } = this;
           const rect = this.$refs.drag.getBoundingClientRect()
@@ -252,7 +263,7 @@
             },
             rect
           };
-          this.$emit('move-end', dragData);
+          this.$emit('move-update', dragData);
         }, 300);
       },
       handleResizeUp() {
@@ -329,6 +340,9 @@
       .rectangle-warp {
         border-color: $skyBlue !important;
       }
+    }
+    &.is-move {
+      border-color: transparent;
     }
     .resize-btn {
       position: absolute;

@@ -1,9 +1,9 @@
 <template>
   <draggable ref="board" class="drag-canvas-warp" :list="storeList" v-bind="getOptions" @add="onAdd">
-    <div class="x-help-line" :style="xStyle" />
-    <div class="y-help-line" :style="yStyle" />
+    <div v-if="lineTop" class="x-help-line" :style="xStyle" />
+    <div v-if="lineLeft" class="y-help-line" :style="yStyle" />
     <template v-for="item in storeList">
-      <drag v-show="!$store.state.components.storeLoading" ref="drag" :default-x="item.position.clientX" :default-y="item.position.clientY" :aim-id="item.id" :update-id="item.updateId" :component-object="item" :key="item.id" :is-instance="item.instance" :default="item.default" @resize-end="onResizeEnd" @move-end="onMoveEnd"/>
+      <drag v-show="!$store.state.components.storeLoading" ref="drag" :default-x="item.position.clientX" :default-y="item.position.clientY" :aim-id="item.id" :update-id="item.updateId" :component-object="item" :key="item.id" :is-instance="item.instance" :default="item.default" @resize-end="onResizeEnd" @move-update="onMoveUpdate" @move-end="onMoveEnd" @move="onMove"/>
     </template>
   </draggable>
 </template>
@@ -28,19 +28,19 @@
         top: '',
         bottom: '',
         visible: true,
-        test: ''
+        isMove: false
       };
     },
     computed: {
-      ...mapGetters(['storeList', 'activeComponent', 'templateList']),
+      ...mapGetters(['storeList', 'activeComponent', 'templateList', 'lineLeft', 'lineTop']),
       yStyle() {
         return {
-          left: `${this.$store.state.components.line.left}px`
+          left: this.lineLeft + 'px'
         }
       },
       xStyle() {
         return {
-          top: `${this.$store.state.components.line.top}px`
+          top: this.lineTop + 'px'
         }
       },
       getOptions() {
@@ -117,7 +117,15 @@
         this.top = top;
         this.bottom = bottom;
       },
-      onMoveEnd(data) {
+      onMove() {
+        this.isMove = true
+      },
+      onMoveEnd() {
+        this.isMove = false
+        this.$store.dispatch('components/setLine')
+      },
+      onMoveUpdate(data) {
+        this.isMove = false
         const { height, width, x, y, position, instance, id, rect } = data;
         const update = {
           id,
@@ -133,7 +141,6 @@
             rect
           },
         };
-        // console.log(x, y)
         if (update.id) this.$store.dispatch('components/updateComponent', update);
       },
       onResizeEnd() {
