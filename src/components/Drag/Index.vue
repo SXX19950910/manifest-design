@@ -62,8 +62,8 @@
         resizeOffsetBottom: '',
         board: {},
         active: false,
-        defaultWidth: '',
-        defaultHeight: '',
+        defaultWidth: 20,
+        defaultHeight: 20,
         width: '',
         height: '',
         debounceUpdateComponent: Function,
@@ -135,8 +135,8 @@
         this.board = canvas.getBoundingClientRect();
         this.offsetLeft = this.board.left;
         this.offsetTop = this.board.top;
-        this.defaultHeight = defaultData.height || 10;
-        this.defaultWidth = defaultData.width || width;
+        // this.defaultHeight = defaultData.height || 10;
+        // this.defaultWidth = defaultData.width || width;
         this.width = width
         this.height = height
         if (isInstance) {
@@ -198,6 +198,36 @@
           this.y = boardHeight - height;
         } else {
           this.y = y;
+        }
+        const liner = () => {
+          const roundX = Math.round(this.x)
+          const roundY = Math.round(this.y)
+          const result = {
+            x: 0,
+            y: 0
+          }
+          this.$store.state.components.storeList.map((item) => {
+            const left = Math.round(item.position.clientX)
+            const top = Math.round(item.position.clientY)
+            if (this.aimId !== item.id) {
+              if (roundX === left) {
+                result.x = left
+              }
+              if (roundY === top) {
+                result.y = top
+              }
+            }
+          })
+          return result
+        }
+        const line = liner()
+        if (line.x) {
+          this.$store.state.components.line.left = line.x
+        } else if (line.y) {
+          this.$store.state.components.line.top = line.y
+        } else {
+          this.$store.state.components.line.top = 0
+          this.$store.state.components.line.left = 0
         }
         this.debounceUpdateComponent();
       },

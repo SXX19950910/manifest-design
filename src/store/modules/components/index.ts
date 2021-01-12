@@ -22,6 +22,10 @@ const components = {
       instance: [],
       ids: []
     },
+    line: {
+      top: '',
+      left: ''
+    },
     componentMap: {
       senderAddress: {
         name: 'senderAddress',

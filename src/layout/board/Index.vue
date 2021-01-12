@@ -212,6 +212,20 @@
       top: 0;
       left: 0;
       touch-action: none;
+      .y-help-line {
+        width: 1px;
+        height: 100%;
+        background-color: $skyBlue;
+        position: absolute;
+        z-index: 100;
+      }
+      .x-help-line {
+        width: 100%;
+        height: 1px;
+        background-color: $skyBlue;
+        position: absolute;
+        z-index: 100;
+      }
       .react {
         position: absolute;
         z-index: 8;
