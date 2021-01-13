@@ -67,6 +67,8 @@
         background-color: $lightBackground;
         padding: 0 15px;
         transition: .3s ease all;
+        height: 36px;
+        line-height: 36px;
         &:hover {
           color: $skyBlue;
         }
@@ -75,7 +77,7 @@
         padding: 15px;
         .item {
           cursor: pointer;
-          padding: 8px;
+          padding: 5px;
           border: 1px solid $border;
           margin-bottom: 10px;
           border-radius: 2px;
