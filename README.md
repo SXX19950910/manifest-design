@@ -3,6 +3,8 @@
 
 <div align="center"><a href="./README-en.md">English</a> | 简体中文</div>
 
+`觉得不错请帮我点一下小星星哟`
+
 ### 预览
 https://sxx19950910.github.io/manifest-design/
 
@@ -57,6 +59,8 @@ npm run dev
 2021-1-12<br/>
 1.添加辅助线功能<br/>
 
+2021-1-23<br/>
+1.修改打印预览功能<br/>
 
 ## 部署
 npm run build
