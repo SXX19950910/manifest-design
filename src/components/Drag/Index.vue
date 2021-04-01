@@ -187,6 +187,15 @@
         this.isMove = false
         this.$emit('move-end')
       },
+      up() {
+        //
+      },
+      down() {
+        //
+      },
+      left() {
+        //
+      },
       handleMouseMove(e) {
         this.isMove = true
         const aim = this.aimId;

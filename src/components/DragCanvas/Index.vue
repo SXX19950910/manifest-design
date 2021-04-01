@@ -1,3 +1,5 @@
+<script src="../../../app.js"></script>
+<script src="../../../index.js"></script>
 <template>
   <draggable ref="board" class="drag-canvas-warp" :list="storeList" v-bind="getOptions" @add="onAdd">
     <div v-if="lineTop" class="x-help-line" :style="xStyle" />
@@ -85,12 +87,38 @@
       },
       init() {
         this.setLayoutData();
-        this.addListener()
+        this.addListener();
       },
       addListener() {
         this.debounceResizeChange = debounce(300, this.onWindowResize)
         on(window, 'resize', this.debounceResizeChange)
         on(window, 'keyup', this.onDeleteKeyUp)
+        on(window, 'keydown', this.onKeyDown)
+      },
+      onKeyDown(e) {
+        const { preventDefault, keyCode } = e
+        const { id } = this.activeComponent
+        const keysHandler = [
+          {
+            code: 38,
+            handler: ''
+          },
+          {
+            code: 40
+          },
+          {
+            code: 37
+          },
+          {
+            code: 39
+          }
+        ]
+        if (id) {
+          preventDefault()
+          const $drag = this.$refs.drag.find((item) => item.aimId === id)
+          const worker = keysHandler.find((item) => item.code === keyCode)
+          $drag[worker.handler]()
+        }
       },
       onDeleteKeyUp(e) {
         if (e.keyCode === 8) {
@@ -145,7 +173,7 @@
       },
       onResizeEnd() {
       //
-      },
+      }
     },
   };
 </script>

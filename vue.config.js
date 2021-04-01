@@ -3,8 +3,8 @@ const productionGzipExtensions = ['js', 'css']
 
 const env = process.env
 const isDev = env.NODE_ENV === 'development'
-const publicPath = isDev ? '' : './dist'
-const indexPath = isDev ? './dist' : './../index.html'
+const publicPath = isDev ? '' : '/design'
+const indexPath = './index.html'
 const externals = {
   vue: 'Vue',
   vuex: 'Vuex',
