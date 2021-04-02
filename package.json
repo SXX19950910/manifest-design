@@ -1,10 +1,12 @@
 {
   "name": "manifest-design",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "build:git": "vue-cli-service build --mode git",
+    "build:serve": "vue-cli-service build --mode serve",
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint"
