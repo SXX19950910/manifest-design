@@ -2,7 +2,6 @@
 .DS_Store
 node_modules
 .idea
-/dist
 #/dist
 
 /tests/e2e/videos/
