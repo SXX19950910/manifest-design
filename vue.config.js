@@ -1,10 +1,10 @@
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
 const productionGzipExtensions = ['js', 'css']
+const config = require('./config/index')
 
-const env = process.env
-const isDev = env.ENV === 'dev'
-const publicPath = env.PUBLIC_PATH
-const indexPath = env.INDEX_PATH
+const isDev = config.isDev
+const publicPath = config.publicPath
+const indexPath = config.indexPath
 const externals = {
   vue: 'Vue',
   vuex: 'Vuex',
