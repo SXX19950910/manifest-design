@@ -2,7 +2,7 @@ const CompressionWebpackPlugin = require('compression-webpack-plugin')
 const productionGzipExtensions = ['js', 'css']
 
 const env = process.env
-const isDev = env.NODE_ENV === 'development'
+const isDev = env.ENV === 'dev'
 const publicPath = env.PUBLIC_PATH
 const indexPath = env.INDEX_PATH
 const externals = {
@@ -12,6 +12,7 @@ const externals = {
   'element-ui': 'ELEMENT',
   'view-design': 'iView'
 }
+
 const cdn = {
   externals,
   css: [
@@ -26,6 +27,7 @@ const cdn = {
     'https://unpkg.com/view-design/dist/iview.min.js'
   ]
 }
+
 module.exports = {
   publicPath,
   indexPath,
