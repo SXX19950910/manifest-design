@@ -6,12 +6,10 @@
 ``ps：本人目前已处于离职状态 找个中高级前端坑位 base：深圳``<br>
 ``Email：916411582@qq.com``
 
-
 ### 预览
 https://120.24.218.188
 
 [![](https://120.24.218.188/design/demo.png)]()
-
 
 ### 特性
 1.组件化<br/>
@@ -30,6 +28,8 @@ cd manifest-design<br/>
 npm i<br/>
 
 npm run dev
+
+[更新日志](https://github.com/SXX19950910/manifest-design/blob/master/LOG.md)
 
 ## 部署
 npm run build
