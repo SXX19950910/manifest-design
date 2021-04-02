@@ -6,8 +6,9 @@
 ``ps：本人目前已处于离职状态 找个中高级前端坑位 base：深圳``<br>
 ``Email：916411582@qq.com``
 
-### 预览
-https://120.24.218.188
+### [项目演示地址](https://120.24.218.188)
+
+### [项目演示地址(github)](https://sxx19950910.github.io/manifest-design/)
 
 [![](https://120.24.218.188/design/demo.png)]()
 
