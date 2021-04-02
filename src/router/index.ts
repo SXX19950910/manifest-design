@@ -26,7 +26,7 @@ const routes: RouteConfig[] = [
 
 const router = new VueRouter({
   mode: config.router.mode,
-  base: '/',
+  base: config.router.base,
   routes,
 });
 
