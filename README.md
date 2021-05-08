@@ -1,6 +1,6 @@
 # manifest-design
 基于vue开发的商品标签设计系统
-#### 本项目已迁移至阿里云服务器，可稳定访问，域名正在申请中
+#### 本项目已迁移至阿里云服务器，可稳定访问
 <div align="center"><a href="./README-en.md">English</a> | 简体中文</div>
 
 ``Email：916411582@qq.com``
