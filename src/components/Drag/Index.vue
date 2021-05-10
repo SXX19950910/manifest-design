@@ -68,6 +68,7 @@
         width: '',
         height: '',
         debounceUpdateComponent: Function,
+        valve: 1
       };
     },
     destroyed() {
@@ -119,7 +120,7 @@
       },
     },
     mounted() {
-      this.debounceUpdateComponent = debounce(200, this.update);
+      this.debounceUpdateComponent = debounce(200, this.update)
     },
     methods: {
       init() {
@@ -188,13 +189,32 @@
         this.$emit('move-end')
       },
       up() {
-        //
+        // 上移动
+        this.y = this.y - this.$store.state.components.valve
+        if (this.y <= 0) this.y = 0
       },
       down() {
-        //
+        // 下移动
+        const boardHeight = this.board.height
+        const height = this.height
+        this.y = this.y + this.$store.state.components.valve
+        if ((this.y + height) >= boardHeight) {
+          this.y = boardHeight - height
+        }
       },
       left() {
-        //
+        // 左移动
+        this.x = this.x - this.$store.state.components.valve
+        if (this.x <= 0) this.x = 0
+      },
+      right() {
+        // 右移动
+        const boardWidth = this.board.width
+        const width = this.width
+        this.x = this.x + this.$store.state.components.valve
+        if ((this.x + width) >= boardWidth) {
+          this.x = boardWidth - width
+        }
       },
       handleMouseMove(e) {
         this.isMove = true

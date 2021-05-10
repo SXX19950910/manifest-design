@@ -1,5 +1,5 @@
 <template>
-  <draggable ref="board" class="drag-canvas-warp" :list="storeList" v-bind="getOptions" @add="onAdd">
+  <draggable ref="board" class="drag-canvas-warp" :list="storeList" v-bind="getOptions">
     <div v-if="lineTop" class="x-help-line" :style="xStyle" />
     <div v-if="lineLeft" class="y-help-line" :style="yStyle" />
     <template v-for="item in storeList">
@@ -12,7 +12,7 @@
   import draggable from 'vuedraggable';
   import { mapGetters } from 'vuex';
   import { on, off } from '@/utils/dom'
-  import { debounce } from 'throttle-debounce'
+  import { debounce, throttle } from 'throttle-debounce'
   export default {
     props: {
       //
@@ -28,7 +28,10 @@
         top: '',
         bottom: '',
         visible: true,
-        isMove: false
+        isMove: false,
+        throttleUpdateValve: Function,
+        debounceResizeChange: Function,
+        debounceKeyUp: Function
       };
     },
     computed: {
@@ -52,9 +55,7 @@
           },
           handle: '.handle',
           disabled: false,
-          sort: false,
-          debounceResizeChange: Function,
-          debounceKeyUp: Function
+          sort: false
         };
       },
     },
@@ -68,80 +69,70 @@
       //
     },
     methods: {
-      onAdd(el) {
-        const { clientX, clientY } = el.originalEvent;
-        const componentId = el.item.getAttribute('data-component-id');
-        const props = {
-          position: {
-            clientX,
-            clientY,
-          },
-        };
-        const xArea = clientX < this.right && clientX > this.left;
-        const yArea = clientY < this.bottom && clientX > this.top;
-        if (xArea && yArea) {
-          this.$store.dispatch('components/addComponent', { componentId, props });
-        }
-      },
       init() {
-        this.setLayoutData();
         this.addListener();
       },
       addListener() {
+        this.throttleUpdateValve = throttle(100, this.updateValve)
         this.debounceResizeChange = debounce(300, this.onWindowResize)
         on(window, 'resize', this.debounceResizeChange)
         on(window, 'keyup', this.onDeleteKeyUp)
         on(window, 'keydown', this.onKeyDown)
       },
+      updateValve(valve) {
+        this.$store.dispatch('components/updateValve', valve)
+      },
       onKeyDown(e) {
-        const { preventDefault, keyCode } = e
+        // 键盘控制组件移动事件
+        const { keyCode } = e
         const { id } = this.activeComponent
+        this.throttleUpdateValve()
         const keysHandler = [
           {
             code: 38,
-            handler: ''
+            handler: 'up'
           },
           {
-            code: 40
+            code: 40,
+            handler: 'down'
           },
           {
-            code: 37
+            code: 37,
+            handler: 'left'
           },
           {
-            code: 39
+            code: 39,
+            handler: 'right'
           }
         ]
         if (id) {
-          preventDefault()
+          e.preventDefault()
           const $drag = this.$refs.drag.find((item) => item.aimId === id)
           const worker = keysHandler.find((item) => item.code === keyCode)
-          $drag[worker.handler]()
+          if (worker && $drag[worker.handler]) {
+            $drag[worker.handler]()
+          }
         }
       },
       onDeleteKeyUp(e) {
+        // 如果是删除键则删除选中的组件
         if (e.keyCode === 8) {
           this.$store.dispatch('components/removeActiveComponent')
         }
+        // 重制阀值
+        this.updateValve(0)
       },
       removeListener() {
         off(window, 'resize', this.debounceResizeChange)
       },
       onWindowResize() {
-        this.setLayoutData()
+        this.$store.dispatch('components/setLayoutData')
         const $dragList = this.$refs.drag
         if ($dragList && $dragList.length > 0) {
           $dragList.forEach((item) => {
             item.init()
           })
         }
-      },
-      setLayoutData() {
-        const $board = this.$refs.board.$el
-        const { left, right, bottom, top } = $board.getBoundingClientRect();
-        this.left = left;
-        this.right = right;
-        this.top = top;
-        this.bottom = bottom;
       },
       onMove() {
         this.isMove = true

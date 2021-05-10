@@ -3,7 +3,7 @@
     <el-collapse v-model="menu" class="collapse-menu">
       <el-collapse-item v-for="(item, index) in componentList" :key="index" :title="item.title" :name="item.title">
         <template v-if="item.list && item.list.length > 0">
-          <draggable class="component-list" v-bind="dragOptions" :component-data="getComponentData" @end="onEnd">
+          <draggable class="component-list" v-bind="dragOptions" @end="onEnd">
             <div v-for="(tag, index) in item.list" :key="tag.id" class="item" :data-component-id="tag.id">
               <span class="name">{{ tag.title }}</span><i :class="tag.icon"></i>
             </div>
@@ -24,6 +24,12 @@
     data() {
       return {
         menu: ['地址信息', '商品标签信息', '构图元素'],
+        board: {
+          minLeft: '',
+          maxLeft: '',
+          minTop: '',
+          maxTop: ''
+        }
       };
     },
     computed: {
@@ -37,23 +43,32 @@
             put: false,
           },
         };
-      },
-      getComponentData() {
-        return {
-          // on: {
-          //   change(a, b, c) {
-          //   },
-          //   input(a, b, c) {
-          //   }
-          // },
-          // attr: {},
-          // value: '',
-        };
-      },
+      }
+    },
+    mounted() {
+      setTimeout(() => {
+        this.init()
+      }, 0)
     },
     methods: {
-      onEnd(evt) {
-        // doing
+      init() {
+        this.$store.dispatch('components/setLayoutData')
+      },
+      onEnd(el) {
+        const { minTop, minLeft, maxLeft, maxTop } = this.$store.state.components.board
+        const { clientX, clientY } = el.originalEvent;
+        const componentId = el.item.getAttribute('data-component-id');
+        const props = {
+          position: {
+            clientX,
+            clientY,
+          },
+        };
+        const xArea = (clientX < maxLeft) && (clientX > minLeft);
+        const yArea = (clientY < maxTop) && (clientY > minTop);
+        if (xArea && yArea) {
+          this.$store.dispatch('components/addComponent', { componentId, props });
+        }
       },
     },
   };
