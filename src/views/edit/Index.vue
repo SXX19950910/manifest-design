@@ -47,7 +47,10 @@
         if (id) {
           const template = this.templateList.find((item) => item.name === id);
           if (template) this.$store.dispatch('components/updateStoreList', template.data);
+        } else {
+          this.$store.dispatch('components/hideStoreLoading')
         }
+
       },
       handleCancelCurrent() {
         this.$store.dispatch('components/setActive', '');

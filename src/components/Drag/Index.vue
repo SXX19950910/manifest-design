@@ -141,8 +141,8 @@
         this.offsetTop = this.board.top;
         // this.defaultHeight = defaultData.height || 10;
         // this.defaultWidth = defaultData.width || width;
-        this.width = width
-        this.height = height
+        this.width = width || defaultData.width
+        this.height = height || defaultData.height
         if (isInstance) {
           this.x = defaultData.x
           this.y = defaultData.y
@@ -343,7 +343,7 @@
     max-width: 100%;
     max-height: 100%;
     overflow: hidden;
-    transition: background-color ease .36s;
+    //transition: background-color ease .36s;
     &.is-active {
       border: 1px solid $skyBlue;
       .rectangle-warp {

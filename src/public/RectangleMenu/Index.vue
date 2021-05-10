@@ -5,6 +5,11 @@
         <el-form-item label="线条宽度">
           <el-input-number v-model="currentComponent.props.borderWidth" class="w-100" :min="1" size="small" :max="10" label="描述文字"></el-input-number>
         </el-form-item>
+        <el-form-item label="线条类型">
+          <el-select class="w-100" v-model="currentComponent.props.lineType" size="small">
+            <el-option v-for="item in lineOptions" :key="item.value" :value="item.value" :label="item.label" />
+          </el-select>
+        </el-form-item>
       </el-tab-pane>
     </el-tabs>
   </el-form>
@@ -19,6 +24,16 @@
         form: {
           borderWidth: '',
         },
+        lineOptions: [
+          {
+            label: '实线',
+            value: 'solid'
+          },
+          {
+            label: '虚线',
+            value: 'dashed'
+          }
+        ]
       };
     },
     computed: {

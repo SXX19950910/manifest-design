@@ -123,14 +123,15 @@ const components = {
           clientY: '',
         },
         default: {
-          width: '',
-          height: '',
+          width: 80,
+          height: 1,
           x: '',
           y: '',
         },
         props: {
-          width: 100,
+          width: 80,
           height: 1,
+          lineType: 'solid'
         },
       },
       yLine: {
@@ -147,7 +148,7 @@ const components = {
         },
         default: {
           width: '',
-          height: '',
+          height: 60,
           x: '',
           y: '',
         },
@@ -176,6 +177,7 @@ const components = {
         },
         props: {
           borderWidth: 1,
+          lineType: 'solid'
         },
       },
       qrCode: {
@@ -391,6 +393,9 @@ const components = {
     },
     clearSelection({ commit }: any) {
       commit('CLEAR_SELECTION')
+    },
+    hideStoreLoading({ commit }: any) {
+      commit('HIDE_STORE_LOADING')
     }
   },
   mutations: {
@@ -420,11 +425,14 @@ const components = {
     SAVE_TEMPLATE(state: any, template: object) {
       state.templateList.push(template);
     },
+    HIDE_STORE_LOADING(state: any) {
+      state.storeLoading = false
+    },
     UPDATE_STORE_LIST(state: any, template: any) {
       state.storeLoading = true
       state.storeList = template.map((item: any) => {
         return {...item};
-      });
+      })
       Vue.nextTick(() => {
         setTimeout(() => {
           state.storeLoading = false

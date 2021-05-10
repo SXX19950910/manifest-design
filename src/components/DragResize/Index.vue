@@ -24,7 +24,7 @@
       resizeStyle() {
         const style = {};
         const { isYLine, currentComponent } = this;
-        if (isYLine) {
+        if (isYLine && currentComponent) {
           style.width = `${currentComponent.props.height}px`;
         }
       },
@@ -67,7 +67,7 @@
           style.top = 0;
           style.right = 0;
         }
-        if (isYLine) {
+        if (isYLine && currentComponent) {
           style.width = `${currentComponent.props.width}px`;
         }
         return style;

@@ -38,7 +38,7 @@ module.exports = {
     requireModuleExtension: true,
     loaderOptions: {
       scss: {
-        prependData: `@import "@/style/variable.scss";@import "@/style/mixin.scss";`
+        additionalData: `@import "@/style/variable.scss";@import "@/style/mixin.scss";`
       }
     }
   },

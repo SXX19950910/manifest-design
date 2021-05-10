@@ -227,7 +227,6 @@
       .react {
         position: absolute;
         z-index: 8;
-        border: 1px solid $skyBlue;
         background-color: $light-blue;
       }
     }

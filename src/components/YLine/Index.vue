@@ -17,6 +17,10 @@
         type: [String, Number],
         default: 0,
       },
+      lineType: {
+        type: String,
+        default: 'solid'
+      }
     },
     data() {
       return {
@@ -24,13 +28,16 @@
     },
     computed: {
       getStyle() {
-        const { width, height } = this;
-        return {
-          backgroundColor: '#000',
-          width: `${width}px`,
-          minHeight: `${height}px`,
-          height: '100%',
-        };
+        const style = {}
+        const { width, lineType } = this;
+        style.width = `${width}px`
+        style.minHeight = '100%'
+        if (lineType === 'solid') {
+          style.backgroundColor = '#000'
+        } else if (lineType === 'dashed') {
+          style.borderLeft = `${width}px ${lineType} #000`
+        }
+        return style
       },
     },
     mounted() {
@@ -46,6 +53,5 @@
 
 <style lang="scss">
   .y-line-warp {
-    height: 100%;
   }
 </style>

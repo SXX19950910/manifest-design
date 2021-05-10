@@ -14,6 +14,10 @@
         type: Number,
         default: 1,
       },
+      lineType: {
+        type: String,
+        default: 'solid'
+      }
     },
     data() {
       return {
@@ -21,12 +25,9 @@
     },
     computed: {
       getStyle() {
-        const { borderWidth } = this;
+        const { borderWidth, lineType } = this;
         return {
-          minWidth: '20px',
-          minHeight: '20px',
-          height: '100%',
-          border: '1px solid #000',
+          border: `1px ${lineType} #000`,
           borderWidth: `${borderWidth}px`,
         };
       },
@@ -44,9 +45,8 @@
 
 <style lang="scss">
   .rectangle-warp {
-    /*min-width: 20px;*/
-    /*min-height: 20px;*/
-    /*height: 100%;*/
-    /*border: 1px solid #000;*/
+    min-width: 20px;
+    min-height: 20px;
+    height: 100%;
   }
 </style>

@@ -1,5 +1,3 @@
-<script src="../../../app.js"></script>
-<script src="../../../index.js"></script>
 <template>
   <draggable ref="board" class="drag-canvas-warp" :list="storeList" v-bind="getOptions" @add="onAdd">
     <div v-if="lineTop" class="x-help-line" :style="xStyle" />
