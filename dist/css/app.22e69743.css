@@ -190,7 +190,6 @@
 .board-warp .view-wrapper .react {
       position: absolute;
       z-index: 8;
-      border: 1px solid #198fff;
       background-color: rgba(25, 143, 255, 0.1);
 }
 .board-warp .canvas-wrapper {
@@ -285,7 +284,6 @@
   max-width: 100%;
   max-height: 100%;
   overflow: hidden;
-  transition: background-color ease .36s;
 }
 .drag-warp.is-active {
     border: 1px solid #198fff;
@@ -354,15 +352,11 @@
 
 
 .rectangle-warp {
-  /*min-width: 20px;*/
-  /*min-height: 20px;*/
-  /*height: 100%;*/
-  /*border: 1px solid #000;*/
-}
-
-.y-line-warp {
+  min-width: 20px;
+  min-height: 20px;
   height: 100%;
 }
+
 
 
 .barcode-menu-warp {
