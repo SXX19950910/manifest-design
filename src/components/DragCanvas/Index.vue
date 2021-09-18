@@ -135,7 +135,6 @@
       },
       onWindowResize(e) {
         // 键盘上下左右会触发resize事件，但不会返回event对象
-        if (!e) return
         this.$store.dispatch('components/setLayoutData')
         const $dragList = this.$refs.drag
         if ($dragList && $dragList.length > 0) {

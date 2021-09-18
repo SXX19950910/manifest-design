@@ -193,6 +193,7 @@
         // 上移动
         this.y = this.y - this.$store.state.components.valve
         if (this.y <= 0) this.y = 0
+        this.debounceUpdateComponent();
       },
       down() {
         // 下移动
@@ -202,11 +203,13 @@
         if ((this.y + height) >= boardHeight) {
           this.y = boardHeight - height
         }
+        this.debounceUpdateComponent();
       },
       left() {
         // 左移动
         this.x = this.x - this.$store.state.components.valve
         if (this.x <= 0) this.x = 0
+        this.debounceUpdateComponent();
       },
       right() {
         // 右移动
@@ -216,6 +219,7 @@
         if ((this.x + width) >= boardWidth) {
           this.x = boardWidth - width
         }
+        this.debounceUpdateComponent();
       },
       handleMouseMove(e) {
         this.isMove = true
