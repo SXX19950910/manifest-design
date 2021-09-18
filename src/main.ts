@@ -15,7 +15,10 @@ Vue.use(ElementUI);
 Vue.component('vSplit', Split)
 directive.map((item: any) => Vue.use(item));
 components.map((item: any) => Vue.component(item.id, item.component));
+
+Vue.prototype.$eventBus = new Vue()
 Vue.config.productionTip = false;
+
 new Vue({
   router,
   store,

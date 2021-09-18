@@ -4,7 +4,7 @@
       <el-tab-pane label="内容" name="content">
         <el-form ref="content-form">
           <el-form-item label="文本内容">
-            <el-input v-model="currentComponent.props.text" type="textarea" :rows="4" resize="none" size="small" />
+            <el-input v-model="currentComponent.props.text" type="textarea" :rows="4" resize="none" size="small" @focus="$eventBus.$emit('remove-keydown')" />
           </el-form-item>
           <el-form-item label="对齐方式">
             <el-select v-model="currentComponent.props.align" class="w-100" size="small">

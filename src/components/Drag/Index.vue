@@ -179,6 +179,7 @@
       handleSetCurrent() {
         const { id = '' } = this.componentObject;
         this.$store.dispatch('components/setActive', id);
+        this.$eventBus.$emit('add-keydown')
       },
       emitMoving() {
         this.isMove = true
