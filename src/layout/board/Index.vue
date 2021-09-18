@@ -46,7 +46,8 @@
         timer: '',
         x: 0,
         maxWidth: '',
-        debounceViewScroll: Function
+        debounceViewScroll: Function,
+        leftTapKey: 1
       };
     },
     computed: {
@@ -105,6 +106,7 @@
         this.reactVisible = true
       },
       handleMouseDown(e) {
+        if (e.buttons !== this.leftTapKey) return
         this.initDraw(e)
         on(document, 'mousemove', this.handleMouseMove)
         on(document, 'mouseup', this.handleMouseUp)

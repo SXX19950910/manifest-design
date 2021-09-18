@@ -17,4 +17,5 @@ export default {
 
 <style lang="scss">
 @import "./style/index";
+@import "./style/utils";
 </style>

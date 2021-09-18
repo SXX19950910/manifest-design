@@ -3,6 +3,25 @@
   height: 100vh;
   width: 100vw;
 }
+.f-a-c {
+  display: flex;
+  align-items: center;
+}
+.shrink-0 {
+  flex-shrink: 0;
+}
+.mr-15 {
+  margin-right: 15px;
+}
+.mt-20 {
+  margin-top: 20px;
+}
+.mt-10 {
+  margin-top: 10px;
+}
+.px-15 {
+  padding: 0 15px;
+}
 
 .save-template-dialog .content-area .name {
   margin: 0 0 15px 0;
@@ -98,6 +117,9 @@
 .props-menu-warp .el-form-item {
   margin-bottom: 10px;
   padding: 0 15px;
+}
+.props-menu-warp .el-form-item .f-a-c {
+    color: #606266;
 }
 .props-menu-warp .el-tabs .el-tabs__content {
   padding: 0;
