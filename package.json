@@ -4,7 +4,6 @@
   "private": true,
   "scripts": {
     "dev": "vue-cli-service serve --mode dev",
-    "build": "vue-cli-service build",
     "build:git": "vue-cli-service build --mode git",
     "build:serve": "vue-cli-service build --mode serve",
     "test:unit": "vue-cli-service test:unit",

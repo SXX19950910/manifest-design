@@ -1,5 +1,4 @@
 import { Notification } from 'element-ui'
-// import Vue from 'vue'
 import store from '@/store'
 const style = `
 .canvas-wrapper {
@@ -47,10 +46,16 @@ const style = `
 }
 `
 class PrintHtml {
-    constructor(templateName = '', data = {}) {
+    constructor(options) {
+        // this.scheme = store.state.components.storeList || []
         this.html = ''
-        this.data = data
-        this.scheme = store.state.components.storeList || []
+        const defaultOptions = {
+            pageSize: {
+                height: store.state.components.page.height,
+                width: store.state.components.page.width
+            }
+        }
+        this.options = Object.assign(defaultOptions, options)
         this.lodop = this.initLodop()
     }
     async generateHtml() {
@@ -89,7 +94,7 @@ class PrintHtml {
                 </html>`
     }
     initLodop() {
-        let lodop = false
+        let lodop
         if (!window.LODOP) {
             Notification.error({
                 title: '未找到LODOP',
@@ -116,11 +121,17 @@ class PrintHtml {
         return result
     }
     async painting() {
-        if (this.lodop) {
-            this.lodop.PRINT_INIT("打印预览")
-            this.lodop.SET_PRINT_PAGESIZE()
-            this.lodop.ADD_PRINT_HTM('0', '0', '100%', '100%', await this.generateHtml())
-            this.lodop.PREVIEW()
+        const { pageSize } = this.options
+        const LODOP = this.lodop
+        if (LODOP) {
+            LODOP.PRINT_INIT("打印预览")
+            LODOP.PRINT_INITA(0, 0)
+            LODOP.SET_PRINT_PAGESIZE(1, pageSize.width, pageSize.height)
+            LODOP.SET_PRINT_MODE("POS_BASEON_PAPER", true);
+            LODOP.SET_PRINT_MODE("PRINT_PAGE_PERCENT", "Full-Page");
+            LODOP.ADD_PRINT_HTM(0, 0, '100%', '100%', await this.generateHtml())
+            // LODOP.PRINT()
+            LODOP.PREVIEW()
         }
     }
 }
