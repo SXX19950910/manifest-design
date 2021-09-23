@@ -4,6 +4,10 @@
       Design UI
     </div>
     <div class="handle-area">
+      <div class="preview-btn" @click="handleGenerateFile">
+        <i class="el-icon-magic-stick"></i>
+        <span>生成模板文件</span>
+      </div>
       <div class="preview-btn" @click="handleSaveTemplateToImg">
         <i class="el-icon-picture-outline"></i>
         <span>保存为图片</span>
@@ -33,6 +37,7 @@
   import html2canvas from 'html2canvas';
   import saveDialog from './tools/SaveDialog/Index.vue';
   import PrintHtml from '@/public/PrintHtml';
+  import core from '@/public/PrintHtml/core.js'
   export default {
     components: {
       saveDialog,
@@ -109,6 +114,9 @@
           const printHtml = new PrintHtml()
           printHtml.painting()
         });
+      },
+      handleGenerateFile() {
+        core.build()
       },
       async handleSaveTemplateToImg() {
         const $el = document.querySelector('.drag-canvas-warp.board-canvas');

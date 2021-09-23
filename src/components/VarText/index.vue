@@ -2,7 +2,7 @@
   <span class="var-text-wrap">
     <template v-for="item in textData">
       <span v-if="!item.key" :key="item.index">{{ item.value }}</span>
-      <span v-else type="info" :data-field-key="item.key">{{ item.value }}</span>
+      <span v-else class="var" :data-field-key="item.key" @click.stop="handleTapText">{{ item.value }}</span>
     </template>
   </span>
 </template>
@@ -27,10 +27,21 @@ export default {
     }
   },
   methods: {
+    handleTapText() {
+      //
+    }
   }
 }
 </script>
 
 <style lang="scss">
-
+.var-text-wrap {
+  .var {
+    cursor: pointer;
+    &:hover {
+      color: $skyBlue;
+      text-decoration: underline;
+    }
+  }
+}
 </style>

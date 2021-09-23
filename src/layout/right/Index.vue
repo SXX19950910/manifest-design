@@ -51,6 +51,11 @@
             label: 'A5（148mm X 210mm）',
             value: 'a5',
             size: [800, 800]
+          },
+          {
+            label: 'Custom（58mm X 40mm）',
+            value: 'custom-hsb',
+            size: [580, 400]
           }
         ]
       };
@@ -69,10 +74,13 @@
         });
       },
     },
+    mounted() {
+      this.onPageSizeChange('a3')
+    },
     methods: {
       handleSetCustomPageSize() {
         const { width, height } = this.form
-        const name = `自定义(${width}mm * ${height}mm)`
+        const name = `自定义(${width}mm X ${height}mm)`
         const non = this.pageSizeOptions.findIndex((item) => item.label === name) < 0
         if (!non) {
           this.$message.error('应用失败，纸张名称重复')

@@ -1,5 +1,8 @@
 <template>
-  <img ref="img" class="barcode" :class="elementId" :style="getStyle" alt="barcode" src draggable="false" />
+  <div class="barcode-wrap">
+    <img ref="img" class="barcode" :class="elementId" :style="getStyle" alt="barcode" src draggable="false" />
+    <div v-if="displayValue === '1'" class="barcode-text">{{ data }}</div>
+  </div>
 </template>
 
 <script>
@@ -73,13 +76,14 @@
       },
       init() {
         this.complete();
-        const { elementId, bodyHeight, lineWidth, displayValue, format, data } = this;
+        const { elementId, bodyHeight, lineWidth, format, data } = this;
         barcode(`.${elementId}`, data, {
           format,
           width: lineWidth,
           height: bodyHeight,
           textMargin: 10,
-          displayValue: displayValue === '1',
+          displayValue: false,
+          fontSize: 40
         });
       },
     },
@@ -87,9 +91,19 @@
 </script>
 
 <style lang="scss">
-  .barcode {
-    max-width: 100%;
-    vertical-align: middle;
-    user-select: none;
+  .barcode-wrap {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    .barcode {
+      max-width: 100%;
+      vertical-align: middle;
+      user-select: none;
+    }
+    .barcode-text {
+      font-size: 20px;
+      font-weight: normal;
+    }
   }
 </style>

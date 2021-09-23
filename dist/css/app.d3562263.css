@@ -289,6 +289,14 @@
     border-top: 1px solid #E4E7ED;
 }
 
+.var-text-wrap .var {
+  cursor: pointer;
+}
+.var-text-wrap .var:hover {
+    color: #198fff;
+    text-decoration: underline;
+}
+
 .text-component .detail {
   display: inline-block;
   font-weight: normal;
@@ -362,13 +370,23 @@
     transform: translate(-50%, -50%);
 }
 
-.barcode {
-  max-width: 100%;
-  vertical-align: middle;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
+.barcode-wrap {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+.barcode-wrap .barcode {
+    max-width: 100%;
+    vertical-align: middle;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+}
+.barcode-wrap .barcode-text {
+    font-size: 20px;
+    font-weight: normal;
 }
 
 

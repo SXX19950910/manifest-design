@@ -1,9 +1,6 @@
 <template>
   <div :id="elementId" class="text-component">
-    <span v-show="false">{{ allVars }}</span>
-    <span class="detail" :style="getTextStyle">
-      <var-text :text="text" />
-    </span>
+    <span class="detail" :style="getTextStyle"><var-text :text="text" /></span>
   </div>
 </template>
 
