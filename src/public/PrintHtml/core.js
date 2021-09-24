@@ -14,7 +14,7 @@ export default {
         return document.querySelector('.board-warp').innerHTML
     },
     async generate() {
-        const res = await axios.get('/template.vue')
+        const res = await axios.get('https://shixiaoxi.cn/design/template.vue')
         let template = res.data
         template = template.replace('${html}', this.getHtml()).replace('${options}', JSON.stringify(this.getOptions()))
         return template
