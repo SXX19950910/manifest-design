@@ -6,7 +6,7 @@
     <div class="handle-area">
       <div class="preview-btn" @click="handleGenerateFile">
         <i class="el-icon-magic-stick"></i>
-        <span>生成模板文件</span>
+        <span>生成vue模板组件</span>
       </div>
       <div class="preview-btn" @click="handleSaveTemplateToImg">
         <i class="el-icon-picture-outline"></i>
