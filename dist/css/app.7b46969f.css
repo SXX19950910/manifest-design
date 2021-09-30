@@ -385,10 +385,17 @@
             user-select: none;
 }
 .barcode-wrap .barcode-text {
-    font-size: 20px;
     font-weight: normal;
 }
 
+.qr-code-warp .qr-code {
+  max-width: 100%;
+  vertical-align: middle;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
 
 
 .rectangle-warp {
@@ -413,6 +420,19 @@
       width: 50%;
 }
 
+.barcode-menu-warp {
+  height: calc(100% - 53px);
+  display: flex;
+  flex-direction: column;
+}
+.barcode-menu-warp .bottom-handle {
+    display: flex;
+    align-items: center;
+    padding: 14px;
+}
+.barcode-menu-warp .bottom-handle .el-button {
+      width: 50%;
+}
 
 .line-menu-warp {
   height: calc(100% - 53px);
@@ -579,6 +599,11 @@ div:focus {
 
 .link {
   color: #198fff;
+  text-decoration: underline;
+  cursor: pointer; }
+
+.link-info {
+  color: #909399;
   text-decoration: underline;
   cursor: pointer; }
 

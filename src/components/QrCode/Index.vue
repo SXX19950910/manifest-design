@@ -1,24 +1,32 @@
 <template>
-  <img ref="img" class="qr-code-warp" alt="qr" draggable="false" :style="getStyle" src />
+  <div class="qr-code-warp">
+    <img ref="img" class="qr-code" :class="elementId" alt="qr" draggable="false" src />
+  </div>
 </template>
 
 <script>
-  import QrCode from 'qrcode';
-  import { on, off } from '@/utils/dom.js';
+  import _ from 'lodash';
+  import { updateQrcode } from '@/utils/update'
   export default {
     props: {
       elementId: {
         type: String,
         default: '',
       },
+      options: {
+        type: Object,
+        default() {
+          return {}
+        }
+      },
+      data: {
+        type: String,
+        default: ''
+      }
     },
     data() {
       return {
       };
-    },
-    destroyed() {
-      // const that = this;
-      // off(that.$refs.img, 'onload', that.complete)
     },
     computed: {
       getStyle() {
@@ -33,19 +41,16 @@
       this.init();
     },
     methods: {
-      complete() {
-        this.$emit('complete');
-      },
       init() {
-        const that = this;
-        const $img = this.$refs.img;
-        that.complete();
-        QrCode.toDataURL('http://192.168.11.80:8080/', { errorCorrectionLevel: 'H', type: 'image/jpeg',  color: {} }, (err, res) => {
-          if (err) {
-            throw err;
-          }
-          $img.src = res;
-        });
+        const config = _.cloneDeep({
+          id: this.elementId,
+          data: this.data,
+          options: this.options
+        })
+        updateQrcode(config.id, config.data, config.options)
+        this.$nextTick(() => {
+          this.$emit('complete')
+        })
       },
     },
   };
@@ -53,5 +58,10 @@
 
 <style lang="scss">
   .qr-code-warp {
+    .qr-code {
+      max-width: 100%;
+      vertical-align: middle;
+      user-select: none;
+    }
   }
 </style>

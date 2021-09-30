@@ -6,6 +6,7 @@
 
 <script>
 export default {
+  name: 'DesignTemplate',
   props: {
     visible: {
       type: Boolean,
