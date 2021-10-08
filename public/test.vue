@@ -1,7 +1,4 @@
 <script>
-
-import barcode from "_jsbarcode@3.11.5@jsbarcode";
-
 export default {
   props: {
     visible: {
