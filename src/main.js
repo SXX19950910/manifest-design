@@ -2,27 +2,24 @@ import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
 import store from './store';
-// @ts-ignore
 import ElementUI from 'element-ui';
-import { Split } from 'view-design'
+import { Split } from 'view-design';
 import directive from './directive';
 // @ts-ignore
 import components from '@/components/map.js';
-import '@/assets/script/LodopFuncs'
+import '@/assets/script/LodopFuncs';
 import 'element-ui/lib/theme-chalk/index.css';
-import 'view-design/dist/styles/iview.css'
+import 'view-design/dist/styles/iview.css';
 import './style/global.scss';
-// @ts-ignore
 Vue.use(ElementUI);
-Vue.component('vSplit', Split)
-directive.map((item: any) => Vue.use(item));
-components.map((item: any) => Vue.component(item.id, item.component));
-
-Vue.prototype.$eventBus = new Vue()
+Vue.component('vSplit', Split);
+directive.map((item) => Vue.use(item));
+components.map((item) => Vue.component(item.id, item.component));
+Vue.prototype.$eventBus = new Vue();
 Vue.config.productionTip = false;
-
 new Vue({
-  router,
-  store,
-  render: (h) => h(App),
+    router,
+    store,
+    render: (h) => h(App),
 }).$mount('#app');
+//# sourceMappingURL=main.js.map

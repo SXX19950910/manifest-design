@@ -1,10 +1,13 @@
 <template>
-  <img ref="img" class="barcode" :class="elementId" :style="getStyle" alt="barcode" src draggable="false" />
+  <div class="barcode-wrap">
+    <img ref="img" class="barcode" :class="elementId" :style="getStyle" alt="barcode" src draggable="false" />
+    <var-text v-if="displayValue === '1'" :style="getStyle" class="barcode-text" :text="data"></var-text>
+  </div>
 </template>
 
 <script>
   import barcode from 'jsbarcode';
-  import { on, off } from '@/utils/dom.js';
+  // import { on, off } from '@/utils/dom.js';
   import { mapGetters } from 'vuex';
   export default {
     props: {
@@ -45,20 +48,18 @@
     },
     computed: {
       ...mapGetters(['activeComponent', 'storeList']),
-      // 获取到当前组件的实例
       currentComponent() {
-        return this.storeList.find((item) => item.id === this.activeComponent);
+        return this.storeList.find((item) => item.id === this.activeComponent.id);
       },
       getStyle() {
+        const { props = {} } = this.activeComponent
         return {
           maxWidth: '100%',
           verticalAlign: 'middle',
           userSelect: 'none',
+          fontSize: props.fontSize + 'px'
         };
       },
-    },
-    destroyed() {
-      // this.clearListener();
     },
     mounted() {
       this.init();
@@ -67,19 +68,17 @@
       complete() {
         this.$emit('complete');
       },
-      clearListener() {
-        const that = this;
-        off(that.$refs.img, 'load', that.complete);
-      },
       init() {
         this.complete();
-        const { elementId, bodyHeight, lineWidth, displayValue, format, data } = this;
+        const { elementId, bodyHeight, lineWidth, format, data } = this;
+        console.log(format)
         barcode(`.${elementId}`, data, {
           format,
           width: lineWidth,
           height: bodyHeight,
           textMargin: 10,
-          displayValue: displayValue === '1',
+          displayValue: false,
+          fontSize: 40
         });
       },
     },
@@ -87,9 +86,18 @@
 </script>
 
 <style lang="scss">
-  .barcode {
-    max-width: 100%;
-    vertical-align: middle;
-    user-select: none;
+  .barcode-wrap {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    .barcode {
+      max-width: 100%;
+      vertical-align: middle;
+      user-select: none;
+    }
+    .barcode-text {
+      font-weight: normal;
+    }
   }
 </style>

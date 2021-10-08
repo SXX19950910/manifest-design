@@ -52,6 +52,9 @@
     computed: {
       ...mapGetters(['templateList']),
     },
+    created() {
+      console.log(this.templateList)
+    },
     methods: {
       handleGoDetail(item) {
         this.$router.push({ name: 'Edit', query: { id: item.name } });

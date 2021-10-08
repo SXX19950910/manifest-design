@@ -9,6 +9,7 @@
   import {on, off} from '@/utils/dom';
   import { debounce } from 'throttle-debounce';
   import { mapGetters } from 'vuex';
+  import { checkLine } from '@/utils';
   export default {
     name: 'Drag',
     props: {
@@ -107,7 +108,7 @@
         return result;
       },
       isLine() {
-        return this.componentObject.type === 'XLineUi' || this.componentObject.type === 'YLineUi' || this.componentObject.type === 'RectangleUi';
+        return checkLine(this.componentObject.type)
       },
       resizeDisabledY() {
         return this.componentObject.type === 'XLineUi';
@@ -179,6 +180,7 @@
       handleSetCurrent() {
         const { id = '' } = this.componentObject;
         this.$store.dispatch('components/setActive', id);
+        this.$eventBus.$emit('add-keydown')
       },
       emitMoving() {
         this.isMove = true
@@ -192,6 +194,7 @@
         // 上移动
         this.y = this.y - this.$store.state.components.valve
         if (this.y <= 0) this.y = 0
+        this.debounceUpdateComponent();
       },
       down() {
         // 下移动
@@ -201,11 +204,13 @@
         if ((this.y + height) >= boardHeight) {
           this.y = boardHeight - height
         }
+        this.debounceUpdateComponent();
       },
       left() {
         // 左移动
         this.x = this.x - this.$store.state.components.valve
         if (this.x <= 0) this.x = 0
+        this.debounceUpdateComponent();
       },
       right() {
         // 右移动
@@ -215,6 +220,7 @@
         if ((this.x + width) >= boardWidth) {
           this.x = boardWidth - width
         }
+        this.debounceUpdateComponent();
       },
       handleMouseMove(e) {
         this.isMove = true

@@ -1,11 +1,15 @@
 <template>
   <div :id="elementId" class="text-component">
-    <span class="detail" :style="getTextStyle">{{ text }}</span>
+    <span class="detail" :style="getTextStyle"><var-text :text="text" /></span>
   </div>
 </template>
 
 <script>
+  import varText from './../VarText'
   export default {
+    components: {
+      varText
+    },
     props: {
       elementId: {
         type: String,

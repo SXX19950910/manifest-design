@@ -4,7 +4,6 @@
   "private": true,
   "scripts": {
     "dev": "vue-cli-service serve --mode dev",
-    "build": "vue-cli-service build",
     "build:git": "vue-cli-service build --mode git",
     "build:serve": "vue-cli-service build --mode serve",
     "test:unit": "vue-cli-service test:unit",
@@ -12,15 +11,17 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "axios": "^0.21.4",
     "compression-webpack-plugin": "5.0.2",
     "core-js": "^3.6.4",
-    "element-ui": "^2.14.1",
+    "element-ui": "^2.15.6",
+    "file-saver": "^2.0.5",
     "html-webpack-plugin": "^4.5.0",
     "html2canvas": "^1.0.0-rc.5",
     "jsbarcode": "^3.11.0",
     "loadsh": "^0.0.4",
     "lodash": "^4.17.15",
-    "node-sass": "^5.0.0",
+    "node-sass": "5.0.0",
     "qrcode": "^1.4.4",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",

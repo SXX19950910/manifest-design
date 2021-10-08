@@ -1,15 +1,29 @@
-import { Notification } from 'element-ui'
-// import Vue from 'vue'
+import {Notification} from 'element-ui'
 import store from '@/store'
+
 const style = `
 .canvas-wrapper {
-  width: 500px;
-  height: 500px;
   background-color: white;
   border-radius: 2px;
   position: absolute;
   margin: 0 auto;
   box-shadow: 0 0 10px rgba(0, 21, 41, 0.08);
+}
+
+.barcode-wrap {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+.barcode {
+      max-width: 100%;
+      vertical-align: middle;
+      user-select: none;
+}
+.barcode-text {
+      font-size: 20px;
+      font-weight: normal;
 }
 .item {
     display: none;
@@ -46,36 +60,23 @@ const style = `
     border: 1px solid transparent;
 }
 `
+
 class PrintHtml {
-    constructor(templateName = '', data = {}) {
+    constructor(options) {
         this.html = ''
-        this.data = data
-        this.scheme = store.state.components.storeList || []
+        const defaultOptions = {
+            pageSize: {
+                height: store.state.components.page.height,
+                width: store.state.components.page.width
+            }
+        }
+        this.options = Object.assign(defaultOptions, options)
         this.lodop = this.initLodop()
     }
+
     async generateHtml() {
-        // this.scheme.map(item => {
-        //     PrintHtml.parseElement(item)
-        // })
-        // const setValue = (variable, value) => {
-        //     this.scheme.map(item => {
-        //         const text = item.props.text
-        //         const isHit = text && text.includes(variable)
-        //         if (isHit) {
-        //             item.props.text = text.replace(variable, value)
-        //         }
-        //     })
-        // }
-        // for (const key in this.data) {
-        //     const variable = '${' + key + '}'
-        //     const value = this.data[key]
-        //     setValue(variable, value)
-        // }
-        // store.dispatch('components/updateStoreList', this.scheme)
-        // await Vue.nextTick()
         this.html = document.querySelector('.board-warp').innerHTML
-        return `
-                <html lang="en">
+        return `<html lang="en">
                     <head>
                       <meta charset="UTF-8">
                       <title>Title</title>
@@ -89,7 +90,7 @@ class PrintHtml {
                 </html>`
     }
     initLodop() {
-        let lodop = false
+        let lodop
         if (!window.LODOP) {
             Notification.error({
                 title: '未找到LODOP',
@@ -101,27 +102,20 @@ class PrintHtml {
         }
         return lodop
     }
-    static setStyle() {
-        const block = 'block'
-        return `display: ${block}; width: 200px`
-    }
-    static parseWrapper() {
-        const div = document.createElement('div')
-        div.style.cssText = PrintHtml.setStyle()
-        return `<div class="drag-warp" style="${PrintHtml.setStyle()}"></div>`
-    }
-    static parseElement(element) {
-        const warp = PrintHtml.parseWrapper()
-        let result = `<${element.tag}>${warp}</${element.tag}>`
-        return result
-    }
     async painting() {
-        if (this.lodop) {
-            this.lodop.PRINT_INIT("打印预览")
-            this.lodop.SET_PRINT_PAGESIZE()
-            this.lodop.ADD_PRINT_HTM('0', '0', '100%', '100%', await this.generateHtml())
-            this.lodop.PREVIEW()
+        const {pageSize} = this.options
+        const LODOP = this.lodop
+        if (LODOP) {
+            LODOP.PRINT_INIT("打印预览")
+            LODOP.PRINT_INITA(0, 0)
+            LODOP.SET_PRINT_PAGESIZE(1, pageSize.width, pageSize.height)
+            LODOP.SET_PRINT_MODE("POS_BASEON_PAPER", true);
+            LODOP.SET_PRINT_MODE("PRINT_PAGE_PERCENT", "Full-Page");
+            LODOP.ADD_PRINT_HTM(0, 0, '100%', '100%', await this.generateHtml())
+            // LODOP.PRINT()
+            LODOP.PREVIEW()
         }
     }
 }
+
 export default PrintHtml

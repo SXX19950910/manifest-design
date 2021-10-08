@@ -163,6 +163,13 @@ div:focus {
   cursor: pointer;
 }
 
+.link-info {
+  color: $info;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+
 .el-table {
   th {
     padding: 0 !important;

@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueRouter, { RouteConfig } from 'vue-router';
 import Edit from '../views/edit/Index.vue';
 import List from '../views/list/Index.vue';
+import Test from '../views/test/Index.vue'
 // @ts-ignore
 import config from './../../config/index.js'
 
@@ -22,6 +23,11 @@ const routes: RouteConfig[] = [
     name: 'List',
     component: List,
   },
+  {
+    path: '/test',
+    name: 'Test',
+    component: Test
+  }
 ];
 
 const router = new VueRouter({

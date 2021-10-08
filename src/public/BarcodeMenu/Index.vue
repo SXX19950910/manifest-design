@@ -2,6 +2,9 @@
   <el-form v-if="currentComponent" class="barcode-menu-warp" :model="form" label-position="top" @click.native.stop>
     <el-tabs v-model="tab" type="border-card">
       <el-tab-pane label="内容" name="content">
+        <el-form-item label="条码值">
+          <var-input v-model="currentComponent.props.data" @change="debounceUpdate"></var-input>
+        </el-form-item>
         <el-form-item label="条形码格式">
           <el-select v-model="currentComponent.props.format" class="w-100" size="small" filterable @change="debounceUpdate">
             <el-option v-for="item in formatOptions" :key="item.value" :value="item.value" :label="item.label" />
@@ -15,7 +18,7 @@
       </el-tab-pane>
       <el-tab-pane label="样式" name="style">
         <el-form-item label="线宽">
-          <el-input-number v-model="currentComponent.props.lineWidth" class="w-100" :min="1" :max="10" label="描述文字" size="small" @change="debounceUpdate"></el-input-number>
+          <el-input-number v-model="currentComponent.props.lineWidth" class="w-100" :min="1" :max="10" label="描述文字" size="small" @focus="$eventBus.$emit('remove-keydown')" @change="debounceUpdate"></el-input-number>
         </el-form-item>
         <el-form-item label="字体大小">
           <el-select v-model="currentComponent.props.fontSize" class="w-100" size="small" @change="debounceUpdate">
@@ -23,7 +26,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="条形码高度">
-          <el-input-number v-model="currentComponent.props.bodyHeight" class="w-100" :min="1" :max="100" label="描述文字" size="small" @change="debounceUpdate"></el-input-number>
+          <el-input-number v-model="currentComponent.props.bodyHeight" class="w-100" :min="1" :max="100" label="描述文字" size="small" @focus="$eventBus.$emit('remove-keydown')" @change="debounceUpdate"></el-input-number>
         </el-form-item>
       </el-tab-pane>
     </el-tabs>
@@ -107,8 +110,7 @@
     computed: {
       ...mapGetters(['activeComponent', 'storeList']),
       currentComponent() {
-        const { id = '' } = this.activeComponent;
-        return this.storeList.find((item) => item.id === id);
+        return this.storeList.find((item) => item.id === this.activeComponent.id);
       },
     },
     mounted() {

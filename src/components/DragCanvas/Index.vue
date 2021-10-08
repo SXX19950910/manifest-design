@@ -71,6 +71,12 @@
     methods: {
       init() {
         this.addListener();
+        this.$eventBus.$on('remove-keydown', () => {
+          this.removeListener();
+        })
+        this.$eventBus.$on('add-keydown', () => {
+          this.addListener();
+        })
       },
       addListener() {
         this.throttleUpdateValve = throttle(100, this.updateValve)
@@ -124,8 +130,11 @@
       },
       removeListener() {
         off(window, 'resize', this.debounceResizeChange)
+        off(window, 'keyup', this.onDeleteKeyUp)
+        off(window, 'keydown', this.onKeyDown)
       },
-      onWindowResize() {
+      onWindowResize(e) {
+        // 键盘上下左右会触发resize事件，但不会返回event对象
         this.$store.dispatch('components/setLayoutData')
         const $dragList = this.$refs.drag
         if ($dragList && $dragList.length > 0) {

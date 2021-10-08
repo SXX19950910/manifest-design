@@ -50,14 +50,14 @@ module.exports = {
       minRatio: 0.8
     })
     config.plugins.push(com)
-    if (!isDev) {
-      config.externals = cdn.externals
-    }
+    // if (!isDev) {
+    //   config.externals = cdn.externals
+    // }
   },
   chainWebpack(config) {
-    config.plugin('html').tap(args => {
-      if (!isDev) args[0].cdn = cdn
-      return args
-    })
+    // config.plugin('html').tap(args => {
+    //   if (!isDev) args[0].cdn = cdn
+    //   return args
+    // })
   }
 }
