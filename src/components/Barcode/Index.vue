@@ -1,13 +1,6 @@
-<template>
-  <div class="barcode-wrap">
-    <img ref="img" class="barcode" :class="elementId" :style="getStyle" alt="barcode" src draggable="false" />
-    <var-text v-if="displayValue === '1'" :style="getStyle" class="barcode-text" :text="data"></var-text>
-  </div>
-</template>
-
 <script>
   import barcode from 'jsbarcode';
-  // import { on, off } from '@/utils/dom.js';
+  import scheme from '@/config/scheme';
   import { mapGetters } from 'vuex';
   export default {
     props: {
@@ -82,6 +75,9 @@
         });
       },
     },
+    render(createElement) {
+      return scheme.barcode(createElement, this)
+    }
   };
 </script>
 

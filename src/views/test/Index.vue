@@ -1,7 +1,6 @@
 <template>
   <div class="test-wrap">
     <test-template :visible="false" ref="template" />
-<!--    <el-button @click="handleTest">测试打印</el-button>-->
   </div>
 </template>
 

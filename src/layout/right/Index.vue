@@ -29,7 +29,8 @@
         form: {
           width: 0,
           height: 0,
-          pageName: 'a3'
+          pageName: 'a3',
+          defaultPage: 'a3'
         },
         pageSizeOptions: [
           {
@@ -75,7 +76,7 @@
       },
     },
     mounted() {
-      this.onPageSizeChange('a3')
+      this.onPageSizeChange(this.form.defaultPage)
     },
     methods: {
       handleSetCustomPageSize() {
@@ -89,6 +90,10 @@
           this.form.pageName = name
           this.onPageSizeChange(name)
         }
+      },
+      setValueByPageSize(value) {
+        const current = this.pageSizeOptions.find((item) => JSON.stringify(item.size) === JSON.stringify(value))
+        this.form.pageName = current ? current.value : this.form.defaultPage
       },
       onPageSizeChange(value) {
         const size = this.pageSizeOptions.find((item) => item.value === value).size

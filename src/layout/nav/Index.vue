@@ -116,7 +116,7 @@
         });
       },
       handleGenerateFile() {
-        core.build()
+        core.build(this.$store.state.components.storeList)
       },
       async handleSaveTemplateToImg() {
         const $el = document.querySelector('.drag-canvas-warp.board-canvas');

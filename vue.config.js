@@ -31,7 +31,7 @@ const cdn = {
 module.exports = {
   publicPath,
   indexPath,
-  productionSourceMap: false,
+  productionSourceMap: isDev,
   css: {
     extract: true,
     sourceMap: false,

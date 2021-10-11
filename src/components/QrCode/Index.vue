@@ -1,12 +1,7 @@
-<template>
-  <div class="qr-code-warp">
-    <img ref="img" class="qr-code" :class="elementId" alt="qr" draggable="false" src />
-  </div>
-</template>
-
 <script>
   import _ from 'lodash';
-  import { updateQrcode } from '@/utils/update'
+  import { updateQrcode } from '@/utils/update';
+  import scheme from '@/config/scheme';
   export default {
     props: {
       elementId: {
@@ -53,6 +48,9 @@
         })
       },
     },
+    render(createElement) {
+      return scheme.qrcode(createElement, this)
+    }
   };
 </script>
 

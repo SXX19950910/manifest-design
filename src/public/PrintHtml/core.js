@@ -1,6 +1,7 @@
 const FileSaver = require('file-saver');
-import axios from 'axios'
-import store from '@/store'
+import axios from 'axios';
+import store from '@/store';
+import scheme from '@/config/scheme';
 
 export default {
     getOptions() {
@@ -13,14 +14,18 @@ export default {
     getHtml() {
         return document.querySelector('.board-warp').innerHTML
     },
-    async generate() {
-        const res = await axios.get('https://shixiaoxi.cn/design/template.vue')
-        let template = res.data
-        template = template.replace('${html}', this.getHtml()).replace('${options}', JSON.stringify(this.getOptions()))
-        return template
+    async generate(data) {
+        const res = await axios.get('/template.vue')
+        let result = res.data
+        const template = {
+            data,
+            options: this.getOptions(),
+            scheme: JSON.stringify(scheme)
+        }
+        return result.replace('${template}', JSON.stringify(template))
     },
-    async build() {
-        const blob = new Blob([await this.generate()], { type: "text/plain;charset=utf-8" });
+    async build(template) {
+        const blob = new Blob([await this.generate(template)], { type: "text/plain;charset=utf-8" });
         FileSaver.saveAs(blob, "template.vue");
     }
 }

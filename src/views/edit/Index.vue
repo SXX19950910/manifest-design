@@ -6,7 +6,7 @@
         <left-menu slot="left" class="left-menu" />
         <board ref="board" slot="right" class="view-box" />
       </v-split>
-      <right-menu class="right-menu" @page-size-change="onPageSizeChange" />
+      <right-menu ref="right" class="right-menu" @page-size-change="onPageSizeChange" />
     </div>
   </div>
 </template>
@@ -46,7 +46,14 @@
         const { id = '' } = this.$route.query;
         if (id) {
           const template = this.templateList.find((item) => item.name === id);
-          if (template) this.$store.dispatch('components/updateStoreList', template.data);
+          if (template) {
+            this.$store.dispatch('components/updateStoreList', template.data);
+            const pageSize = template.options ? [template.options.width, template.options.height] : null
+            if (pageSize) {
+              this.$store.dispatch('components/setPageSize', pageSize)
+              this.$refs.right.setValueByPageSize(pageSize)
+            }
+          }
         } else {
           this.$store.dispatch('components/hideStoreLoading')
         }

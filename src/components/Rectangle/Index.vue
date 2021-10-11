@@ -1,9 +1,5 @@
-<template>
-  <div class="rectangle-warp" :style="getStyle">
-  </div>
-</template>
-
 <script>
+  import scheme from '@/config/scheme';
   export default {
     props: {
       elementId: {
@@ -40,6 +36,9 @@
         this.$emit('complete');
       },
     },
+    render(createElement) {
+      return scheme.rectangle(createElement, this)
+    }
   };
 </script>
 
