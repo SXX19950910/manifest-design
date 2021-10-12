@@ -1,28 +1,174 @@
-<template>
-  <div v-show="visible" ref="app" id="app">
-    ${html}
-  </div>
-</template>
-
 <script>
 export default {
-  name: 'DesignTemplate',
   props: {
     visible: {
       type: Boolean,
-      default: false
+      default: true
     }
   },
   data() {
     return {
-      options: '${options}',
-      style: '.canvas-wrapper {\n  background-color: white;\n  border-radius: 2px;\n  position: absolute;\n  margin: 0 auto;\n  box-shadow: 0 0 10px rgba(0, 21, 41, 0.08);\n}\n\n.barcode-wrap {\n    display: flex;\n    align-items: center;\n    flex-direction: column;\n    justify-content: center;\n}\n.barcode {\n      max-width: 100%;\n      vertical-align: middle;\n      user-select: none;\n}\n.barcode-text {\n      font-size: 20px;\n      font-weight: normal;\n}\n.item {\n    display: none;\n}\n.view-wrapper {\n    width: 100% !important;\n    height: 100% !important;\n}\n.border-canvas {\n    width: 100%;\n    height: 100%;\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    transform: translate(-50%, -50%);\n}\n.drag-warp {\n    position: absolute;\n    cursor: pointer;\n    border: 1px solid transparent;\n    color: #000;\n    border-radius: 2px;\n    max-width: 100%;\n    max-height: 100%;\n    overflow: hidden;\n    transition: background-color ease .36s;\n}\n\n.text-component .detail {\n    display: inline-block;\n    font-weight: normal;\n    word-break: break-all;\n    word-wrap: break-word;\n    border: 1px solid transparent;\n}'
+      template: JSON.parse('${template}')
     }
   },
+  mounted() {
+    // 处理特殊类型组件
+    this.template.data.map(item => {
+      const isQrcode = this.isQrcode(item.type)
+      const isBarcode = this.isBarcode(item.type)
+      if (isQrcode) {
+        this.updateQrcode(item.id , item.props.data, item.props.options)
+      } else if (isBarcode) {
+        this.updateBarcode(item.id, item.props.data, item.props)
+      }
+    })
+  },
   methods: {
+    updateBarcode(className, data, options) {
+      try {
+        const barcode = require('jsbarcode')
+        const { bodyHeight, lineWidth, format, data } = options;
+        barcode(`.${className}`, data, {
+          format,
+          width: lineWidth,
+          height: bodyHeight,
+          displayValue: false,
+        });
+      } catch (e) {
+
+      }
+    },
+    updateQrcode(className, data, options) {
+      try {
+        const qrcode = require('qrcode')
+        const config = {
+          errorCorrectionLevel: options.errorCorrectionLevel,
+          margin: options.margin,
+          scale: options.scale,
+          type: 'image/jpeg',
+          color: {}
+        }
+        qrcode.toDataURL(data, config, (err, res) => {
+          if (err) throw err;
+          document.querySelector('.' + className).src = res
+        });
+      } catch (e) {
+        throw new Error('二维码生成失败，请执行cnpm i qrcode命令后重试' + e)
+      }
+    },
+    isQrcode(type) {
+      return type === 'QrCodeUi'
+    },
+    isBarcode(type) {
+      return type === 'BarcodeUi'
+    },
+    isLine(type) {
+      return type === 'XLineUi' || type === 'YLineUi' || type === 'RectangleUi';
+    },
+    getContainerStyle(component) {
+      const { props = {}, position, rect, type } = component
+      const { fontSize, fontFamily, lineHeight, align, isBold } = props
+      const fontWeight = isBold ? 'bold' : 'normal'
+      return {
+        fontSize,
+        fontFamily,
+        lineHeight,
+        textAlign: align,
+        top: position.clientY + 'px',
+        left: position.clientX + 'px',
+        fontWeight,
+        width: rect.width + 'px',
+        height: rect.height + 'px',
+        padding: this.isLine(type) ? '0' : '0 10px 0 0'
+      }
+    },
+    getSelfStyle(component) {
+      let style = {}
+      const { props, rect } = component
+      const { borderWidth } = props
+      if (this.isLine(component.type)) {
+        style.border = borderWidth ? `${borderWidth}px solid #000` : ''
+        style.width = rect.width + 'px'
+        style.height = rect.height + 'px'
+      }
+      return style
+    },
+    generateWidget(createElement, component) {
+      const renderMap = {
+        barcode: (create, instance) => this.renderBarcode(create, instance),
+        qrcode: (create, instance) => this.renderQrcode(create, instance)
+      }[component.name.toLowerCase()]
+      const defaultRender = () => {
+        return createElement(component.tag, {
+          class: `${component.id} ${component.type}`,
+          domProps: { innerHTML: component.props.text || component.props.data},
+          style: this.getSelfStyle(component)
+        })
+      }
+      return createElement('div',
+          {
+            attrs: {
+              id: component.id,
+            },
+            class: 'component',
+            style: this.getContainerStyle(component),
+          },
+          [
+            renderMap ? renderMap(createElement, component) : defaultRender()
+          ]
+      )
+    },
+    renderQrcode(createElement, component) {
+      return createElement('div', {
+        class: 'qr-code-wrap'
+      }, [
+        createElement('img', {
+          class: ['qr-code', component.id],
+          ref: 'img',
+          style: {
+            maxWidth: '100%',
+            verticalAlign: 'middle',
+            userSelect: 'none'
+          },
+          attrs: {
+            alt: 'qrcode',
+            draggable: 'false',
+            src: 'src'
+          }
+        })
+      ])
+    },
+    renderBarcode(createElement, component) {
+      const $codeValue = createElement('span', {
+        class: 'barcode-text',
+        domProps: { innerHTML: component.props.text || component.props.data},
+        style: this.getSelfStyle(component),
+      })
+      return createElement('div', {
+        class: 'barcode-wrap',
+        style: {
+          display: 'flex',
+          alignItems: 'center',
+          flexDirection: 'column',
+          justifyContent: 'center'
+        }
+      }, [
+        createElement('img', {
+          ref: 'img',
+          class: ['barcode', component.id, component.type],
+          style: this.getSelfStyle(component),
+          attrs: {
+            src: 'src',
+            alt: 'barcode',
+            draggable: 'false'
+          }
+        }),
+        component.props.displayValue === '1' && $codeValue
+      ])
+    },
     print() {
       const app = this.$refs.app
-      const options = JSON.parse(this.options)
+      const options = this.template.options
       const LODOP = window.LODOP
       if (!LODOP) {
         alert('请先安装lodop')
@@ -35,10 +181,39 @@ export default {
         LODOP.ADD_PRINT_HTM(0, 0, '100%', '100%', `<!DOCTYPE html><html class="print-html" lang="en"><head><style>${this.style}</style><title>打印Print</title></head><body>${app.innerHTML}</body></html>`)
         LODOP.PREVIEW()
       }
-    }
+    },
+    generateBoard() {
+      const board = this.template.options
+      return {
+        class: 'template-wrap',
+        style: {
+          width: board.width + 'px',
+          height: board.height + 'px'
+        },
+        ref: 'app'
+      }
+    },
+  },
+  render(createElement, context) {
+    return createElement('div', this.generateBoard(), this.template.data.map(component => {
+      return this.generateWidget(createElement, component)
+    }))
   }
 }
 </script>
 
 <style lang="scss">
+.template-wrap {
+  position: relative;
+  .component {
+    padding: 0 10px 0 0;
+    position: absolute;
+    color: #000000;
+    .QrCodeUi {
+      max-width: 100%;
+      vertical-align: middle;
+      user-select: none;
+    }
+  }
+}
 </style>
