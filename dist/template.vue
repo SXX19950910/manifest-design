@@ -1,6 +1,6 @@
 <script>
 export default {
-  name: 'testTemplate',
+  name: 'Manifest-Design',
   props: {
     visible: {
       type: Boolean,
