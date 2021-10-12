@@ -2,6 +2,7 @@ const FileSaver = require('file-saver');
 import axios from 'axios';
 import store from '@/store';
 import scheme from '@/config/scheme';
+const config = require('./../../../config')
 
 export default {
     getOptions() {
@@ -15,7 +16,8 @@ export default {
         return document.querySelector('.board-warp').innerHTML
     },
     async generate(data) {
-        const res = await axios.get('/template.vue')
+        const url = config.isDev ? '/template.vue' : 'https://shixiaoxi.cn/design/template.vue'
+        const res = await axios.get(url)
         let result = res.data
         const template = {
             data,

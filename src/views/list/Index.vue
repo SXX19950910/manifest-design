@@ -53,9 +53,12 @@
       ...mapGetters(['templateList']),
     },
     created() {
-      console.log(this.templateList)
+      this.init();
     },
     methods: {
+      init() {
+        this.$store.dispatch('components/clearStoreList');
+      },
       handleGoDetail(item) {
         this.$router.push({ name: 'Edit', query: { id: item.name } });
       },

@@ -13,7 +13,7 @@ module.exports = {
         mode: env.VUE_APP_ROUTE_MODE,
         base: env.VUE_APP_ROUTE_BASE
     },
-    isDev: env.ENV === 'dev',
+    isDev: env.NODE_ENV === 'dev',
     indexPath: env.VUE_APP_INDEX_PATH,
     publicPath: env.VUE_APP_PUBLIC_PATH
 }

@@ -13,7 +13,7 @@
       </el-tab-pane>
       <el-tab-pane label="样式" name="style">
         <el-form-item label="边距">
-          <el-input-number class="w-100" v-model="currentComponent.props.options.margin" size="small" @focus="$eventBus.$emit('remove-keydown')" @change="debounceUpdate"></el-input-number>
+          <el-input-number class="w-100" v-model="currentComponent.props.options.margin" :min="0" :max="100" size="small" @focus="$eventBus.$emit('remove-keydown')" @change="debounceUpdate"></el-input-number>
         </el-form-item>
       </el-tab-pane>
     </el-tabs>

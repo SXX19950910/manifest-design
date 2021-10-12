@@ -47,6 +47,7 @@
         if (id) {
           const template = this.templateList.find((item) => item.name === id);
           if (template) {
+            this.$store.dispatch('components/clearStoreList');
             this.$store.dispatch('components/updateStoreList', template.data);
             const pageSize = template.options ? [template.options.width, template.options.height] : null
             if (pageSize) {

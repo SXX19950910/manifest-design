@@ -31,11 +31,11 @@ const cdn = {
 module.exports = {
   publicPath,
   indexPath,
-  productionSourceMap: isDev,
+  productionSourceMap: config.isDev,
   css: {
-    extract: true,
-    sourceMap: false,
-    requireModuleExtension: true,
+    // extract: true,
+    // sourceMap: false,
+    // requireModuleExtension: true,
     loaderOptions: {
       scss: {
         additionalData: `@import "@/style/variable.scss";@import "@/style/mixin.scss";`

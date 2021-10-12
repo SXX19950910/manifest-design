@@ -126,7 +126,9 @@
     methods: {
       init() {
         setTimeout(() => {
-          this.initLayoutScheme();
+          this.$nextTick(() => {
+            this.initLayoutScheme();
+          })
         })
       },
       initLayoutScheme() {
@@ -143,8 +145,8 @@
         this.offsetTop = this.board.top;
         // this.defaultHeight = defaultData.height || 10;
         // this.defaultWidth = defaultData.width || width;
-        this.width = width || defaultData.width
-        this.height = height || defaultData.height
+        this.width = width || defaultData.width;
+        this.height = height || defaultData.height;
         if (isInstance) {
           this.x = defaultData.x
           this.y = defaultData.y

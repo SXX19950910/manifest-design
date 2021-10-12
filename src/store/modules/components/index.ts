@@ -253,7 +253,13 @@ const defaultTemplate = [
           'y': 6.625
         },
         'props': {
-          'data': 'https://shixiaoxi.cn'
+          'data': 'https://shixiaoxi.cn',
+          'options': {
+            'margin': 4,
+            'width': '',
+            'scale': 4,
+            'errorCorrectionLevel': 'H'
+          }
         },
         'id': 'kj28rtja'
       },
@@ -1046,7 +1052,7 @@ const components = {
     UPDATE_STORE_LIST(state: any, template: any) {
       state.storeLoading = true
       state.storeList = template.map((item: any) => {
-        return {...item};
+        return _.cloneDeep(item);
       })
       Vue.nextTick(() => {
         setTimeout(() => {
@@ -1057,8 +1063,8 @@ const components = {
     CLEAR_STORE_LIST(state: any) {
       state.storeList = [];
       const $board: any = document.querySelector('.drag-canvas-warp.board-canvas');
-      const $list = $board.querySelectorAll('.item');
-      $list.forEach((item: any) => {
+      const $list = $board && $board.querySelectorAll('.item');
+      if ($list.length) $list.forEach((item: any) => {
         $board.removeChild(item);
       });
     },
