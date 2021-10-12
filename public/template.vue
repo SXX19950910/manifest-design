@@ -1,5 +1,6 @@
 <script>
 export default {
+  name: 'Manifest-Design',
   props: {
     visible: {
       type: Boolean,
@@ -8,6 +9,7 @@ export default {
   },
   data() {
     return {
+      style: '* {   font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;  } .template-wrap { position: relative; } .component { padding: 0 10px 0 0; position: absolute; }',
       template: JSON.parse('${template}')
     }
   },
@@ -65,6 +67,9 @@ export default {
     isLine(type) {
       return type === 'XLineUi' || type === 'YLineUi' || type === 'RectangleUi';
     },
+    isText(type) {
+      return type.includes('Text')
+    },
     getContainerStyle(component) {
       const { props = {}, position, rect, type } = component
       const { fontSize, fontFamily, lineHeight, align, isBold } = props
@@ -84,12 +89,20 @@ export default {
     },
     getSelfStyle(component) {
       let style = {}
-      const { props, rect } = component
-      const { borderWidth } = props
-      if (this.isLine(component.type)) {
+      const { props, rect, type } = component
+      const { borderWidth, fontSize, align } = props
+      if (this.isLine(type)) {
         style.border = borderWidth ? `${borderWidth}px solid #000` : ''
         style.width = rect.width + 'px'
         style.height = rect.height + 'px'
+      }
+      if (this.isBarcode(type)) {
+        style.fontSize = fontSize + 'px'
+      }
+      console.log(type)
+      if (this.isText(type)) {
+        style.textAlign = align
+        style.fontSize = fontSize
       }
       return style
     },
@@ -156,7 +169,7 @@ export default {
         createElement('img', {
           ref: 'img',
           class: ['barcode', component.id, component.type],
-          style: this.getSelfStyle(component),
+          style: Object.assign(this.getSelfStyle(component), { width: '100%' }),
           attrs: {
             src: 'src',
             alt: 'barcode',
@@ -166,9 +179,13 @@ export default {
         component.props.displayValue === '1' && $codeValue
       ])
     },
-    print() {
+    print(config = {}) {
       const app = this.$refs.app
       const options = this.template.options
+      const printOptions = Object.assign({
+        isPreview: true,
+        count: 1
+      }, config)
       const LODOP = window.LODOP
       if (!LODOP) {
         alert('请先安装lodop')
@@ -179,7 +196,7 @@ export default {
         LODOP.SET_PRINT_MODE("POS_BASEON_PAPER", true);
         LODOP.SET_PRINT_MODE("PRINT_PAGE_PERCENT", "Full-Page");
         LODOP.ADD_PRINT_HTM(0, 0, '100%', '100%', `<!DOCTYPE html><html class="print-html" lang="en"><head><style>${this.style}</style><title>打印Print</title></head><body>${app.innerHTML}</body></html>`)
-        LODOP.PREVIEW()
+        printOptions.isPreview ? LODOP.PREVIEW() : LODOP.PRINT()
       }
     },
     generateBoard() {
@@ -205,6 +222,7 @@ export default {
 <style lang="scss">
 .template-wrap {
   position: relative;
+  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
   .component {
     padding: 0 10px 0 0;
     position: absolute;

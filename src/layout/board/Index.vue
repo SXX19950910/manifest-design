@@ -2,7 +2,7 @@
   <div ref="view" class="board-warp" @scroll="debounceViewScroll" @keyup.prevent>
     <div class="view-wrapper" ref="view" :style="viewWrapStyle" @mousedown.stop="handleMouseDown">
       <div v-if="reactVisible" ref="react" class="react" :style="reactStyle" />
-      <div v-loading="$store.state.components.storeLoading" class="canvas-wrapper" :style="viewStyle">
+      <div v-loading="$store.state.components.storeLoading" element-loading-text="模板加载中..." class="canvas-wrapper" :style="viewStyle">
         <drag-canvas ref="canvas" class="board-canvas" />
       </div>
     </div>
