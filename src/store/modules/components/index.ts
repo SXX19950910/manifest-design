@@ -5,6 +5,8 @@ import _ from 'lodash';
 import { Notification } from 'element-ui'
 // @ts-ignore
 import { debounce, throttle } from 'throttle-debounce'
+// @ts-ignore
+import { getStringVars } from '@/utils';
 const defaultTemplate = [
   {
     'name': '快递面单',
@@ -620,8 +622,12 @@ const components = {
           x: '',
           y: '',
         },
+        variable: {
+          enable: false,
+          textData: []
+        },
         props: {
-          text: '发件人地址',
+          text: '寄件人地址',
           align: 'left',
           fontFamily: '',
           lineHeight: '',
@@ -641,6 +647,10 @@ const components = {
         position: {
           clientX: '',
           clientY: '',
+        },
+        variable: {
+          enable: false,
+          textData: []
         },
         default: {
           width: '',
@@ -675,6 +685,10 @@ const components = {
           height: '',
           x: '',
           y: '',
+        },
+        variable: {
+          enable: false,
+          textData: []
         },
         props: {
           format: 'CODE128',
@@ -767,6 +781,10 @@ const components = {
           clientX: '',
           clientY: '',
         },
+        variable: {
+          enable: false,
+          textData: []
+        },
         default: {
           width: '',
           height: '',
@@ -794,6 +812,10 @@ const components = {
         position: {
           clientX: '',
           clientY: '',
+        },
+        variable: {
+          enable: false,
+          textData: []
         },
         default: {
           width: '',
@@ -911,6 +933,10 @@ const components = {
     valve: 0
   },
   actions: {
+    setComponentVariable({ commit }: any) {
+      // const active = state.storeList.find((item: any) => item.id === state.activeComponent.id)
+      commit('SET_COMPONENT_VARIABLE')
+    },
     updateValve({ commit }: any, payload: any) {
       commit('UPDATE_VALVE', payload)
     },
@@ -950,7 +976,7 @@ const components = {
       commit('SET_ACTIVE', id || '');
     },
     saveTemplate({ commit, state }: any, payload: any) {
-      const list: any = localStorage.getItem('templateList') || defaultTemplate
+      const list: any = localStorage.getItem('templateList') || JSON.stringify(defaultTemplate)
       const template = {
         name: payload.name,
         data: _.cloneDeep(state.storeList),
@@ -1006,6 +1032,14 @@ const components = {
     }
   },
   mutations: {
+    SET_COMPONENT_VARIABLE(state: any) {
+      const active = state.storeList.find((item: any) => item.id === state.activeComponent.id)
+      if (active) {
+        const value = getStringVars(active.props.text || active.props.data)
+        active.variable.textData = value
+        active.variable.enable = value.some((item: any) => item.key)
+      }
+    },
     UPDATE_VALVE(state: any, payload: any) {
       if (typeof payload !== 'undefined') {
         state.valve = payload
@@ -1064,7 +1098,7 @@ const components = {
       state.storeList = [];
       const $board: any = document.querySelector('.drag-canvas-warp.board-canvas');
       const $list = $board && $board.querySelectorAll('.item');
-      if ($list.length) $list.forEach((item: any) => {
+      if ($list && $list.length) $list.forEach((item: any) => {
         $board.removeChild(item);
       });
     },

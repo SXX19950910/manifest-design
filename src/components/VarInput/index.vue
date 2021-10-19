@@ -47,6 +47,7 @@ export default {
       this.$emit('input', this.data)
     },
     onChange() {
+      this.$store.dispatch('components/setComponentVariable')
       this.$emit('change', this.data)
     }
   }
