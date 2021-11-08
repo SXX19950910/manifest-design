@@ -19,9 +19,9 @@ export default {
     handleTest() {
       this.$refs.template.print({
         variables: {
-          receiverAddress: '这里是变量收件人地址',
-          barcodeValue: '//shixiaoxi.cn',
-          qrcodeValue: '12321321321XY'
+          receiverAddress: 'value1',
+          barcodeValue: 'value2',
+          qrcodeValue: 'value3'
         }
       })
     }

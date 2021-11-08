@@ -12,28 +12,343 @@ export default {
   data() {
     return {
       style: '* {   font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;  } .template-wrap { position: relative; } .component { padding: 0 10px 0 0; position: absolute; }',
-      template: JSON.parse('{"data":[{"type":"TextUi","name":"receiverAddress","classify":"TextMenu","title":"收件人地址","instance":true,"tag":"span","updateId":"1634024748451","position":{"clientX":124.5,"clientY":69.5},"variable":{"enable":true,"textData":[{"value":"收","key":"","indexes":0},{"value":"件","key":"","indexes":1},{"value":"人","key":"","indexes":2},{"value":"地","key":"","indexes":3},{"value":"址","key":"","indexes":4},{"value":"${receiverAddress}","key":"receiverAddress","indexes":[5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22]}]},"default":{"height":72,"width":244,"x":124.5,"y":69.5},"props":{"text":"收件人地址${receiverAddress}","align":"left","fontFamily":"","lineHeight":"","fontSize":"","isBold":false,"hasBorder":false},"id":"kuns50ba","rect":{"x":440,"y":300,"width":244,"height":72,"top":300,"right":684,"bottom":372,"left":440}},{"type":"TextUi","name":"receiverAddress","classify":"TextMenu","title":"收件人地址","instance":true,"tag":"span","updateId":"1634024760756","position":{"clientX":123.5,"clientY":138.5},"variable":{"enable":false,"textData":[{"value":"收","key":"","indexes":0},{"value":"件","key":"","indexes":1},{"value":"人","key":"","indexes":2},{"value":"地","key":"","indexes":3},{"value":"址","key":"","indexes":4},{"value":",","key":"","indexes":5},{"value":"没","key":"","indexes":6},{"value":"有","key":"","indexes":7},{"value":"变","key":"","indexes":8},{"value":"量","key":"","indexes":9}]},"default":{"height":67,"width":316,"x":123.5,"y":138.5},"props":{"text":"收件人地址,没有变量","align":"left","fontFamily":"","lineHeight":"","fontSize":"","isBold":false,"hasBorder":false},"id":"kuns5b88","rect":{"x":439,"y":369,"width":316,"height":67,"top":369,"right":755,"bottom":436,"left":439}},{"name":"barCode","type":"BarcodeUi","classify":"BarcodeMenu","instance":true,"title":"条形码","tag":"img","updateId":"1634024777869","position":{"clientX":27.5,"clientY":373.5},"default":{"height":83,"width":234,"x":27.5,"y":373.5},"variable":{"enable":true,"textData":[{"value":"${qrcodeValue}","key":"qrcodeValue","indexes":[0,1,2,3,4,5,6,7,8,9,10,11,12,13]}]},"props":{"format":"CODE128","lineWidth":2,"bodyHeight":40,"fontSize":14,"displayValue":"1","data":"${qrcodeValue}"},"id":"kuns5hcq","rect":{"x":343,"y":604,"width":234,"height":83,"top":604,"right":577,"bottom":687,"left":343}},{"name":"qrCode","type":"QrCodeUi","classify":"QrCodeMenu","title":"二维码","updateId":"1634024793816","tag":"img","instance":true,"position":{"clientX":125.5,"clientY":181.5},"variable":{"enable":true,"textData":[{"value":"${barcodeValue}","key":"barcodeValue","indexes":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14]}]},"default":{"height":169,"width":157,"x":125.5,"y":181.5},"props":{"data":"${barcodeValue}","options":{"margin":4,"width":"","scale":4,"errorCorrectionLevel":"H"}},"id":"kuns5w9f","rect":{"x":441,"y":412,"width":157,"height":169,"top":412,"right":598,"bottom":581,"left":441}}],"options":{"width":500,"height":500},"scheme":"{}"}'),
+      template: {
+        "name": "eeeeee",
+        "data": [
+          {
+            "type": "TextUi",
+            "name": "receiverAddress",
+            "classify": "TextMenu",
+            "title": "收件人地址",
+            "instance": true,
+            "tag": "span",
+            "updateId": "1636365299772",
+            "position": {
+              "clientX": 29.5,
+              "clientY": 42.5
+            },
+            "variable": {
+              "enable": true,
+              "textData": [
+                {
+                  "value": "收",
+                  "key": "",
+                  "indexes": 0
+                },
+                {
+                  "value": "件",
+                  "key": "",
+                  "indexes": 1
+                },
+                {
+                  "value": "人",
+                  "key": "",
+                  "indexes": 2
+                },
+                {
+                  "value": "地",
+                  "key": "",
+                  "indexes": 3
+                },
+                {
+                  "value": "址",
+                  "key": "",
+                  "indexes": 4
+                },
+                {
+                  "value": ":",
+                  "key": "",
+                  "indexes": 5
+                },
+                {
+                  "value": "${receiver}",
+                  "key": "receiver",
+                  "indexes": [
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11,
+                    12,
+                    13,
+                    14,
+                    15,
+                    16
+                  ]
+                }
+              ]
+            },
+            "default": {
+              "height": 66,
+              "width": 370,
+              "x": 29.5,
+              "y": 42.5
+            },
+            "props": {
+              "text": "收件人地址:${receiver}",
+              "align": "left",
+              "fontFamily": "",
+              "lineHeight": "",
+              "fontSize": "",
+              "isBold": false,
+              "hasBorder": false
+            },
+            "id": "kvqeuf0v",
+            "rect": {
+              "x": 442,
+              "y": 273,
+              "width": 370,
+              "height": 66,
+              "top": 273,
+              "right": 812,
+              "bottom": 339,
+              "left": 442
+            }
+          },
+          {
+            "type": "TextUi",
+            "name": "receiverAddress",
+            "classify": "TextMenu",
+            "title": "收件人地址",
+            "instance": true,
+            "tag": "span",
+            "updateId": "1636365299777",
+            "position": {
+              "clientX": 30.5,
+              "clientY": 90.5
+            },
+            "variable": {
+              "enable": true,
+              "textData": [
+                {
+                  "value": "收",
+                  "key": "",
+                  "indexes": 0
+                },
+                {
+                  "value": "件",
+                  "key": "",
+                  "indexes": 1
+                },
+                {
+                  "value": "人",
+                  "key": "",
+                  "indexes": 2
+                },
+                {
+                  "value": "地",
+                  "key": "",
+                  "indexes": 3
+                },
+                {
+                  "value": "址",
+                  "key": "",
+                  "indexes": 4
+                },
+                {
+                  "value": ":",
+                  "key": "",
+                  "indexes": 5
+                },
+                {
+                  "value": "${receiver}",
+                  "key": "receiver",
+                  "indexes": [
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11,
+                    12,
+                    13,
+                    14,
+                    15,
+                    16
+                  ]
+                }
+              ]
+            },
+            "default": {
+              "height": 61,
+              "width": 369,
+              "x": 30.5,
+              "y": 90.5
+            },
+            "props": {
+              "text": "收件人地址:${receiver}",
+              "align": "left",
+              "fontFamily": "",
+              "lineHeight": "",
+              "fontSize": "",
+              "isBold": false,
+              "hasBorder": false
+            },
+            "id": "kvqeuqji",
+            "rect": {
+              "x": 443,
+              "y": 321,
+              "width": 369,
+              "height": 61,
+              "top": 321,
+              "right": 812,
+              "bottom": 382,
+              "left": 443
+            }
+          },
+          {
+            "name": "barCode",
+            "type": "BarcodeUi",
+            "classify": "BarcodeMenu",
+            "instance": true,
+            "title": "条形码",
+            "tag": "img",
+            "updateId": "1636365380958",
+            "position": {
+              "clientX": 36.5,
+              "clientY": 207.5
+            },
+            "default": {
+              "height": 83,
+              "width": 234,
+              "x": 36.5,
+              "y": 207.5
+            },
+            "variable": {
+              "enable": true,
+              "textData": [
+                {
+                  "value": "${barcode}",
+                  "key": "barcode",
+                  "indexes": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9
+                  ]
+                }
+              ]
+            },
+            "props": {
+              "format": "CODE128",
+              "lineWidth": 2,
+              "bodyHeight": 40,
+              "fontSize": 14,
+              "displayValue": "1",
+              "data": "${barcode}"
+            },
+            "id": "kvqf6xty",
+            "rect": {
+              "x": 449,
+              "y": 438,
+              "width": 234,
+              "height": 83,
+              "top": 438,
+              "right": 683,
+              "bottom": 521,
+              "left": 449
+            }
+          },
+          {
+            "name": "qrCode",
+            "type": "QrCodeUi",
+            "classify": "QrCodeMenu",
+            "title": "二维码",
+            "updateId": "1636365299785",
+            "tag": "img",
+            "instance": true,
+            "position": {
+              "clientX": 36.5,
+              "clientY": 310.5
+            },
+            "variable": {
+              "enable": true,
+              "textData": [
+                {
+                  "value": "${qrcode}",
+                  "key": "qrcode",
+                  "indexes": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8
+                  ]
+                }
+              ]
+            },
+            "default": {
+              "height": 150,
+              "width": 160,
+              "x": 36.5,
+              "y": 310.5
+            },
+            "props": {
+              "data": "${qrcode}",
+              "options": {
+                "margin": 4,
+                "width": "",
+                "scale": 4,
+                "errorCorrectionLevel": "H"
+              }
+            },
+            "id": "kvqf6zt4",
+            "rect": {
+              "x": 449,
+              "y": 541,
+              "width": 160,
+              "height": 150,
+              "top": 541,
+              "right": 609,
+              "bottom": 691,
+              "left": 449
+            }
+          }
+        ],
+        "options": {
+          "width": 500,
+          "height": 500
+        }
+      },
       variables: {}
     }
   },
   mounted() {
     // 处理特殊类型组件
-    this.template.data.map(item => {
-      const isQrcode = this.isQrcode(item.type)
-      const isBarcode = this.isBarcode(item.type)
-      if (isQrcode) {
-        this.updateQrcode(item.id , item.props.data, item.props.options)
-      } else if (isBarcode) {
-        this.updateBarcode(item.id, item.props.data, item.props)
-      }
-    })
+    this.initSpecialWidget()
   },
   methods: {
-    updateBarcode(className, data, options) {
+    initSpecialWidget() {
+      this.template.data.map(item => {
+        this.updateImg(item)
+      })
+    },
+    updateImg(component, data) {
+      const isQrcode = this.isQrcode(component.type)
+      const isBarcode = this.isBarcode(component.type)
+      const value = data || component.props.data
+      if (isQrcode) {
+        this.updateQrcode(component.id, value, component.props.options)
+      } else if (isBarcode) {
+        this.updateBarcode(component.id, value, component.props)
+      }
+    },
+    updateBarcode(className, value, options) {
       try {
         const barcode = require('jsbarcode')
-        const { bodyHeight, lineWidth, format, data } = options;
-        barcode(`.${className}`, data, {
+        const {bodyHeight, lineWidth, format, data} = options;
+        barcode(`.${className}`, value || data, {
           format,
           width: lineWidth,
           height: bodyHeight,
@@ -74,8 +389,8 @@ export default {
       return type.includes('Text')
     },
     getContainerStyle(component) {
-      const { props = {}, position, rect, type } = component
-      const { fontSize, fontFamily, lineHeight, align, isBold } = props
+      const {props = {}, position, rect, type} = component
+      const {fontSize, fontFamily, lineHeight, align, isBold} = props
       const fontWeight = isBold ? 'bold' : 'normal'
       return {
         fontSize,
@@ -92,8 +407,8 @@ export default {
     },
     getSelfStyle(component) {
       let style = {}
-      const { props, rect, type } = component
-      const { borderWidth, fontSize, align } = props
+      const {props, rect, type} = component
+      const {borderWidth, fontSize, align} = props
       if (this.isLine(type)) {
         style.border = borderWidth ? `${borderWidth}px solid #000` : ''
         style.width = rect.width + 'px'
@@ -102,7 +417,6 @@ export default {
       if (this.isBarcode(type)) {
         style.fontSize = fontSize + 'px'
       }
-      console.log(type)
       if (this.isText(type)) {
         style.textAlign = align
         style.fontSize = fontSize
@@ -116,7 +430,6 @@ export default {
       let result = ''
       if (component.variable.enable) {
         component.variable.textData.map(item => {
-          console.log(item.key)
           result = result + `<span class="${item.key}">${item.value || item.value}</span>`
         })
       } else {
@@ -135,7 +448,7 @@ export default {
         }
         return createElement(component.tag, {
           class: `${component.id} ${component.type}`,
-          domProps: { innerHTML: this.renderText(component)},
+          domProps: {innerHTML: this.renderText(component)},
           style: this.getSelfStyle(component),
           attrs
         })
@@ -178,7 +491,7 @@ export default {
       const fields = this.getFields(component)
       const $codeValue = createElement('p', {
         class: 'barcode-text',
-        domProps: { innerHTML: this.renderText(component)},
+        domProps: {innerHTML: this.renderText(component)},
         style: this.getSelfStyle(component),
         attrs: {
           'data-fields': fields
@@ -196,12 +509,11 @@ export default {
         createElement('img', {
           ref: 'img',
           class: ['barcode', component.id, component.type],
-          style: Object.assign(this.getSelfStyle(component), { width: '100%' }),
+          style: Object.assign(this.getSelfStyle(component), {width: '100%'}),
           attrs: {
             src: 'src',
             alt: 'barcode',
-            draggable: 'false',
-            'data-fields': fields
+            draggable: 'false'
           }
         }),
         component.props.displayValue === '1' && $codeValue
@@ -211,36 +523,50 @@ export default {
       let res
       const dom = document.getElementsByTagName(tag);
       for (let i = 0; i < dom.length; i++) {
-        if(value === dom[i].getAttribute(name)){
+        if (value === dom[i].getAttribute(name)) {
           res = dom[i]
         }
       }
       return res
     },
+    getComponentByVariables(key) {
+      return this.template.data.filter(item => {
+        return item.variable.textData.filter(v => v.key === key).length > 0
+      })
+    },
     setPrintVariables(variables) {
+      const setText = (key, value) => {
+        const $textDom = document.querySelectorAll('.' + key)
+        $textDom.length > 0 && $textDom.forEach(item => {
+          item.innerHTML = value
+        })
+      }
       for (const key in variables) {
-        const $imgDom = this.getElementByAttr('img', 'data-fields', key)
-        if ($imgDom) {
-          console.log($imgDom)
-          // this.updateQrcode()
-          // this.updateQrcode()
-        }
-        const $textDom = document.querySelector('.' + key)
-        if ($textDom) {
-          $textDom.innerHTML = variables[key]
-        }
+        const value = variables[key]
+        const component = this.getComponentByVariables(key)
+        component.forEach(item => {
+          const isImg = item.tag === 'img'
+          if (isImg) {
+            this.updateImg(item, value)
+          }
+          setText(key, value)
+        })
       }
     },
     print(config = {}) {
-      const app = this.$refs.app
-      const options = this.template.options
       const printOptions = Object.assign({
         isPreview: true,
         count: 1,
-        variables: {
-        }
+        variables: {}
       }, config)
       this.setPrintVariables(printOptions.variables)
+      this.$nextTick(() => {
+        this.lodopExport(printOptions)
+      })
+    },
+    lodopExport(printOptions) {
+      const app = this.$refs.app
+      const options = this.template.options
       const LODOP = window.LODOP
       if (!LODOP) {
         alert('请先安装lodop')
@@ -278,10 +604,12 @@ export default {
 .template-wrap {
   position: relative;
   font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+
   .component {
     padding: 0 10px 0 0;
     position: absolute;
     color: #000000;
+
     .QrCodeUi {
       max-width: 100%;
       vertical-align: middle;
