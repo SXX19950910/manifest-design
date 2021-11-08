@@ -33,8 +33,8 @@ module.exports = {
   indexPath,
   productionSourceMap: config.isDev,
   css: {
-    // extract: true,
-    // sourceMap: false,
+    extract: true,
+    sourceMap: false,
     // requireModuleExtension: true,
     loaderOptions: {
       scss: {

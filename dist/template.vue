@@ -1,4 +1,5 @@
 <script>
+
 export default {
   name: 'Manifest-Design',
   props: {
@@ -10,27 +11,35 @@ export default {
   data() {
     return {
       style: '* {   font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;  } .template-wrap { position: relative; } .component { padding: 0 10px 0 0; position: absolute; }',
-      template: JSON.parse('${template}')
+      template: JSON.parse('${template}'),
+      variables: {}
     }
   },
   mounted() {
     // 处理特殊类型组件
-    this.template.data.map(item => {
-      const isQrcode = this.isQrcode(item.type)
-      const isBarcode = this.isBarcode(item.type)
-      if (isQrcode) {
-        this.updateQrcode(item.id , item.props.data, item.props.options)
-      } else if (isBarcode) {
-        this.updateBarcode(item.id, item.props.data, item.props)
-      }
-    })
+    this.initSpecialWidget()
   },
   methods: {
-    updateBarcode(className, data, options) {
+    initSpecialWidget() {
+      this.template.data.map(item => {
+        this.updateImg(item)
+      })
+    },
+    updateImg(component, data) {
+      const isQrcode = this.isQrcode(component.type)
+      const isBarcode = this.isBarcode(component.type)
+      const value = data || component.props.data
+      if (isQrcode) {
+        this.updateQrcode(component.id, value, component.props.options)
+      } else if (isBarcode) {
+        this.updateBarcode(component.id, value, component.props)
+      }
+    },
+    updateBarcode(className, value, options) {
       try {
         const barcode = require('jsbarcode')
-        const { bodyHeight, lineWidth, format, data } = options;
-        barcode(`.${className}`, data, {
+        const {bodyHeight, lineWidth, format, data} = options;
+        barcode(`.${className}`, value || data, {
           format,
           width: lineWidth,
           height: bodyHeight,
@@ -71,8 +80,8 @@ export default {
       return type.includes('Text')
     },
     getContainerStyle(component) {
-      const { props = {}, position, rect, type } = component
-      const { fontSize, fontFamily, lineHeight, align, isBold } = props
+      const {props = {}, position, rect, type} = component
+      const {fontSize, fontFamily, lineHeight, align, isBold} = props
       const fontWeight = isBold ? 'bold' : 'normal'
       return {
         fontSize,
@@ -89,8 +98,8 @@ export default {
     },
     getSelfStyle(component) {
       let style = {}
-      const { props, rect, type } = component
-      const { borderWidth, fontSize, align } = props
+      const {props, rect, type} = component
+      const {borderWidth, fontSize, align} = props
       if (this.isLine(type)) {
         style.border = borderWidth ? `${borderWidth}px solid #000` : ''
         style.width = rect.width + 'px'
@@ -99,12 +108,25 @@ export default {
       if (this.isBarcode(type)) {
         style.fontSize = fontSize + 'px'
       }
-      console.log(type)
       if (this.isText(type)) {
         style.textAlign = align
         style.fontSize = fontSize
       }
       return style
+    },
+    getFields(component) {
+      return component.variable.textData.filter(item => item.key).map(item => item.key).join('')
+    },
+    renderText(component) {
+      let result = ''
+      if (component.variable.enable) {
+        component.variable.textData.map(item => {
+          result = result + `<span class="${item.key}">${item.value || item.value}</span>`
+        })
+      } else {
+        result = component.props.text || component.props.data
+      }
+      return result
     },
     generateWidget(createElement, component) {
       const renderMap = {
@@ -112,10 +134,14 @@ export default {
         qrcode: (create, instance) => this.renderQrcode(create, instance)
       }[component.name.toLowerCase()]
       const defaultRender = () => {
+        const attrs = {
+          'data-fields': this.getFields(component)
+        }
         return createElement(component.tag, {
           class: `${component.id} ${component.type}`,
-          domProps: { innerHTML: component.props.text || component.props.data},
-          style: this.getSelfStyle(component)
+          domProps: {innerHTML: this.renderText(component)},
+          style: this.getSelfStyle(component),
+          attrs
         })
       }
       return createElement('div',
@@ -146,16 +172,21 @@ export default {
           attrs: {
             alt: 'qrcode',
             draggable: 'false',
-            src: 'src'
+            src: 'src',
+            'data-fields': this.getFields(component)
           }
         })
       ])
     },
     renderBarcode(createElement, component) {
-      const $codeValue = createElement('span', {
+      const fields = this.getFields(component)
+      const $codeValue = createElement('p', {
         class: 'barcode-text',
-        domProps: { innerHTML: component.props.text || component.props.data},
+        domProps: {innerHTML: this.renderText(component)},
         style: this.getSelfStyle(component),
+        attrs: {
+          'data-fields': fields
+        }
       })
       return createElement('div', {
         class: 'barcode-wrap',
@@ -169,7 +200,7 @@ export default {
         createElement('img', {
           ref: 'img',
           class: ['barcode', component.id, component.type],
-          style: Object.assign(this.getSelfStyle(component), { width: '100%' }),
+          style: Object.assign(this.getSelfStyle(component), {width: '100%'}),
           attrs: {
             src: 'src',
             alt: 'barcode',
@@ -179,19 +210,60 @@ export default {
         component.props.displayValue === '1' && $codeValue
       ])
     },
+    getElementByAttr(tag, name, value) {
+      let res
+      const dom = document.getElementsByTagName(tag);
+      for (let i = 0; i < dom.length; i++) {
+        if (value === dom[i].getAttribute(name)) {
+          res = dom[i]
+        }
+      }
+      return res
+    },
+    getComponentByVariables(key) {
+      return this.template.data.filter(item => {
+        return item.variable.textData.filter(v => v.key === key).length > 0
+      })
+    },
+    setPrintVariables(variables) {
+      const setText = (key, value) => {
+        const $textDom = document.querySelectorAll('.' + key)
+        $textDom.length > 0 && $textDom.forEach(item => {
+          item.innerHTML = value
+        })
+      }
+      for (const key in variables) {
+        const value = variables[key]
+        const component = this.getComponentByVariables(key)
+        component.forEach(item => {
+          const isImg = item.tag === 'img'
+          if (isImg) {
+            this.updateImg(item, value)
+          }
+          setText(key, value)
+        })
+      }
+    },
     print(config = {}) {
-      const app = this.$refs.app
-      const options = this.template.options
       const printOptions = Object.assign({
         isPreview: true,
-        count: 1
+        count: 1,
+        variables: {}
       }, config)
+      this.setPrintVariables(printOptions.variables)
+      this.$nextTick(() => {
+        this.lodopExport(printOptions)
+      })
+    },
+    lodopExport(printOptions) {
+      const app = this.$refs.app
+      const options = this.template.options
       const LODOP = window.LODOP
       if (!LODOP) {
         alert('请先安装lodop')
       } else {
         LODOP.PRINT_INIT('');
-        LODOP.PRINT_INITA(0, 0)
+        LODOP.PRINT_INITA(0, 0);
         LODOP.SET_PRINT_PAGESIZE(1, options.width, options.height);
         LODOP.SET_PRINT_MODE("POS_BASEON_PAPER", true);
         LODOP.SET_PRINT_MODE("PRINT_PAGE_PERCENT", "Full-Page");
@@ -223,10 +295,12 @@ export default {
 .template-wrap {
   position: relative;
   font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+
   .component {
     padding: 0 10px 0 0;
     position: absolute;
     color: #000000;
+
     .QrCodeUi {
       max-width: 100%;
       vertical-align: middle;
