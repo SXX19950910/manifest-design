@@ -3,16 +3,46 @@
 export default {
   name: 'Manifest-Design',
   props: {
-    visible: {
+    allowInitLoad: {
       type: Boolean,
       default: true
-    }
+    },
   },
   data() {
     return {
-      style: '* {   font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;  } .template-wrap { position: relative; } .component { padding: 0 10px 0 0; position: absolute; }',
-      template: JSON.parse('${template}'),
-      variables: {}
+      template: JSON.parse('{ "value": "${template}" }'),
+      variables: {},
+      visible: this.allowInitLoad,
+      styleList: [
+        {
+          name: '.template-wrap',
+          value: '{ position: relative; }'
+        },
+        {
+          name: '.component',
+          value: '{ padding: 0 10px 0 0; position: absolute; }'
+        },
+        {
+          name: '.component .detail',
+          value: '{  display: inline-block; font-weight: normal; word-break: break-all; word-wrap: break-word; border: 1px solid transparent; }'
+        },
+        {
+          name: '.rectangle-warp',
+          value: '{ min-width: 20px; min-height: 20px; height: 100%; }'
+        },
+        {
+          name: '*',
+          value: '{ font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif; box-sizing: border-box; }'
+        }
+      ]
+    }
+  },
+  computed: {
+    style() {
+      return this.styleList.reduce((total, item) => {
+        total = total + `${item.name} ${item.value}`
+        return total
+      }, '')
     }
   },
   mounted() {
@@ -21,9 +51,13 @@ export default {
   },
   methods: {
     initSpecialWidget() {
-      this.template.data.map(item => {
+      if (!this.template.data) return
+      this.template.data.map((item) => {
         this.updateImg(item)
       })
+    },
+    setTemplate(template) {
+      this.template = template
     },
     updateImg(component, data) {
       const isQrcode = this.isQrcode(component.type)
@@ -46,7 +80,7 @@ export default {
           displayValue: false,
         });
       } catch (e) {
-
+        console.error(e)
       }
     },
     updateQrcode(className, data, options) {
@@ -97,30 +131,52 @@ export default {
       }
     },
     getSelfStyle(component) {
-      let style = {}
-      const {props, rect, type} = component
-      const {borderWidth, fontSize, align} = props
-      if (this.isLine(type)) {
-        style.border = borderWidth ? `${borderWidth}px solid #000` : ''
-        style.width = rect.width + 'px'
-        style.height = rect.height + 'px'
-      }
-      if (this.isBarcode(type)) {
+      const style = {}
+      const {props, type} = component
+      const {width, fontSize, align, borderWidth = '1', lineHeight, isBold, hasBorder, height, lineType = 'solid'} = props
+      const isXLine = type === 'XLineUi'
+      const isYLine = type === 'YLineUi'
+      const isBarcode = type === 'BarcodeUi'
+      const isText = type.includes('Text')
+      const isRectangle = type === 'RectangleUi'
+      if (isXLine) {
+        style.width = '100%'
+        style.borderTop = `${height}px`
+        if (lineType === 'solid') {
+          style.height = `${height}px`
+          style.backgroundColor = '#000'
+        } else if (lineType === 'dashed') {
+          style.borderTop = `${height}px ${lineType} #000`
+        }
+      } else if (isYLine) {
+        style.width = `${width}px`
+        style.minHeight = '100%'
+        if (lineType === 'solid') {
+          style.backgroundColor = '#000'
+        } else if (lineType === 'dashed') {
+          style.borderLeft = `${width}px ${lineType} #000`
+        }
+      } else if (isBarcode) {
         style.fontSize = fontSize + 'px'
-      }
-      if (this.isText(type)) {
+      } else if (isText) {
         style.textAlign = align
         style.fontSize = fontSize
+        style.lineHeight = lineHeight
+        style.border = hasBorder ? '1px solid #000' : '1px solid transparent'
+        style.fontWeight = isBold ? 'bold' : '400'
+      } else if (isRectangle) {
+        style.border = `${borderWidth}px ${lineType} #000`
       }
       return style
     },
     getFields(component) {
-      return component.variable.textData.filter(item => item.key).map(item => item.key).join('')
+      return component.variable ? component.variable.textData.filter((item) => item.key).map((item) => item.key).join('') : null
     },
     renderText(component) {
       let result = ''
-      if (component.variable.enable) {
-        component.variable.textData.map(item => {
+      const { variable } = component
+      if (variable && variable.enable) {
+        component.variable.textData.map((item) => {
           result = result + `<span class="${item.key}">${item.value || item.value}</span>`
         })
       } else {
@@ -130,19 +186,27 @@ export default {
     },
     generateWidget(createElement, component) {
       const renderMap = {
-        barcode: (create, instance) => this.renderBarcode(create, instance),
-        qrcode: (create, instance) => this.renderQrcode(create, instance)
-      }[component.name.toLowerCase()]
+        barCode: (create, instance) => this.renderBarcode(create, instance),
+        qrCode: (create, instance) => this.renderQrcode(create, instance),
+        xLine: (create, instance) => this.renderHorizontalLine(create, instance),
+        yLine: (create, instance) => this.renderVerticalLine(create, instance),
+        rectangle: (create, instance) => this.renderRectangle(create, instance),
+      }[component.name]
+      // console.log(component.name)
       const defaultRender = () => {
         const attrs = {
           'data-fields': this.getFields(component)
         }
         return createElement(component.tag, {
-          class: `${component.id} ${component.type}`,
-          domProps: {innerHTML: this.renderText(component)},
+          class: 'detail',
           style: this.getSelfStyle(component),
           attrs
-        })
+        }, [
+          createElement('span', {
+            class: `${component.id} ${component.type}`,
+            domProps: {innerHTML: this.renderText(component)},
+          })
+        ])
       }
       return createElement('div',
           {
@@ -177,6 +241,24 @@ export default {
           }
         })
       ])
+    },
+    renderHorizontalLine(createElement, component) {
+      return createElement(component.tag, {
+        class: 'x-line-wrap',
+        style: this.getSelfStyle(component)
+      })
+    },
+    renderVerticalLine(createElement, component) {
+      return createElement(component.tag, {
+        class: 'y-line-wrap',
+        style: this.getSelfStyle(component)
+      })
+    },
+    renderRectangle(createElement, component) {
+      return createElement(component.tag, {
+        class: 'rectangle-warp',
+        style: this.getSelfStyle(component)
+      })
     },
     renderBarcode(createElement, component) {
       const fields = this.getFields(component)
@@ -213,35 +295,39 @@ export default {
     getElementByAttr(tag, name, value) {
       let res
       const dom = document.getElementsByTagName(tag);
-      for (let i = 0; i < dom.length; i++) {
-        if (value === dom[i].getAttribute(name)) {
-          res = dom[i]
+      for (const item of dom) {
+        if (value === item.getAttribute(name)) {
+          res = item
         }
       }
       return res
     },
     getComponentByVariables(key) {
-      return this.template.data.filter(item => {
-        return item.variable.textData.filter(v => v.key === key).length > 0
+      return this.template.data.filter((item) => {
+        return item.variable && item.variable.textData.filter((v) => v.key === key).length > 0
       })
     },
     setPrintVariables(variables) {
       const setText = (key, value) => {
         const $textDom = document.querySelectorAll('.' + key)
-        $textDom.length > 0 && $textDom.forEach(item => {
-          item.innerHTML = value
-        })
+        if ($textDom && $textDom.length > 0) {
+          $textDom.forEach((item) => {
+            item.innerHTML = value
+          })
+        }
       }
       for (const key in variables) {
-        const value = variables[key]
-        const component = this.getComponentByVariables(key)
-        component.forEach(item => {
-          const isImg = item.tag === 'img'
-          if (isImg) {
-            this.updateImg(item, value)
-          }
-          setText(key, value)
-        })
+        if (variables.hasOwnProperty(key)) {
+          const value = variables[key]
+          const component = this.getComponentByVariables(key)
+          component.forEach((item) => {
+            const isImg = item.tag === 'img'
+            if (isImg) {
+              this.updateImg(item, value)
+            }
+            setText(key, value)
+          })
+        }
       }
     },
     print(config = {}) {
@@ -255,6 +341,20 @@ export default {
         this.lodopExport(printOptions)
       })
     },
+    preview() {
+      this.visible = true
+      if (window.previewWindow) window.previewWindow.close();
+      this.$nextTick(() => {
+        this.initSpecialWidget()
+        const $app = `<style>${this.style}</style>${this.$refs.app.outerHTML}`
+        window.previewWindow = window.open();
+        window.previewWindow.document.write($app);
+        window.previewWindow.document.title = '模板预览'
+        window.previewWindow.print()
+        window.previewWindow.document.close();
+        this.visible = false
+      })
+    },
     lodopExport(printOptions) {
       const app = this.$refs.app
       const options = this.template.options
@@ -265,8 +365,8 @@ export default {
         LODOP.PRINT_INIT('');
         LODOP.PRINT_INITA(0, 0);
         LODOP.SET_PRINT_PAGESIZE(1, options.width, options.height);
-        LODOP.SET_PRINT_MODE("POS_BASEON_PAPER", true);
-        LODOP.SET_PRINT_MODE("PRINT_PAGE_PERCENT", "Full-Page");
+        LODOP.SET_PRINT_MODE('POS_BASEON_PAPER', true);
+        LODOP.SET_PRINT_MODE('PRINT_PAGE_PERCENT', 'Full-Page');
         LODOP.ADD_PRINT_HTM(0, 0, '100%', '100%', `<!DOCTYPE html><html class="print-html" lang="en"><head><style>${this.style}</style><title>打印Print</title></head><body>${app.innerHTML}</body></html>`)
         printOptions.isPreview ? LODOP.PREVIEW() : LODOP.PRINT()
       }
@@ -283,10 +383,14 @@ export default {
       }
     },
   },
-  render(createElement, context) {
-    return createElement('div', this.generateBoard(), this.template.data.map(component => {
-      return this.generateWidget(createElement, component)
-    }))
+  render(createElement) {
+    if (this.visible) {
+      return createElement('div', this.generateBoard(), this.template.data.map((component) => {
+        return this.generateWidget(createElement, component)
+      }))
+    } else {
+      return createElement(null)
+    }
   }
 }
 </script>
@@ -295,7 +399,6 @@ export default {
 .template-wrap {
   position: relative;
   font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
-
   .component {
     padding: 0 10px 0 0;
     position: absolute;

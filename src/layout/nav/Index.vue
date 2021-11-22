@@ -1,35 +1,38 @@
 <template>
-  <div id="nav-warp">
-    <div class="logo-area">
-      Design UI
-    </div>
-    <div class="handle-area">
-      <div class="preview-btn" @click="handleGenerateFile">
-        <i class="el-icon-magic-stick"></i>
-        <span>生成vue模板组件</span>
+  <div>
+    <div id="nav-warp">
+      <div class="logo-area">
+        Design UI
       </div>
-      <div class="preview-btn" @click="handleSaveTemplateToImg">
-        <i class="el-icon-picture-outline"></i>
-        <span>保存为图片</span>
-      </div>
-      <div class="preview-btn" @click="handleShowSaveDialog">
-        <i class="el-icon-receiving"></i>
-        <span>保存为模板</span>
-      </div>
-      <div class="preview-btn" @click="handleViewTemplate">
-        <i class="el-icon-reading"></i>
-        <span>打印预览</span>
-      </div>
-      <div class="preview-btn" @click="handlePrint">
-        <i class="el-icon-printer"></i>
-        <span>快速打印</span>
-      </div>
-      <div class="preview-btn" @click="handleClearCanvas">
-        <i class="el-icon-magic-stick"></i>
-        <span>清空画布</span>
+      <div class="handle-area">
+        <div class="preview-btn" @click="handleGenerateFile">
+          <i class="el-icon-magic-stick"></i>
+          <span>生成vue模板组件</span>
+        </div>
+        <div class="preview-btn" @click="handleSaveTemplateToImg">
+          <i class="el-icon-picture-outline"></i>
+          <span>保存为图片</span>
+        </div>
+        <div class="preview-btn" @click="handleShowSaveDialog">
+          <i class="el-icon-receiving"></i>
+          <span>保存为模板</span>
+        </div>
+        <div class="preview-btn" @click="handleViewTemplate">
+          <i class="el-icon-reading"></i>
+          <span>打印预览</span>
+        </div>
+        <div class="preview-btn" @click="handlePrint">
+          <i class="el-icon-printer"></i>
+          <span>快速打印</span>
+        </div>
+        <div class="preview-btn" @click="handleClearCanvas">
+          <i class="el-icon-magic-stick"></i>
+          <span>清空画布</span>
+        </div>
       </div>
     </div>
     <save-dialog ref="save" />
+    <print-template :allow-init-load="false" ref="print" />
   </div>
 </template>
 
@@ -38,9 +41,11 @@
   import saveDialog from './tools/SaveDialog/Index.vue';
   import PrintHtml from '@/public/PrintHtml';
   import core from '@/public/PrintHtml/core.js'
+  import printTemplate from './../../../public/template.vue'
   export default {
     components: {
       saveDialog,
+      printTemplate
     },
     data() {
       return {
@@ -51,52 +56,6 @@
       //
     },
     methods: {
-      generatePreview(template) {
-        const html = `
-         <!Doctype html>
-      <html>
-        <head>
-          <title>Desgin Ui 预览</title>
-          <style>
-            html,body{
-              margin: 0;
-              padding: 0;
-              overflow: auto;
-              background-color: #000;
-              position: relative;
-              height: 100vh;
-            }
-            .container {
-              box-sizing: border-box;
-              width: 500px;
-              height: 500px;
-              position: absolute;
-              top: 50%;
-              left: 50%;
-              transform: translate(-50%, -50%);
-              background-color: white;
-            }
-            .text-component .detail {
-              display: inline-block;
-              font-weight: normal;
-              word-break: break-all;
-              word-wrap: break-word;
-              border: 1px solid transparent;
-            }
-            .container .item {
-              display: none;
-            }
-            .container .drag-warp {
-              position: absolute;
-            }
-          </style>
-        </head>
-        <body>
-          <div class="container">${template}</div>
-        </body>
-      </html>`
-        return html
-      },
       convertBase64UrlToBlob(urlData) {
         const bytes = window.atob(urlData.split(',')[1]);
         const ab = new ArrayBuffer(bytes.length);
@@ -138,13 +97,13 @@
         window.URL.revokeObjectURL(url);
       },
       handleViewTemplate() {
-        const $template = document.querySelector('.drag-canvas-warp.board-canvas').innerHTML;
-        const html = this.generatePreview($template)
-        if (window.previewWindow) window.previewWindow.close();
-        window.previewWindow = window.open();
-        window.previewWindow.document.write(html);
-        window.previewWindow.print()
-        window.previewWindow.document.close();
+        const { storeList, page } = this.$store.state.components
+        const template = {
+          data: storeList,
+          options: page
+        }
+        this.$refs.print.setTemplate(template)
+        this.$refs.print.preview()
       },
       handleClearCanvas() {
         const that = this;

@@ -27,6 +27,25 @@
   margin: 0 0 15px 0;
 }
 
+@charset "UTF-8";
+.template-wrap {
+  position: relative;
+  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+}
+.template-wrap .component {
+    padding: 0 10px 0 0;
+    position: absolute;
+    color: #000000;
+}
+.template-wrap .component .QrCodeUi {
+      max-width: 100%;
+      vertical-align: middle;
+      -webkit-user-select: none;
+         -moz-user-select: none;
+          -ms-user-select: none;
+              user-select: none;
+}
+
 #nav-warp {
   width: 100%;
   height: 32px;

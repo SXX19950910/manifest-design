@@ -2538,6 +2538,7 @@ const components = {
         props: {
           height: 60,
           width: 1,
+          lineType: 'solid'
         },
       },
       rectangle: {

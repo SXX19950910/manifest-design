@@ -12,10 +12,8 @@ export default {
             height
         }
     },
-    getHtml() {
-        return document.querySelector('.board-warp').innerHTML
-    },
     async generate(data) {
+        const flag = '{ "value": "${template}" }'
         const url = config.isDev ? '/template.vue' : 'https://shixiaoxi.cn/design/template.vue'
         const res = await axios.get(url)
         let result = res.data
@@ -24,7 +22,7 @@ export default {
             options: this.getOptions(),
             scheme: JSON.stringify(scheme)
         }
-        return result.replace('${template}', JSON.stringify(template))
+        return result.replace(flag, JSON.stringify(template))
     },
     async build(template) {
         const blob = new Blob([await this.generate(template)], { type: "text/plain;charset=utf-8" });
