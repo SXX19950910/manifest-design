@@ -2,13 +2,9 @@
 
 基于vue开发的商品标签设计系统
 
-#### 本项目已迁移至阿里云服务器，可稳定访问
-
 <div align="center"><a href="./README-en.md">English</a> | 简体中文</div>
 
 ``Email：916411582@qq.com``
-
-### [项目演示地址](https://shixiaoxi.cn)
 
 ### [项目演示地址(github)](https://sxx19950910.github.io/manifest-design/)
 
