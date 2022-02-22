@@ -1,9 +1,10 @@
 {
-  "name": "manifest-design",
-  "version": "1.0.0",
+  "name": "new-manifest-design",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "vue-cli-service serve --mode dev",
+    "build": "vue-cli-service build",
     "build:git": "vue-cli-service build --mode git",
     "build:serve": "vue-cli-service build --mode serve",
     "test:unit": "vue-cli-service test:unit",
@@ -11,49 +12,66 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "axios": "^0.21.4",
-    "compression-webpack-plugin": "5.0.2",
-    "core-js": "^3.6.4",
+    "axios": "^0.26.0",
+    "core-js": "^3.8.3",
     "element-ui": "^2.15.6",
     "file-saver": "^2.0.5",
-    "html-webpack-plugin": "^4.5.0",
-    "html2canvas": "^1.0.0-rc.5",
-    "jsbarcode": "^3.11.0",
-    "loadsh": "^0.0.4",
-    "lodash": "^4.17.15",
-    "node-sass": "5.0.0",
-    "qrcode": "^1.4.4",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
-    "sass-loader": "10.1.1",
-    "throttle-debounce": "^2.1.0",
-    "view-design": "^4.4.0",
-    "vue": "^2.6.11",
-    "vue-class-component": "^7.2.3",
-    "vue-property-decorator": "^8.4.1",
-    "vue-router": "^3.1.6",
+    "html2canvas": "^1.4.1",
+    "jsbarcode": "^3.11.5",
+    "lodash": "^4.17.21",
+    "qrcode": "^1.5.0",
+    "throttle-debounce": "^3.0.1",
+    "view-design": "^4.7.0",
+    "vue": "^2.6.14",
+    "vue-router": "^3.5.1",
     "vuedraggable": "^2.24.3",
-    "vuex": "^3.1.3"
+    "vuex": "^3.6.2"
   },
   "devDependencies": {
-    "@types/chai": "^4.2.11",
-    "@types/mocha": "^5.2.4",
-    "@vue/cli-plugin-babel": "~4.3.0",
-    "@vue/cli-plugin-e2e-cypress": "~4.3.0",
-    "@vue/cli-plugin-router": "~4.3.0",
-    "@vue/cli-plugin-typescript": "~4.3.0",
-    "@vue/cli-plugin-unit-mocha": "~4.3.0",
-    "@vue/cli-plugin-vuex": "~4.3.0",
-    "@vue/cli-service": "~4.3.0",
-    "@vue/test-utils": "1.0.0-beta.31",
+    "@babel/core": "^7.12.16",
+    "@babel/eslint-parser": "^7.12.16",
+    "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-eslint": "~5.0.0",
+    "@vue/cli-plugin-router": "~5.0.0",
+    "@vue/cli-plugin-vuex": "~5.0.0",
+    "@vue/cli-service": "~5.0.0",
     "babel-plugin-import": "^1.13.3",
-    "chai": "^4.1.2",
-    "typescript": "~3.8.3",
-    "vue-template-compiler": "^2.6.11"
+    "compression-webpack-plugin": "^9.2.0",
+    "eslint": "^7.32.0",
+    "eslint-plugin-vue": "^8.0.3",
+    "lint-staged": "^11.1.2",
+    "node-sass": "^7.0.1",
+    "sass-loader": "^12.6.0",
+    "vue-template-compiler": "^2.6.14"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "@babel/eslint-parser"
+    },
+    "rules": {
+      "no-unused-vars": 0,
+      "no-undef": 0,
+      "no-empty": 0,
+      "vue/multi-word-component-names": 0
+    }
   },
   "browserslist": [
     "> 1%",
     "last 2 versions",
     "not dead"
-  ]
+  ],
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,jsx,vue}": "vue-cli-service lint"
+  }
 }

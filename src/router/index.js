@@ -3,7 +3,6 @@ import VueRouter from 'vue-router';
 import Edit from '../views/edit/Index.vue';
 import List from '../views/list/Index.vue';
 import Test from '../views/test/Index.vue';
-// @ts-ignore
 import config from './../../config/index.js';
 Vue.use(VueRouter);
 const routes = [

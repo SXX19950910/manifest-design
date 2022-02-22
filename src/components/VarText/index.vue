@@ -2,7 +2,7 @@
   <span class="var-text-wrap">
     <template v-for="item in textData">
       <span v-if="!item.key" :key="item.index">{{ item.value }}</span>
-      <span v-else class="var" :data-field-key="item.key" @click.stop="handleTapText">{{ item.value }}</span>
+      <span v-else class="var" :key="item.index" :data-field-key="item.key" @click.stop="handleTapText">{{ item.value }}</span>
     </template>
   </span>
 </template>

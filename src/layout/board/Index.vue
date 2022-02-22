@@ -11,8 +11,7 @@
 
 <script>
   import DragCanvas from '@/components/DragCanvas/Index.vue'
-  import { ToolsDrawer } from '@/public'
-  import _ from 'loadsh'
+  import _ from 'lodash'
   import { debounce } from 'throttle-debounce'
   import { on, off } from '@/utils/dom'
   export default {
@@ -20,8 +19,7 @@
       //
     },
     components: {
-      DragCanvas,
-      ToolsDrawer,
+      DragCanvas
     },
     data() {
       return {

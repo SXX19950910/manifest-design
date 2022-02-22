@@ -27,6 +27,7 @@
         if (isYLine && currentComponent) {
           style.width = `${currentComponent.props.height}px`;
         }
+        return style
       },
       ...mapGetters(['activeComponent', 'storeList']),
       currentComponent() {

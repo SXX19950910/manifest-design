@@ -317,7 +317,7 @@ export default {
         }
       }
       for (const key in variables) {
-        if (variables.hasOwnProperty(key)) {
+        if (variables.hasOwn(key)) {
           const value = variables[key]
           const component = this.getComponentByVariables(key)
           component.forEach((item) => {

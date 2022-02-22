@@ -4,7 +4,7 @@
       <el-collapse-item v-for="(item, index) in componentList" :key="index" :title="item.title" :name="item.title">
         <template v-if="item.list && item.list.length > 0">
           <draggable class="component-list" v-bind="dragOptions" @end="onEnd">
-            <div v-for="(tag, index) in item.list" :key="tag.id" class="item" :data-component-id="tag.id">
+            <div v-for="(tag) in item.list" :key="tag.id" class="item" :data-component-id="tag.id">
               <span class="name">{{ tag.title }}</span><i :class="tag.icon"></i>
             </div>
           </draggable>
