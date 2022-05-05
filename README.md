@@ -32,7 +32,7 @@ this.$refs.template.print({
         barcodeValue: 'value2',
         qrcodeValue: 'value3'
     }
-}),
+})
 ```
 
 ## 近期计划
