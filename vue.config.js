@@ -44,6 +44,7 @@ module.exports = defineConfig({
         }
     },
     configureWebpack: config => {
+        config.optimization.nodeEnv = false
         const com = new CompressionWebpackPlugin({
             algorithm: 'gzip',
             test: new RegExp('\\.(' + productionGzipExtensions.join('|') + ')$'),

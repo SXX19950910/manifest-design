@@ -2371,7 +2371,7 @@ const defaultTemplate = [
 
 const localTemplate = localStorage.getItem('templateList') || JSON.stringify(defaultTemplate)
 const generateId = () => {
-    return Number(String(Math.random()).substring(3, length) + Date.now()).toString(36);
+    return _.uniqueId('component-')
 }
 const remove = (list, prop, value) => {
     list.map((item, index) => {
