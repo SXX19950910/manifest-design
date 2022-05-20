@@ -3,6 +3,11 @@
   align-items: center;
 }
 
+.text-center {
+  text-align: center;
+}
+
+
 .shrink-0 {
   flex-shrink: 0;
 }
@@ -23,4 +28,18 @@
   padding: 0 15px;
 }
 
+.pd-20px {
+  padding: 20px;
+}
 
+.justify-end {
+  justify-content: end;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.flex {
+  display: flex;
+}

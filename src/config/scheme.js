@@ -9,7 +9,7 @@ export default {
                 attrs: {
                     alt: 'qrcode',
                     draggable: 'false',
-                    src: 'src'
+                    src: 'wqeqwewqe'
                 }
             })
         ])
@@ -31,7 +31,7 @@ export default {
                 style: context.getStyle,
                 attrs: {
                     alt: 'barcode',
-                    src: 'src',
+                    src: '',
                     draggable: 'false'
                 }
             }),

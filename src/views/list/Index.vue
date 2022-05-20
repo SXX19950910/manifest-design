@@ -2,6 +2,9 @@
   <div id="list-warp">
     <div class="handle-area mb-20">
       <el-button type="primary" size="small" @click="handleGoCreate">创建模板</el-button>
+      <el-badge value="New">
+        <el-button class="ml-15" type="primary" size="small" @click="handleShowBatch">模板打印机</el-button>
+      </el-badge>
     </div>
     <el-tabs class="tab-area" v-model="tab" type="border-card">
       <el-tab-pane name="usually" label="通用模板">
@@ -65,6 +68,9 @@
       handleGoCreate() {
         this.$router.push({ name: 'Edit' });
       },
+      handleShowBatch() {
+        this.$router.push({ name: 'Batch' })
+      }
     },
   };
 </script>

@@ -1,6 +1,7 @@
 import barcode from 'jsbarcode';
 import Vue from 'vue'
 import _ from 'lodash';
+import { generateLetterId } from 'letter-id'
 import { Notification } from 'element-ui'
 import { getStringVars } from '@/utils';
 const defaultTemplate = [
@@ -2371,7 +2372,7 @@ const defaultTemplate = [
 
 const localTemplate = localStorage.getItem('templateList') || JSON.stringify(defaultTemplate)
 const generateId = () => {
-    return _.uniqueId('component-')
+    return generateLetterId()
 }
 const remove = (list, prop, value) => {
     list.map((item, index) => {

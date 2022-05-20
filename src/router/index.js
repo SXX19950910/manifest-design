@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import Edit from '../views/edit/Index.vue';
 import List from '../views/list/Index.vue';
 import Test from '../views/test/Index.vue';
+import Batch from '@/views/batch';
 import config from './../../config/index.js';
 Vue.use(VueRouter);
 const routes = [
@@ -24,6 +25,11 @@ const routes = [
         path: '/test',
         name: 'Test',
         component: Test
+    },
+    {
+        path: '/batch',
+        name: 'Batch',
+        component: Batch
     }
 ];
 const router = new VueRouter({
