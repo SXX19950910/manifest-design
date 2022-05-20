@@ -242,7 +242,7 @@ export default {
         })
       ])
     },
-    renderHorizontalLine(createElement, component) {
+    renderHorizontalLine (createElement, component) {
       return createElement(component.tag, {
         class: 'x-line-wrap',
         style: this.getSelfStyle(component)
