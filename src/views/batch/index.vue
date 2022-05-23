@@ -15,14 +15,14 @@
         <el-form-item v-for="item in vars" :key="item" :prop="item" :label="`变量(${item})`">
           <el-input v-model="form[item]" placeholder="请输入要在模板上面显示的内容" />
         </el-form-item>
-        <el-form-item label="打印张数(批量打印开发中...)">
+        <el-form-item label="打印张数">
           <el-input-number v-model="form.printNumber" />
         </el-form-item>
-        <design-template ref="designTemplate" v-if="previewTemplate" :template="previewTemplate" />
-        <el-link type="primary" icon="el-icon-s-promotion" @click="handlePreview">预览模板</el-link>
       </el-form>
       <div slot="footer">
-        <el-button type="primary" size="small" @click="handleSubmit">确认</el-button>
+        <el-button type="primary" icon="el-icon-s-promotion" @click="handlePreview" size="small">预览模板</el-button>
+        <el-button type="primary" size="small" @click="handlePrint">浏览器打印</el-button>
+        <el-button type="primary" size="small" @click="handlePluginPrint">Lodop插件打印</el-button>
         <el-button size="small" @click="handleCancel">取消</el-button>
       </div>
     </el-dialog>
@@ -31,11 +31,10 @@
 
 <script>
 import TemplateImage from '@/components/TemplateImage'
+import { PRINT_TYPE } from '@/config/print'
 import Design from '@/core'
-import DesignTemplate from "@/components/DesignTemplate";
 export default {
   components: {
-    DesignTemplate,
     TemplateImage
   },
   data() {
@@ -73,14 +72,32 @@ export default {
     handleCancel() {
       this.visible = false
     },
-    handleSubmit() {
+    generateUrl(options = {}) {
+      const { printType } = options
+      const template = JSON.parse(JSON.stringify(this.$store.getters.templateList[this.activeIndex]))
+      const { form } = this
+      const query = {
+        templateName: template.name,
+        printType
+      }
+      for (const key in form) {
+        if (Object.hasOwn(form, key) && form[key]) {
+          query[key] = form[key]
+        }
+      }
+      return this.$router.resolve({ name: 'Preview', query })
+    },
+    handlePluginPrint() {
+      const path = this.generateUrl({ printType: PRINT_TYPE.LODOP })
+      window.open(path.href, '_blank')
     },
     handlePreview() {
-      this.previewTemplate = JSON.parse(JSON.stringify(this.$store.getters.templateList[this.activeIndex]))
-      this.$nextTick(() => {
-        this.$refs.designTemplate.setPrintVariables(this.form)
-        this.$refs.designTemplate.preview()
-      })
+      const path = this.generateUrl()
+      window.open(path.href, '_blank')
+    },
+    handlePrint() {
+      const path = this.generateUrl({ printType: PRINT_TYPE.BROWSER })
+      window.open(path.href, '_blank')
     }
   }
 }

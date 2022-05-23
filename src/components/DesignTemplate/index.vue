@@ -59,10 +59,10 @@ export default {
         this.updateImg(item)
       })
     },
-    updateImg(component, data) {
+    updateImg(component) {
       const isQrcode = Design.isQrcode(component.type)
       const isBarcode = Design.isBarcode(component.type)
-      const value = data || component.props.data
+      const value = component.props.data
       if (isQrcode) {
         this.updateQrcode(component.id, value, component.props.options)
       } else if (isBarcode) {
@@ -131,10 +131,11 @@ export default {
         // window.previewWindow.document.close();
       })
     },
-    lodopExport(printOptions) {
+    lodopExport(printOptions = {}) {
       const app = this.$refs.app
       const options = this.template.options
       const LODOP = window.LODOP
+      const { isPreview } = printOptions
       if (!LODOP) {
         alert('请先安装lodop')
       } else {
@@ -144,7 +145,7 @@ export default {
         LODOP.SET_PRINT_MODE('POS_BASEON_PAPER', true);
         LODOP.SET_PRINT_MODE('PRINT_PAGE_PERCENT', 'Full-Page');
         LODOP.ADD_PRINT_HTM(0, 0, '100%', '100%', `<!DOCTYPE html><html class="print-html" lang="en"><head><style>${this.style}</style><title>打印Print</title></head><body>${app.innerHTML}</body></html>`)
-        printOptions.isPreview ? LODOP.PREVIEW() : LODOP.PRINT()
+        isPreview ? LODOP.PREVIEW() : LODOP.PRINT()
       }
     },
     setPrintVariables(variables) {
@@ -163,7 +164,8 @@ export default {
           component.forEach((item) => {
             const isImg = item.tag === 'img'
             if (isImg) {
-              this.updateImg(item, value)
+              item.props.data = value
+              this.updateImg(item)
             }
             setText(key, value)
           })
