@@ -1,9 +1,10 @@
-import barcode from 'jsbarcode';
+import barcode from 'jsbarcode'
 import Vue from 'vue'
 import _ from 'lodash';
-import { generateLetterId } from 'letter-id'
-import { Notification } from 'element-ui'
-import { getStringVars } from '@/utils';
+import {generateLetterId} from 'letter-id'
+import {Notification} from 'element-ui'
+import {getStringVars} from '@/utils';
+
 const defaultTemplate = [
     {
         "name": "使用手册",
@@ -2394,6 +2395,32 @@ const components = {
             left: ''
         },
         componentMap: {
+            table: {
+                name: 'table',
+                type: 'TableUi',
+                classify: 'TableMenu',
+                title: '列表',
+                updateId: '',
+                instance: false,
+                tag: 'div',
+                position: {
+                    clientX: '',
+                    clientY: '',
+                },
+                default: {
+                    width: '',
+                    height: '',
+                    x: '',
+                    y: '',
+                },
+                variable: {
+                    enable: false,
+                    textData: []
+                },
+                props: {
+                    borderStyle: 'solid'
+                }
+            },
             senderAddress: {
                 name: 'senderAddress',
                 type: 'TextUi',
@@ -2650,6 +2677,14 @@ const components = {
             {
                 title: '商品标签信息',
                 list: [
+                    {
+                        title: '列表',
+                        id: 'table',
+                        icon: 'iconfont iconliebiao',
+                        component: {
+                            type: 'TableUi',
+                        },
+                    }
                 ],
             },
             {
@@ -2724,26 +2759,26 @@ const components = {
         valve: 0
     },
     actions: {
-        setComponentVariable({ commit }) {
+        setComponentVariable({commit}) {
             // const active = state.storeList.find((item: any) => item.id === state.activeComponent.id)
             commit('SET_COMPONENT_VARIABLE')
         },
-        updateValve({ commit }, payload) {
+        updateValve({commit}, payload) {
             commit('UPDATE_VALVE', payload)
         },
-        setPageSize({ commit }, payload) {
+        setPageSize({commit}, payload) {
             commit('SET_PAGE_SIZE', payload);
         },
-        setLine({ commit }, payload = { left: 0, top: 0 }) {
+        setLine({commit}, payload = {left: 0, top: 0}) {
             commit('SET_LINE', payload)
         },
-        updateStoreList({ commit }, payload) {
+        updateStoreList({commit}, payload) {
             commit('UPDATE_STORE_LIST', payload);
         },
-        removeActiveComponent({ commit }) {
+        removeActiveComponent({commit}) {
             commit('REMOVE_ACTIVE_COMPONENT')
         },
-        addComponent({ commit, state }, payload) {
+        addComponent({commit, state}, payload) {
             const id = generateId();
             const entity = state.componentMap[payload.componentId];
             if (!entity) {
@@ -2754,19 +2789,19 @@ const components = {
             const getComponent = Object.assign(component, payload.props);
             commit('ADD_COMPONENT', getComponent);
         },
-        setLayoutData({ commit }) {
+        setLayoutData({commit}) {
             const $board = document.querySelector('.drag-canvas-warp')
-            const { x, y } = $board.getBoundingClientRect();
+            const {x, y} = $board.getBoundingClientRect();
             const minLeft = x
             const maxLeft = x + 500
             const minTop = y
             const maxTop = y + 500
-            commit('SET_LAYOUT_DATA', { minLeft, maxLeft, minTop, maxTop, x, y })
+            commit('SET_LAYOUT_DATA', {minLeft, maxLeft, minTop, maxTop, x, y})
         },
-        setActive({ commit }, id) {
+        setActive({commit}, id) {
             commit('SET_ACTIVE', id || '');
         },
-        saveTemplate({ commit, state }, payload) {
+        saveTemplate({commit, state}, payload) {
             const list = localStorage.getItem('templateList') || JSON.stringify(defaultTemplate)
             const template = {
                 name: payload.name,
@@ -2781,12 +2816,12 @@ const components = {
             localStorage.setItem('templateList', JSON.stringify(newList))
             commit('SAVE_TEMPLATE', template);
         },
-        batchSelection({ commit }, payload) {
+        batchSelection({commit}, payload) {
             commit('SET_SELECTION', payload)
         },
-        updateBarcode({ state }) {
+        updateBarcode({state}) {
             const current = state.storeList.find((item) => item.id === state.activeComponent.id || '') || {};
-            const { format, lineWidth, bodyHeight, fontSize } = current.props;
+            const {format, lineWidth, bodyHeight, fontSize} = current.props;
             try {
                 barcode(`.${current.id}`, current.props.data, {
                     format,
@@ -2805,20 +2840,20 @@ const components = {
                 });
             }
         },
-        updateComponent({ commit, state }, payload) {
+        updateComponent({commit, state}, payload) {
             const current = state.storeList.find((item) => item.id === payload.id);
             const newCurrent = _.cloneDeep(current);
             newCurrent.updateId = new Date().getTime().toString();
             const component = Object.assign(newCurrent, payload.update);
             commit('UPDATE_COMPONENT', component);
         },
-        clearStoreList({ commit }) {
+        clearStoreList({commit}) {
             commit('CLEAR_STORE_LIST');
         },
-        clearSelection({ commit }) {
+        clearSelection({commit}) {
             commit('CLEAR_SELECTION')
         },
-        hideStoreLoading({ commit }) {
+        hideStoreLoading({commit}) {
             commit('HIDE_STORE_LOADING')
         }
     },
@@ -2840,12 +2875,12 @@ const components = {
             }
         },
         SET_LINE(state, payload) {
-            const { top = 0, left = 0 } = payload
+            const {top = 0, left = 0} = payload
             state.line.top = top
             state.line.left = left
         },
         SET_LAYOUT_DATA(state, payload) {
-            const { minTop, maxTop, minLeft, maxLeft } = payload
+            const {minTop, maxTop, minLeft, maxLeft} = payload
             state.board.maxLeft = maxLeft
             state.board.maxTop = maxTop
             state.board.minLeft = minLeft
@@ -2856,7 +2891,7 @@ const components = {
                 total.ids.push(current.id)
                 total.instance.push(current)
                 return total
-            }, { instance: [], ids: []  })
+            }, {instance: [], ids: []})
         },
         CLEAR_SELECTION(state) {
             state.selected.ids = []

@@ -12,8 +12,10 @@ import {
   LineMenu,
   RectangleUi,
   RectangleMenu,
+  TableMenu,
   VarText,
-  VarInput
+  VarInput,
+  TableUi,
 } from './index';
 
 export default [
@@ -70,11 +72,19 @@ export default [
     component: RectangleMenu,
   },
   {
+    id: 'TableMenu',
+    component: TableMenu
+  },
+  {
     id: 'VarText',
     component: VarText,
   },
   {
     id: 'VarInput',
     component: VarInput
+  },
+  {
+    id: 'TableUi',
+    component: TableUi
   }
 ]

@@ -8,8 +8,10 @@ export { default as RectangleUi } from './Rectangle/Index.vue'
 export { default as YLineUi } from './YLine/Index.vue';
 export { default as TextMenu } from '@/public/TextMenu/Index.vue';
 export { default as BarcodeMenu } from '@/public/BarcodeMenu/Index.vue';
+export { default as TableMenu } from '@/public/TableMenu/Index.vue';
 export { default as QrCodeMenu } from '@/public/QrCodeMenu/Index.vue';
 export { default as LineMenu } from '@/public/LineMenu/Index.vue';
 export { default as RectangleMenu } from '@/public/RectangleMenu/Index.vue';
 export { default as VarText } from './VarText';
 export { default as VarInput } from './VarInput';
+export { default as TableUi } from './Table/Index';
