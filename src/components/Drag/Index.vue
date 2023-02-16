@@ -1,6 +1,6 @@
 <template>
   <div ref="drag" :id="aimId" class="drag-warp" :class="activeClass" :style="dragStyle" @click.stop="handleSetCurrent" @mousedown.stop="handleMouseDown" @contextmenu="handleContextMenu">
-    <component :is="componentObject.type" v-bind="componentObject.props" :element-id="componentObject.id" :update-id="componentObject.updateId" @complete="init" />
+    <component :is="componentObject.type" v-bind="componentObject.props" :is-active="isActive" :element-id="componentObject.id" :update-id="componentObject.updateId" @complete="init" />
     <drag-resize v-if="resizeVisible" :component-object="componentObject" @resize-down="handleResizeDown"/>
   </div>
 </template>
@@ -116,6 +116,9 @@
       resizeDisabledX() {
         return this.componentObject.type === 'YLineUi';
       },
+      isActive() {
+        return this.activeComponent.id === this.componentObject.id
+      },
       resizeVisible() {
         return this.activeClass.includes('is-active');
       },
@@ -170,8 +173,8 @@
         this.$store.dispatch('components/clearSelection')
         const $drag = e.path.find((item) => item.className.includes('drag-warp'));
         const { top, left } = $drag.getBoundingClientRect();
-        this.downX = e.clientX - left
-        this.downY = e.clientY - top;
+        this.downX = event.clientX - left
+        this.downY = event.clientY - top;
         on(document, 'mousemove', this.handleMouseMove);
         on(document, 'mouseup', this.handleMouseUp);
         this.handleSetCurrent();

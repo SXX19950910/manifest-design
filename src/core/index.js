@@ -146,6 +146,10 @@ export default class Design {
         return type.includes('Text')
     }
 
+    static isEditable(type) {
+        return type === 'TableUi'
+    }
+
     static getTemplateVars(template) {
         return template.data.reduce((total, item) => {
             if (item?.variable?.enable) {

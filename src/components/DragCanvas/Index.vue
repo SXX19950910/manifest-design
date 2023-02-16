@@ -12,6 +12,7 @@
   import draggable from 'vuedraggable';
   import { mapGetters } from 'vuex';
   import { on, off } from '@/utils/dom'
+  import Design from '@/core';
   import { debounce, throttle } from 'throttle-debounce'
   export default {
     props: {
@@ -112,20 +113,19 @@
           }
         ]
         if (id) {
-          e.preventDefault()
           const $drag = this.$refs.drag.find((item) => item.aimId === id)
           const worker = keysHandler.find((item) => item.code === keyCode)
           if (worker && $drag[worker.handler]) {
             $drag[worker.handler]()
+            e.preventDefault()
           }
         }
       },
       onDeleteKeyUp(e) {
-        // 如果是删除键则删除选中的组件
+        const isEditable = Design.isEditable(this.activeComponent.type)
         if (e.keyCode === 8) {
-          this.$store.dispatch('components/removeActiveComponent')
+          !isEditable && this.$store.dispatch('components/removeActiveComponent')
         }
-        // 重制阀值
         this.updateValve(0)
       },
       removeListener() {
@@ -134,7 +134,6 @@
         off(window, 'keydown', this.onKeyDown)
       },
       onWindowResize(e) {
-        // 键盘上下左右会触发resize事件，但不会返回event对象
         this.$store.dispatch('components/setLayoutData')
         const $dragList = this.$refs.drag
         if ($dragList && $dragList.length > 0) {

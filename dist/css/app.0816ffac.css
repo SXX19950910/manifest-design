@@ -35,6 +35,12 @@
 .flex {
   display: flex;
 }
+.relative {
+  position: relative;
+}
+.w-full {
+  width: 100%;
+}
 
 /*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-22.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-22.use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-22.use[3]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./src/layout/nav/tools/SaveDialog/Index.vue?vue&type=style&index=0&id=0fa082f8&lang=scss& ***!
@@ -281,6 +287,7 @@
       position: relative;
       height: 100%;
       z-index: 90;
+      overflow: auto;
 }
 .app-warp .body-area .right-menu .el-tabs--border-card {
         box-shadow: none;
@@ -541,6 +548,9 @@
 /*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-22.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-22.use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-22.use[3]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./src/public/TableMenu/Index.vue?vue&type=style&index=0&id=91c0fe7a&lang=scss& ***!
   \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+.table-menu {
+  height: 100vh;
+}
 
 /*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-22.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-22.use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-22.use[3]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./src/public/QrCodeMenu/Index.vue?vue&type=style&index=0&id=3ee81c8d&lang=scss& ***!
@@ -582,46 +592,60 @@
   \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 .table-wrap {
   width: 100%;
-  --table-border-color: #000;
+  --table-border-color: transparent;
+  position: relative;
 }
-.table-wrap__item {
-    border: 1px var(--table-border-color);
-    border-left: 1px solid transparent;
-    flex: 1;
+.table-wrap__place {
+    height: 30px;
 }
-.table-wrap__item.active {
-      border-color: #198fff;
-      border-left: 1px solid transparent;
+.table-wrap__insert {
+    width: 16px;
+    height: 16px;
+    background-color: #198fff;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100%;
+    position: absolute;
+    bottom: 22px;
+    right: -10px;
+    z-index: 100;
 }
-.table-wrap__item.active .item-label {
-        border-color: #198fff;
+.table-wrap__add {
+    width: 16px;
+    height: 16px;
+    background-color: #198fff;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100%;
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    right: -10px;
+    z-index: 100;
+    font-weight: normal;
 }
-.table-wrap__item.active.first {
-      border-left: 1px solid #198fff;
+.table-wrap th .table-wrap__th {
+    padding: 10px 15px;
+    position: relative;
+    border: 1px solid var(--table-border-color);
+    border-right: 0;
 }
-.table-wrap__item.prev {
-      border-right: 1px solid #198fff;
+.table-wrap th:last-child .table-wrap__th {
+    border-right: 1px solid var(--table-border-color);
 }
-.table-wrap__item .item-label, .table-wrap__item .item-value {
-      padding: 10px 15px;
+.table-wrap td .table-wrap__td {
+    padding: 10px 15px;
+    position: relative;
+    border: 1px solid var(--table-border-color);
+    border-top: 0;
+    border-right: 0;
 }
-.table-wrap__item .item-label {
-      position: relative;
-      border-bottom: 1px solid var(--table-border-color);
-}
-.table-wrap__item .item-label .drag-btn {
-        width: 12px;
-        height: 12px;
-        background-color: #198fff;
-        border-radius: 100%;
-        position: absolute;
-        top: 50%;
-        right: -6px;
-        transform: translate(0, -50%);
-        cursor: col-resize;
-}
-.table-wrap__item:first-child {
-      border-left: 1px solid var(--table-border-color);
+.table-wrap td:last-child .table-wrap__td {
+    border-right: 1px solid var(--table-border-color);
 }
 
 /*!*************************************************************************************************************************************************************************************************************************************!*\

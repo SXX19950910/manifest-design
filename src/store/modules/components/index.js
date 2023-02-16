@@ -2418,7 +2418,24 @@ const components = {
                     textData: []
                 },
                 props: {
-                    borderStyle: 'solid'
+                    borderStyle: 'solid',
+                    tableData: [
+                        {
+                            '生产日期': '2022-12-16',
+                            '产地': '湖北-武汉',
+                            '成分': '金子，钻石，翡翠'
+                        },
+                        {
+                            '生产日期': '2022-12-16',
+                            '产地': '湖北-武汉',
+                            '成分': '金子，钻石，翡翠'
+                        },
+                        {
+                            '生产日期': '2022-12-16',
+                            '产地': '湖北-武汉',
+                            '成分': '金子，钻石，翡翠'
+                        }
+                    ]
                 }
             },
             senderAddress: {
@@ -2855,9 +2872,15 @@ const components = {
         },
         hideStoreLoading({commit}) {
             commit('HIDE_STORE_LOADING')
+        },
+        addTableRow({ commit }) {
+            commit('ADD_TABLE_ROW')
         }
     },
     mutations: {
+        ADD_TABLE_ROW(state) {
+            console.log('')
+        },
         SET_COMPONENT_VARIABLE(state) {
             const active = state.storeList.find((item) => item.id === state.activeComponent.id)
             if (active) {

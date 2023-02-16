@@ -2,7 +2,12 @@
   <div v-if="currentComponent" class="table-menu" @click.stop>
     <el-tabs v-model="tab" type="border-card">
       <el-tab-pane label="内容" name="content">
-        <el-form ref="content-form">
+        <el-form class="mt-30" ref="content-form">
+          <el-form-item label="列字段">
+            <el-tag type="primary">我的</el-tag>
+            <el-input v-if="isAdd" v-model="value" ref="add" class="ml-15 w-100p" size="small" @keydown.native.enter.prevent />
+            <el-button v-else class="ml-15" icon="el-icon-plus" size="small" @click="handleShowAdd">添加字段</el-button>
+          </el-form-item>
         </el-form>
       </el-tab-pane>
       <el-tab-pane label="样式" name="style">
@@ -33,9 +38,11 @@ export default {
   data() {
     return {
       tab: '标题',
+      value: '',
       form: {
         content: '',
       },
+      isAdd: false,
       lineOptions: [
         {
           label: '实线',
@@ -70,12 +77,18 @@ export default {
     init() {
       this.tab = 'content';
     },
+    handleShowAdd() {
+      this.isAdd = true;
+      this.$nextTick(() => {
+        this.$refs.add.focus()
+      })
+    },
   },
 };
 </script>
 
 <style lang="scss">
 .table-menu {
-
+  height: 100vh;
 }
 </style>

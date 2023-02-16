@@ -1,21 +1,28 @@
 <template>
-  <div class="table-wrap flex">
-    <div
-        v-for="(item, index) in rows"
-        :key="index"
-        class="table-wrap__item"
-        :style="getItemStyle"
-        :class="{ 'active': hoverIndex === index, 'prev': hoverIndex - 1 === index, 'first': hoverIndex === 0 }"
-        @mouseenter="onmouseenter($event, index)"
-        @click.stop="handleClickItem(index)">
-      <div class="item-label">
-        {{ item.label }}
-        <div v-if="currentIndex === index" class="drag-btn" @click.stop></div>
-      </div>
-      <div class="item-value">
-        {{ item.value }}
-      </div>
-    </div>
+  <div class="table-wrap">
+    <table class="w-100 table-wrap__table" border="1" cellspacing="1px" cellpadding="0">
+      <thead>
+        <tr>
+          <th v-for="(item, key, index) in tableData[0]" :key="index">
+            <div class="table-wrap__th">
+              <p contenteditable="true">{{ key }}</p>
+              <div v-if="isActive" class="table-wrap__add">+</div>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(item, index) in tableData" :key="index">
+          <td v-for="(child, itemKey, itemIndex) in item" :key="itemIndex">
+            <p class="table-wrap__td" contenteditable="true">
+              {{ item[itemKey] }}
+            </p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div v-if="isActive" class="table-wrap__insert" @click.stop="handleAddRows">+</div>
+    <div class="table-wrap__place" />
   </div>
 </template>
 
@@ -26,27 +33,18 @@ export default {
       type: String,
       default: '',
     },
+    isActive: {
+      type: Boolean,
+      default: false
+    },
     borderStyle: {
       type: String,
       default: ''
     },
-    rows: {
+    tableData: {
       type: Array,
       default() {
-        return [
-          {
-            label: '姓名',
-            value: '时'
-          },
-          {
-            label: '年龄',
-            value: '20'
-          },
-          {
-            label: '身高',
-            value: '180'
-          }
-        ]
+        return []
       }
     }
   },
@@ -58,7 +56,7 @@ export default {
   },
   computed: {
     getItemStyle() {
-      const { borderStyle } = this
+      const {borderStyle} = this
       return {
         borderStyle
       }
@@ -75,8 +73,17 @@ export default {
       this.hoverIndex = index
       this.currentIndex = index
     },
+    onValueChange(e) {
+      console.log(e)
+    },
+    onmouseleave() {
+      this.hoverIndex = -1
+    },
     onmouseenter(e, index) {
       this.hoverIndex = index
+    },
+    handleAddRows() {
+      console.log(this.$store.getters.storeList)
     }
   }
 }
@@ -85,45 +92,71 @@ export default {
 <style lang="scss">
 .table-wrap {
   width: 100%;
-  --table-border-color: #000;
-  &__item {
-    border: 1px var(--table-border-color);
-    border-left: 1px solid transparent;
-    flex: 1;
-    &.active {
-      border-color: $skyBlue;
-      border-left: 1px solid transparent;
-      .item-label {
-        border-color: $skyBlue;
-      }
-    }
-    &.active.first {
-      border-left: 1px solid $skyBlue;
-    }
-    &.prev {
-      border-right: 1px solid $skyBlue;
-    }
-    .item-label,.item-value {
+  --table-border-color: transparent;
+  position: relative;
+
+  &__place {
+    height: 30px;
+  }
+
+  &__insert {
+    width: 16px;
+    height: 16px;
+    background-color: $skyBlue;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100%;
+    position: absolute;
+    bottom: 22px;
+    right: -10px;
+    z-index: 100;
+  }
+
+  &__add {
+    width: 16px;
+    height: 16px;
+    background-color: $skyBlue;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100%;
+    position: absolute;
+    top: 50%;
+    transform:  translate(0, -50%);
+    right: -10px;
+    z-index: 100;
+    font-weight: normal;
+  }
+  th {
+    .table-wrap__th {
       padding: 10px 15px;
-    }
-    .item-label {
       position: relative;
-      border-bottom: 1px solid var(--table-border-color);
-      .drag-btn {
-        width: 12px;
-        height: 12px;
-        background-color: $skyBlue;
-        border-radius: 100%;
-        position: absolute;
-        top: 50%;
-        right: -6px;
-        transform: translate(0, -50%);
-        cursor: col-resize;
-      }
+      border: 1px solid var(--table-border-color);
+      border-right: 0;
     }
-    &:first-child {
-      border-left: 1px solid var(--table-border-color);
+    &:last-child {
+      .table-wrap__th {
+        border-right: 1px solid var(--table-border-color);
+      }
     }
   }
+  td {
+    .table-wrap__td {
+      padding: 10px 15px;
+      position: relative;
+      border: 1px solid var(--table-border-color);
+      border-top: 0;
+      border-right: 0;
+    }
+    &:last-child {
+      .table-wrap__td {
+        border-right: 1px solid var(--table-border-color);
+      }
+    }
+  }
+
 }
 </style>

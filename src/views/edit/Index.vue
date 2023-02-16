@@ -109,6 +109,7 @@
         position: relative;
         height: 100%;
         z-index: 90;
+        overflow: auto;
         .el-tabs--border-card {
           box-shadow: none;
           border: 0;

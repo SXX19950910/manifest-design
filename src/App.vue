@@ -10,7 +10,13 @@ export default {
     //
   },
   mounted() {
-    //
+    this.$nextTick(() => {
+      Object.defineProperty(Event.prototype, "path", {
+        get() {
+          return this.composedPath()
+        }
+      })
+    })
   },
 }
 </script>
