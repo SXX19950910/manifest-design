@@ -2421,17 +2421,17 @@ const components = {
                     borderStyle: 'solid',
                     tableData: [
                         {
-                            '生产日期': '2022-12-16',
+                            '生产日期': '2022-12-1',
                             '产地': '湖北-武汉',
                             '成分': '金子，钻石，翡翠'
                         },
                         {
-                            '生产日期': '2022-12-16',
+                            '生产日期': '2022-12-2',
                             '产地': '湖北-武汉',
                             '成分': '金子，钻石，翡翠'
                         },
                         {
-                            '生产日期': '2022-12-16',
+                            '生产日期': '2022-12-3',
                             '产地': '湖北-武汉',
                             '成分': '金子，钻石，翡翠'
                         }
@@ -2878,8 +2878,85 @@ const components = {
         }
     },
     mutations: {
-        ADD_TABLE_ROW(state) {
-            console.log('')
+        ADD_TABLE_ROW(state, { insertIndex }) {
+            const active = state.storeList.find((item) => item.id === state.activeComponent.id)
+            const item = active.props.tableData[0]
+            const row = {}
+            for (const key in item) {
+                row[key] = ''
+            }
+            active.props.tableData.splice(insertIndex, 0, row)
+        },
+        REMOVE_TABLE_ROW(state, { removeIndex }) {
+            const active = state.storeList.find((item) => item.id === state.activeComponent.id)
+            if (active) {
+                active.props.tableData.splice(removeIndex, 1)
+            }
+            console.log(active)
+        },
+        REMOVE_TABLE_COLUMN(state, { removeKey }) {
+            const active = state.storeList.find((item) => item.id === state.activeComponent.id)
+            if (active) {
+                active.props.tableData = active.props.tableData.map(item => {
+                    const newItem = {}
+                    for (const key in item) {
+                        if (key !== removeKey) {
+                            newItem[key] = item[key]
+                        }
+                    }
+                    return newItem
+                })
+            }
+        },
+        ADD_TABLE_COLUMN(state, { insertIndex }) {
+            const active = state.storeList.find((item) => item.id === state.activeComponent.id)
+            if (active) {
+                active.props.tableData = active.props.tableData.map(item => {
+                    let keyIndex = 0
+                    const newItem = {}
+                    for (const key in item) {
+                        keyIndex++
+                        newItem[key] = item[key]
+                        if (keyIndex === insertIndex) {
+                            newItem['新增列'] = ''
+                        }
+                    }
+                    return newItem
+                })
+            }
+        },
+        SET_TABLE_ROW_VALUE(state, { key, value, currentIndex }) {
+            const active = state.storeList.find((item) => item.id === state.activeComponent.id)
+            if (active) {
+                active.props.tableData = active.props.tableData.map((item, index) => {
+                    const newItem = {...item}
+                    if (index === currentIndex) {
+                        for (const nKey in newItem) {
+                            if (nKey === key) {
+                                newItem[nKey] = value
+                            }
+                        }
+                    }
+                    return newItem
+                })
+            }
+        },
+        SET_TABLE_COLUMN_KEY(state, { oldKey, newKey }) {
+            const active = state.storeList.find((item) => item.id === state.activeComponent.id)
+            if (active) {
+                active.props.tableData = active.props.tableData.map(item => {
+                    const newItem = {}
+                    for (const key in item) {
+                        if (key !== oldKey) {
+                            newItem[key] = item[key]
+                        } else {
+                            newItem[newKey] = item[oldKey]
+                        }
+                    }
+                    return newItem
+                })
+            }
+            console.log(state)
         },
         SET_COMPONENT_VARIABLE(state) {
             const active = state.storeList.find((item) => item.id === state.activeComponent.id)

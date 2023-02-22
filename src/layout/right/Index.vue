@@ -29,8 +29,8 @@
         form: {
           width: 0,
           height: 0,
-          pageName: 'a3',
-          defaultPage: 'a3'
+          pageName: 'a5',
+          defaultPage: 'a5'
         },
         pageSizeOptions: [
           {

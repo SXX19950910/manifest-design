@@ -19,6 +19,26 @@ export default {
           value: '{ position: relative; }'
         },
         {
+          name: '.table-wrap',
+          value: '{ width: 100%; --table-border-color: #000; position: relative; }'
+        },
+        {
+          name: '.table-wrap th .table-wrap__th',
+          value: '{ padding: 10px 15px; position: relative; border: 1px var(--table-border-style) var(--table-border-color); border-right: 0; }'
+        },
+        {
+          name: '.table-wrap th:last-child .table-wrap__th',
+          value: '{ border-right: 1px var(--table-border-style) var(--table-border-color); }'
+        },
+        {
+          name: '.table-wrap td .table-wrap__td',
+          value: '{ padding: 10px 15px; position: relative;border: 1px var(--table-border-style) var(--table-border-color);border-top: 0; border-right: 0; }'
+        },
+        {
+          name: '.table-wrap td:last-child .table-wrap__td',
+          value: '{ border-right: 1px var(--table-border-style) var(--table-border-color); }'
+        },
+        {
           name: '.component',
           value: '{ padding: 0 10px 0 0; position: absolute; }'
         },
@@ -32,7 +52,11 @@ export default {
         },
         {
           name: '*',
-          value: '{ font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif; box-sizing: border-box; }'
+          value: '{ -webkit-font-smoothing: antialiased; line-height: 1.5; font-size: 14px; margin: 0; padding: 0; font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif; box-sizing: border-box; }'
+        },
+        {
+          name: 'html',
+          value: '{ -webkit-text-size-adjust: 100; }'
         }
       ]
     }
@@ -133,12 +157,24 @@ export default {
     getSelfStyle(component) {
       const style = {}
       const {props, type} = component
-      const {width, fontSize, align, borderWidth = '1', lineHeight, isBold, hasBorder, height, lineType = 'solid'} = props
+      const {
+        width,
+        fontSize,
+        align,
+        borderWidth = '1',
+        borderStyle,
+        lineHeight,
+        isBold,
+        hasBorder,
+        height,
+        lineType = 'solid'
+      } = props
       const isXLine = type === 'XLineUi'
       const isYLine = type === 'YLineUi'
       const isBarcode = type === 'BarcodeUi'
       const isText = type.includes('Text')
       const isRectangle = type === 'RectangleUi'
+      const isTable = type === 'TableUi'
       if (isXLine) {
         style.width = '100%'
         style.borderTop = `${height}px`
@@ -166,6 +202,8 @@ export default {
         style.fontWeight = isBold ? 'bold' : '400'
       } else if (isRectangle) {
         style.border = `${borderWidth}px ${lineType} #000`
+      } else if (isTable) {
+        style['--table-border-style'] = borderStyle
       }
       return style
     },
@@ -174,7 +212,7 @@ export default {
     },
     renderText(component) {
       let result = ''
-      const { variable } = component
+      const {variable} = component
       if (variable && variable.enable) {
         component.variable.textData.map((item) => {
           result = result + `<span class="${item.key}">${item.value || item.value}</span>`
@@ -191,8 +229,8 @@ export default {
         xLine: (create, instance) => this.renderHorizontalLine(create, instance),
         yLine: (create, instance) => this.renderVerticalLine(create, instance),
         rectangle: (create, instance) => this.renderRectangle(create, instance),
+        table: (create, instance) => this.renderTable(create, instance)
       }[component.name]
-      // console.log(component.name)
       const defaultRender = () => {
         const attrs = {
           'data-fields': this.getFields(component)
@@ -242,7 +280,7 @@ export default {
         })
       ])
     },
-    renderHorizontalLine (createElement, component) {
+    renderHorizontalLine(createElement, component) {
       return createElement(component.tag, {
         class: 'x-line-wrap',
         style: this.getSelfStyle(component)
@@ -259,6 +297,51 @@ export default {
         class: 'rectangle-warp',
         style: this.getSelfStyle(component)
       })
+    },
+    renderTable(createElement, component) {
+      const $th = []
+      const $tr = component.props.tableData.map(item => {
+        const newItem = {...item}
+        const $td = []
+        for (const key in newItem) {
+          const $el = createElement('td', {}, [
+              createElement('p', { class: 'table-wrap__td' }, newItem[key])
+          ])
+          $td.push($el)
+        }
+        return createElement('tr', {
+          class: 'table-wrap__tr'
+        }, $td)
+      })
+      const row = component.props.tableData[0]
+      for (const key in row) {
+        const newItem = createElement('th', {}, [
+          createElement('div', {
+            class: 'table-wrap__th',
+            domProps: {
+              innerHTML: `<p contenteditable="true">${key}</p>`
+            }
+          })
+        ])
+        $th.push(newItem)
+      }
+      return createElement(component.tag, {
+        class: 'table-wrap',
+        style: this.getSelfStyle(component)
+      }, [
+        createElement('table', {
+          class: 'w-100 table-wrap__table',
+          attrs: {
+            border: '0'
+          }
+        }, [
+          createElement('thead', {}, [
+            createElement('tr', {}, $th)
+          ]),
+          createElement('tbody', {}, $tr)
+        ])
+      ])
+
     },
     renderBarcode(createElement, component) {
       const fields = this.getFields(component)
@@ -399,6 +482,7 @@ export default {
 .template-wrap {
   position: relative;
   font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+
   .component {
     padding: 0 10px 0 0;
     position: absolute;
