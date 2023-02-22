@@ -590,62 +590,79 @@
 /*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-22.use[1]!./node_modules/@vue/vue-loader-v15/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-22.use[2]!./node_modules/sass-loader/dist/cjs.js??clonedRuleSet-22.use[3]!./node_modules/@vue/vue-loader-v15/lib/index.js??vue-loader-options!./src/components/Table/Index.vue?vue&type=style&index=0&id=aa54369e&lang=scss& ***!
   \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+.table-column-popper {
+  padding: 5px 0;
+}
+.table-column-popper .func-list .item {
+    line-height: 32px;
+    cursor: pointer;
+    padding: 0 15px;
+}
+.table-column-popper .func-list .item:hover {
+      color: #198fff;
+}
 .table-wrap {
   width: 100%;
-  --table-border-color: transparent;
+  --table-border-color: #000;
   position: relative;
 }
 .table-wrap__place {
     height: 30px;
 }
+.table-wrap__tr {
+    position: relative;
+}
 .table-wrap__insert {
-    width: 16px;
-    height: 16px;
+    width: 100%;
+    height: 1px;
     background-color: #198fff;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 100%;
     position: absolute;
-    bottom: 22px;
-    right: -10px;
+    bottom: 0;
+    left: 0;
     z-index: 100;
 }
+.table-wrap__insert:hover {
+      height: 4px;
+}
 .table-wrap__add {
-    width: 16px;
-    height: 16px;
-    background-color: #198fff;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 100%;
     position: absolute;
-    top: 50%;
-    transform: translate(0, -50%);
-    right: -10px;
+    top: 0;
+    right: -2px;
     z-index: 100;
-    font-weight: normal;
+    width: 2px;
+    height: 100%;
+    background-color: #198fff;
+    cursor: pointer;
+}
+.table-wrap__add:hover {
+      width: 6px;
 }
 .table-wrap th .table-wrap__th {
     padding: 10px 15px;
     position: relative;
-    border: 1px solid var(--table-border-color);
+    border: 1px var(--table-border-style) var(--table-border-color);
     border-right: 0;
 }
 .table-wrap th:last-child .table-wrap__th {
-    border-right: 1px solid var(--table-border-color);
+    border-right: 1px var(--table-border-style) var(--table-border-color);
+}
+.table-wrap td .el-input .el-input__inner {
+    border: 0;
+    color: #000000;
+    background-color: transparent;
+    padding: 0;
+    height: auto;
+    line-height: 1;
 }
 .table-wrap td .table-wrap__td {
     padding: 10px 15px;
     position: relative;
-    border: 1px solid var(--table-border-color);
+    border: 1px var(--table-border-style) var(--table-border-color);
     border-top: 0;
     border-right: 0;
 }
 .table-wrap td:last-child .table-wrap__td {
-    border-right: 1px solid var(--table-border-color);
+    border-right: 1px var(--table-border-style) var(--table-border-color);
 }
 
 /*!*************************************************************************************************************************************************************************************************************************************!*\
